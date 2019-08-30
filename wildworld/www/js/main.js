@@ -160,6 +160,8 @@ var map,
 	levelFile={name:'level1', activeIdLevel:1, readyLoad:false, blockedKeys:false, backgroundLevel:false, backgroundColor:false, backgroundParallax:false},
 	tileSize=16,
 	layer,
+    layerFront,
+    layerObjects,
 	fispeed=[80,100,120],
 	wspInkub=[],
 	facing = 'right',
@@ -188,7 +190,12 @@ var map,
     amountBullet=60,
     theEndCredits=false,
     moveX,
-    moveY;
+    moveY,
+    playerScaleBig = 1.08,
+    playerJumpVelocityNormalBig = 520,
+    playerJumpVelocityNormalSmall = 430,
+    playerJumpVelocityWaterBig = 290,
+    playerJumpVelocityWaterSmall = 200;
 
 var triggerKeyboardEvent = function(el,keyC,typeKey){
 	var eventObj=document.createEvent("Events");
@@ -210,6 +217,7 @@ var clearGameCache=function() {
 
 var preload;
 preload = function () {
+
     game.load.tilemap('level1', 'images/level1.json', null, Phaser.Tilemap.TILED_JSON);
 
     // example full options:
@@ -223,7 +231,8 @@ preload = function () {
     //     fogSpeed:0.25,
     //     positionGround:672,
     //     parallax:true,
-    //     timeLimit: 120 // sec
+    //     timeLimit: 120, // sec
+    //     bgAudio: 'bg1'
     // };
 
     proportiesMap[1] = {
@@ -235,7 +244,8 @@ preload = function () {
         fogSpeed: 0, //0.25,
         positionGround: 672,
         parallax: true,
-        timeLimit: 480 // sec
+        timeLimit: 480, // sec
+        bgAudio: 'bg1'
     };
 
     game.load.tilemap('level2', 'images/level2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -289,10 +299,11 @@ preload = function () {
 
     game.load.tilemap('level7', 'images/level7.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[7] = {
-        background: "background1",
+        background: "background4",
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
+        fogSpeed: 0,
         positionGround: true,
         parallax: true
     };
@@ -501,17 +512,21 @@ preload = function () {
 
 
     // audio
-    game.load.audio('footstep', 'audio/footstep.mp3');
-    game.load.audio('coin', 'audio/coin.mp3');
-    game.load.audio('shoot', 'audio/shoot2.mp3');
-    game.load.audio('bullets', 'audio/bullets.mp3');
+    game.load.audio('footstep', 'audio/footstep.mp3'); // licence no ok
+    game.load.audio('coin', 'audio/coin.mp3'); // licence ok
+    game.load.audio('shoot', 'audio/shoot2.mp3'); // licence ok
+    game.load.audio('bullets', 'audio/bullets3.mp3');
     game.load.audio('explosion-intruder', 'audio/explosion-intruder.mp3');
     game.load.audio('break-bones', 'audio/break-bones.mp3');
-    game.load.audio('scream', 'audio/scream.mp3');
-    game.load.audio('splash', 'audio/splash.mp3');
-    game.load.audio('life', 'audio/life.mp3');
-    game.load.audio('key', 'audio/key.mp3');
-    game.load.audio('break-ground', 'audio/break.mp3');
+    game.load.audio('scream', 'audio/scream.mp3'); // licence ok
+    game.load.audio('splash', 'audio/splash.mp3'); // licence ok
+    game.load.audio('life', 'audio/life.mp3'); // licence ok
+    game.load.audio('key', 'audio/key.mp3'); // licence no ok
+    game.load.audio('break-ground', 'audio/break.mp3'); // licence ok
+    game.load.audio('quake', 'audio/quake.mp3'); // licence ok
+    game.load.audio('door-lift', 'audio/door-lift.mp3'); // licence ok
+    game.load.audio('bg1', 'audio/bg.mp3'); // licence ok
+
 
     //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     //this.scale.pageAlignHorizontally = true;
@@ -525,12 +540,6 @@ preload = function () {
     this.scale.windowConstraints.bottom = "visual";
     //this.scale.setScreenSize();
 };
-
-
-var bgSet=function(bgColor) {
-	game.stage.backgroundColor = bgColor;
-};
-
 
 //FPS
 var FrameCounter = {
@@ -562,12 +571,51 @@ var toolsGame={
         removeCookies('Lifes');
         removeCookies('main-Lifes');
     },
+    bgSet:function(bgColor) {
+        game.stage.backgroundColor = bgColor;
+    },
+    // slider: {
+    //     bounds: false,
+    //     min: false,
+    //     slider: false,
+    //     show: function() { // toolsGame.slider.show();
+    //         //define the boundary of the handler
+    //         this.bounds= new Phaser.Rectangle(100,100,500,80);
+    //         var graphics = game.add.graphics(this.bounds.x, this.bounds.y);
+    //         graphics.beginFill(0x000077);
+    //         graphics.drawRect(0, 0, this.bounds.width, this.bounds.height);
+    //         graphics.fixedToCamera = true;
+    //
+    //
+    //         //add empty sprite for input detection
+    //         this.slider = game.add.sprite(100, 100,'bullet');
+    //         this.slider.fixedToCamera = true;
+    //         this.slider.scale.setTo(1);
+    //         this.slider.inputEnabled = true;
+    //         this.slider.input.enableDrag(false,false,false,255,this.bounds);
+    //         this.slider.input.allowVerticalDrag = false;
+    //         this.slider.events.onDragStop.add(function(){
+    //             var that = toolsGame.slider;
+    //             if(that.slider.x>(that.bounds.width/2)+that.bounds.x){
+    //                 that.min=((that.bounds.width+that.bounds.x-that.slider.x-that.slider.width)/(that.bounds.width+that.bounds.x-that.slider.width))*100;
+    //             }
+    //             if(that.slider.x<(that.bounds.width/2)+that.bounds.x){
+    //                 that.min=((that.bounds.width+that.bounds.x-that.slider.x)/(that.bounds.width))*100;
+    //             }
+    //             console.log(that.min);
+    //         }, game);
+    //         this.min=1;
+    //     },
+    //     hide: function () {
+    //
+    //     }
+    // },
     audio: {
         mute: false,
-        footStep: function () { // toolsGame.audio.footStep();
+        footStep: function (volume) { // toolsGame.audio.footStep();
             if(!this.mute && !this.a1) {
                 var footstep = game.add.audio('footstep');
-                    footstep.play('',false,0.1);
+                    footstep.play('',false,volume ? volume : 0.2);
                     //footstep.volume = 0.05;
                 this.a1= true;
                 footstep.onStop.addOnce(function() {
@@ -575,22 +623,22 @@ var toolsGame={
                 }, this);
             }
         },
-        coin: function () { // toolsGame.audio.footStep();
+        coin: function (volume) { // toolsGame.audio.footStep();
             if(!this.mute) {
                 var coin = game.add.audio('coin');
-                coin.play('',false,0.1);
+                coin.play('',false,volume ? volume : 0.2);
             }
         },
-        shoot: function () { // toolsGame.audio.footStep();
+        shoot: function (volume) { // toolsGame.audio.footStep();
             if(!this.mute) {
                 var shoot = game.add.audio('shoot');
-                shoot.play('', false, 0.1);
+                shoot.play('', false, volume ? volume : 0.2);
             }
         },
-        bullets: function () { // toolsGame.audio.footStep();
+        bullets: function (volume) { // toolsGame.audio.footStep();
             if(!this.mute) {
                 var bullets = game.add.audio('bullets');
-                bullets.play('', false, 0.1);
+                bullets.play('', false, volume ? volume : 0.2);
             }
         },
         explosionIntruder: function () { // toolsGame.audio.footStep();
@@ -645,6 +693,31 @@ var toolsGame={
                 var breakGround = game.add.audio('break-ground');
                 breakGround.play('', false, volume ? volume : 0.2);
             }
+        },
+        quake: function (volume) { // toolsGame.audio.footStep();
+            if(!this.mute) {
+                var quake = game.add.audio('quake');
+                quake.play('', false, volume ? volume : 0.2);
+            }
+        },
+        doorLift: function (volume) { // toolsGame.audio.footStep();
+            if(!this.mute) {
+                var doorLift = game.add.audio('door-lift');
+                doorLift.play('', false, volume ? volume : 0.2);
+            }
+        },
+        bg: {
+            obj: false,
+            play:function (volume,bg) {
+                if(bg) {
+                    if(this.obj) this.obj.destroy();
+                    this.obj = game.add.audio(bg);
+                    this.obj.play('', false, volume ? volume : 0.2, true);
+                }
+            },
+            stop:function () {
+                if(this.obj) this.obj.stop();
+            }
         }
 
     },
@@ -653,7 +726,7 @@ var toolsGame={
         add: function(x,y,lastMap) {
             //alert(theEndCredits);
 
-            bgSet('#000000');
+            toolsGame.bgSet('#000000');
             toolsGame.preloader.obj = game.add.group();
             toolsGame.preloader.obj.enableBody = true;
 
@@ -680,8 +753,8 @@ var toolsGame={
         boxTopMenu: {
             positionBar: function (type) {
                 if(toolsGame.windows.boxMenu.obj || type==='inside-boxMenu') {
-                    moveY = 6*tileSize+2;
-                    moveX = -1*tileSize;
+                    moveY = 6*tileSize+8;
+                    moveX = 7*tileSize;
                 } else {
                     moveX = -1*tileSize;
                     moveY = -1*tileSize+2;
@@ -800,9 +873,9 @@ var toolsGame={
                 this.obj.alpha = 0;
                 this.obj.fixedToCamera = true;
                 if(!type){
-                    game.add.tween(this.obj).to({alpha: 0.8}, 200, Phaser.Easing.Linear.None, true);
+                    game.add.tween(this.obj).to({alpha: 0.7}, 180, Phaser.Easing.Linear.None, true);
                 } else {
-                    this.obj.alpha = 0.8;
+                    this.obj.alpha = 0.7;
                 }
                 // game.physics.arcade.enable(this.obj);
                 // console.log(this.obj);
@@ -824,6 +897,7 @@ var toolsGame={
 			    toolsGame.buttons.end.show();
                 toolsGame.buttons.startFromBeginning.show();
                 toolsGame.buttons.reset.show();
+                toolsGame.buttons.mute.show(getCookies('mute')?10:9);
 
                 if(playGame.main) {
                     toolsGame.buttons.navigations.hide();
@@ -833,7 +907,7 @@ var toolsGame={
 
                     setTimeout(function(){
                         game.paused = true;
-                    },200);
+                    },210);
                 }
                 else
                 {
@@ -871,6 +945,7 @@ var toolsGame={
                     toolsGame.buttons.startFromBeginning.hide();
                     toolsGame.buttons.reset.hide();
                     toolsGame.buttons.resume.hide();
+                    toolsGame.buttons.mute.hide();
 					toolsGame.buttons.closeBoxMenu.hide();
 					//game.input.onDown.removeAll();
 					game.paused = false;
@@ -1094,6 +1169,37 @@ var toolsGame={
                         startGame('continuation');
                     }
                 }, this,5,5);
+                this.obj.alpha = 0.4;
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
+                if(this.obj) this.obj.destroy();
+            }
+        },
+        mute: {
+            obj:false,
+            show:function(frames){
+                //buttonResume
+                if(this.obj) this.obj.destroy();
+                this.obj = game.add.button(3*tileSize, 7*tileSize, 'buttonsWindowMenu', function(){
+                    if(game.paused) {
+                        game.paused = false;
+                        clearTimeout(this.t);
+                        this.t = setTimeout(function(){
+                            game.paused = true;
+                        },25);
+                    }
+                    this.obj.destroy();
+                    if(getCookies('mute')) {
+                        toolsGame.buttons.mute.show(9);
+                        game.sound.mute = false;
+                        removeCookies('mute');
+                    } else {
+                        toolsGame.buttons.mute.show(10);
+                        game.sound.mute = true;
+                        setCookies('mute',1);
+                    }
+                }, this,frames,frames);
                 this.obj.alpha = 0.4;
                 this.obj.fixedToCamera = true;
             },
@@ -1378,6 +1484,26 @@ var toolsGame={
     },
 	mainElements: {
 		player:{
+		    detectionHoldOnObject:function(o,numberAlgo) { // toolsGame.mainElements.player.detectionHoldOnObject()
+                if(this.obj.position.x>o.position.x-game.width/numberAlgo &&
+                    this.obj.position.x<o.position.x+game.width/numberAlgo &&
+                    this.obj.position.y>o.position.y-game.height/numberAlgo &&
+                    this.obj.position.y<o.position.y+game.height/numberAlgo) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            detectionHoldOnTile:function(x,y,numberAlgo) { // toolsGame.mainElements.player.detectionHoldOnObject()
+                if(this.obj.position.x>x*tileSize-game.width/numberAlgo &&
+                    this.obj.position.x<x*tileSize+game.width/numberAlgo &&
+                    this.obj.position.y>y*tileSize-game.height/numberAlgo &&
+                    this.obj.position.y<y*tileSize+game.height/numberAlgo) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
             countLifes:function(){ // toolsGame.mainElements.player.countLifes.f()
                 //\\//
                 if(!getCookies('Lifes')) {
@@ -1423,8 +1549,9 @@ var toolsGame={
 					player.holdLostLife = true;
 					if (!levelFile.blockedKeys && toolsGame.mainElements.player.numberLifes > 0) {
 						toolsGame.mainElements.player.numberLifes -= amount?amount:1;
-						toolsGame.audio.scream(0.1);
+						toolsGame.audio.scream();
                         player.scale.setTo(1,1);
+                        this.scale(); // same === toolsGame.mainElements.player.scale();
 					}
                     if (toolsGame.mainElements.player.numberLifes < 1) {
 
@@ -1435,6 +1562,7 @@ var toolsGame={
 
                             // shake durning lost Life
                             game.camera.shake(0.02, 450, true, Phaser.Camera.SHAKE_VERTICAL);
+                            toolsGame.audio.quake(1);
                             levelFile.blockedKeys = true;
                             toolsGame.mainElements.player.numberLifes=0;
 
@@ -1508,6 +1636,7 @@ var toolsGame={
                     if(jumpKillF && !toolsGame.mainElements.player.obj.body.blocked.left && !toolsGame.mainElements.player.obj.body.blocked.right) {
                         if(toolsGame.mainElements.player.obj.body.y-jumpKillY > 250) {
                             game.camera.shake(0.02, 250, true, Phaser.Camera.SHAKE_VERTICAL);
+                            toolsGame.audio.quake(1);
                         }
                         if(toolsGame.mainElements.player.obj.body.y-jumpKillY > 400) {
                             //alert("kill");
@@ -1652,7 +1781,14 @@ var toolsGame={
                     saveY = y*tileSize;
                     //console.log(x + " x " + y);
 				}
-			}
+			},
+            velocityNormal: playerJumpVelocityNormalSmall,
+            velocityWater: playerJumpVelocityWaterSmall,
+            scale: function(){ // toolsGame.mainElements.player.scale();
+                var playerScale = toolsGame.mainElements.player.obj.scale.y !== 1;
+                this.velocityNormal = (playerScale)?playerJumpVelocityNormalBig:playerJumpVelocityNormalSmall; // 530:430
+                this.velocityWater = (playerScale)?playerJumpVelocityWaterBig:playerJumpVelocityWaterSmall; // 300:200
+            }
 		},
 		intruzi:{ // toolsGame.mainElements.intruzi
 			obj: true,
@@ -1999,6 +2135,7 @@ var toolsGame={
                 splash.animations.play('run', 30, false);
                 splash.body.allowGravity = false;
                 splash.alpha = .6;
+                toolsGame.audio.splash();
             }
         },
 		endLevelS:{ //end_level_s
@@ -2235,7 +2372,7 @@ var startGame=function(type,lastMap) {
 	timer.start();
 
 	game.time.advancedTiming = true;
-    game.time.desiredFps = ($(window).width()<800)?40:60;
+    game.time.desiredFps = ($(window).width()<800)?40:50;
     //game.time.desiredFps = 60;
 
 	//reset inkubatorow
@@ -2327,7 +2464,7 @@ var startGame=function(type,lastMap) {
 		{
 			levelFile.backgroundColor='#4488AA';
 		}
-		bgSet(levelFile.backgroundColor);
+        toolsGame.bgSet(levelFile.backgroundColor);
 
 
 	    if(!proportiesMap[levelFile.activeIdLevel].background)
@@ -2399,6 +2536,19 @@ var startGame=function(type,lastMap) {
 	    cursors = game.input.keyboard.createCursorKeys();
 	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 	    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
+
+
+        layer = map.createLayer('levels');
+        layer.resizeWorld();
+        console.log(map);
+
+        map.layers.forEach(function(m){
+            // console.log(m.name);
+            if(m.name === 'levels-front') {
+                layerFront = map.createLayer('levels-front');
+                layerFront.resizeWorld();
+            }
+        });
 
 
 	    //ustawianie obiektow wg indexow mapy
@@ -2473,6 +2623,12 @@ var startGame=function(type,lastMap) {
 
 		//player=false;
 		toolsGame.mainElements.player.obj=false;
+
+        if(map.objects.objects) {
+            map.objects.objects.forEach(function(o){
+                console.log(o);
+            });
+        }
 
 	    for(var x=0; x<map.width; x++)
 	    {
@@ -2633,9 +2789,6 @@ var startGame=function(type,lastMap) {
 	    	}
 	    }
 
-	    layer = map.createLayer('levels');
-	    layer.resizeWorld();
-
         toolsGame.mainElements.logs.obj = game.add.group();
         toolsGame.mainElements.logs.obj.enableBody = true;
 
@@ -2697,12 +2850,14 @@ var startGame=function(type,lastMap) {
                     map.removeTile(x, y, layer);
                 }
 
+                //generowanie animowanych klod
                 if (map.getTile(x, y, layer, true).index==513)
                 {
                     toolsGame.mainElements.logs.add(x,y);
                     map.removeTile(x, y, layer);
                 }
 
+                //generowanie animowanych klod z niespodzianka
                 if (map.getTile(x, y, layer, true).index==514)
                 {
                     toolsGame.mainElements.logs.add(x,y,true);
@@ -2851,6 +3006,7 @@ var startGame=function(type,lastMap) {
 
 		playGame.main=true;
 		//console.log(game.world.width + "x" + game.world.height);
+        toolsGame.audio.bg.play(0.04,proportiesMap[levelFile.activeIdLevel].bgAudio);
 		game.load.start();
 	},loaderSpeed);
 
@@ -2858,11 +3014,13 @@ var startGame=function(type,lastMap) {
     toolsGame.buttons.quit.hide();
 };
 
+//laduje sie n* kazde kolejny restart
 var create=function() {
+    console.log("test-create");
 	// ladowanie tla dla menu i domyslnego dla mapy gry
     unlockLevels=(parseInt(getCookies("unlock-levels"))>1)?getCookies("unlock-levels"):1;
-	bgSet('#dfe4ff');
-    //bgSet('#000000');
+    toolsGame.bgSet('#dfe4ff');
+    //toolsGame.bgSet('#000000');
     bgMenu = game.add.image(0, 0, 'backgroundMenu');
     bgMenu.fixedToCamera = true;
 
@@ -2874,33 +3032,41 @@ var create=function() {
 	toolsGame.buttons.openBoxMenu.show();
 
 	toolsGame.buttons.levels.show();
+    console.log('mute: ' + (getCookies('mute')?true:false));
+    game.sound.mute = getCookies('mute')?true:false;
 
+    // fix for repeat onload
+    var onlyOneLoad=true;
     game.load.onLoadComplete.add(function() {
-        toolsGame.preloader.hide();
-        // theEndCredits = false;
-        // if(Object.keys(game.cache._cacheMap[7]).length === levelFile.activeIdLevel) {
-        //     theEndCredits = true;
-        // }
+        if(onlyOneLoad) {
+            toolsGame.preloader.hide();
+            // theEndCredits = false;
+            // if(Object.keys(game.cache._cacheMap[7]).length === levelFile.activeIdLevel) {
+            //     theEndCredits = true;
+            // }
 
-        toolsGame.windows.boxTopMenu.f=false;
-        if(!theEndCredits) {
-            // x,y,nameSpriteOrImage,idName,opacitySpec,cameraFixed,scaleW,scaleH,frame,fade
-            toolsGame.image.show(
-                (toolsGame.windows.boxMenu.obj)?0:0,
-                (toolsGame.windows.boxMenu.obj)?0:0,
-                'boxTopMenu','boxTopMenu',.85,1,false,false,false,true
-            );
-            toolsGame.windows.boxTopMenu.const.show();
-            toolsGame.buttons.navigations.show();
-        } else {
-            toolsGame.mainElements.player.obj.alpha=0;
-            toolsGame.mainElements.endLevelS.obj.alpha=0;
-            toolsGame.mainElements.player.obj.body.gravity.y=-740;
-            toolsGame.mainElements.player.obj.body.bounce.y = 0;
-            levelFile.blockedKeys=true;
-            game.camera.follow(toolsGame.mainElements.player.obj, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
+            toolsGame.windows.boxTopMenu.f=false;
+            if(!theEndCredits) {
+                console.log("testx");
+                // x,y,nameSpriteOrImage,idName,opacitySpec,cameraFixed,scaleW,scaleH,frame,fade
+                toolsGame.image.show(
+                    (toolsGame.windows.boxMenu.obj)?0:0,
+                    (toolsGame.windows.boxMenu.obj)?0:0,
+                    'boxTopMenu','boxTopMenu',.85,1,false,false,false,true
+                );
+                toolsGame.windows.boxTopMenu.const.show();
+                toolsGame.buttons.navigations.show();
+            } else {
+                toolsGame.mainElements.player.obj.alpha=0;
+                toolsGame.mainElements.endLevelS.obj.alpha=0;
+                toolsGame.mainElements.player.obj.body.gravity.y=-740;
+                toolsGame.mainElements.player.obj.body.bounce.y = 0;
+                levelFile.blockedKeys=true;
+                game.camera.follow(toolsGame.mainElements.player.obj, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
+            }
+            toolsGame.buttons.openBoxMenu.show('play-game');
+            onlyOneLoad=false;
         }
-        toolsGame.buttons.openBoxMenu.show('play-game');
     }, this);
 
 	//fullscreen...
@@ -2914,6 +3080,32 @@ var update=function() {
 	
 	if(playGame.main)
 	{
+
+
+        // spowolnia gre
+        // for(var x=0; x<map.width; x++) {
+        //     for (var y = 0; y < map.height; y++) {
+        //         if (map.getTile(x, y, layer, true).index==514)
+        //         {
+        //             if(toolsGame.mainElements.player.detectionHoldOnTile(x,y,1)){
+        //                 //console.log("wykrywa id 514");
+        //                 //console.log(x + "x" + y);
+        //                 toolsGame.mainElements.logs.add(x,y,true);
+        //                 //toolsGame.mainElements.logs.lengthBonusCoins ++;
+        //                 map.removeTile(x, y, layer);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // toolsGame.mainElements.logs.obj.forEach(function(log){
+        //     //console.log(log.x/tileSize + "x" + log.y/tileSize);
+        //     if(!toolsGame.mainElements.player.detectionHoldOnObject(log,1)){
+        //         map.getTile(log.x/tileSize, log.y/tileSize, layer, true).index=514;
+        //         log.destroy();
+        //     }
+        // }, this, true);
+
         toolsGame.mainElements.windmillNewS.obj1.forEach(function(windmill){
             windmill.angle += 1;
 		}, this, true);
@@ -2936,6 +3128,21 @@ var update=function() {
 	    //console.log("x: " + toolsGame.mainElements.player.obj.body.x + " / " + "y: " + toolsGame.mainElements.player.obj.body.y);
 
 		//game.physics.arcade.collide(toolsGame.mainElements.player.obj, layer);
+
+
+        //generowanie animowanych klod z niespodzianka
+        // if (map.getTile(x, y, layer, true).index==514)
+        // {
+        //     toolsGame.mainElements.logs.add(x,y,true);
+        //     toolsGame.mainElements.logs.lengthBonusCoins ++;
+        //     map.removeTile(x, y, layer);
+        // }
+        // toolsGame.mainElements.windmillNewS.obj1.forEach(function(windmill){
+        //     windmill.angle += 1;
+        // }, this, true);
+
+
+        //console.log(map);
 
 		// player vs lay
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, layer, function(player, layer){
@@ -3131,6 +3338,12 @@ var update=function() {
 
 
         toolsGame.mainElements.firebs.obj.forEach(function(f){
+            //console.log(toolsGame.mainElements.player.obj.position.x);
+            //console.log(f.position.x);
+            //console.log(game.width);
+
+
+
             if(!f.startPositionSaveY){
                 f.startPositionSaveY = Math.ceil(f.body.position.y/tileSize);
             }
@@ -3138,9 +3351,29 @@ var update=function() {
             f.currentPositionY = Math.ceil(f.body.position.y/tileSize);
             //console.log(f.startPositionSaveY - f.currentPositionY);
 
-            if(timerTotal == f.randomStart) {
+
+            //if(timerTotal == f.randomStart) {
+            if(timerTotal == 0) {
                 f.start = true;
             }
+
+            // if(toolsGame.mainElements.player.obj.position.x>f.position.x-game.width/2 &&
+            //     toolsGame.mainElements.player.obj.position.x<f.position.x+game.width/2 &&
+            //     toolsGame.mainElements.player.obj.position.y>f.position.y-game.height/2 &&
+            //     toolsGame.mainElements.player.obj.position.y<f.position.y+game.height/2) {
+            if(toolsGame.mainElements.player.detectionHoldOnObject(f,2)){
+                f.active = true;
+                if(f.activeWait) {
+                    setTimeout(function(){
+                        f.fall=false;
+                        f.alpha=1;
+                    },randZakres(0,3)*1000);
+                    f.activeWait=false;
+                }
+            } else {
+                f.active = false;
+            }
+
 
             if(f.start) {
                 if(!f.fall) {
@@ -3172,12 +3405,17 @@ var update=function() {
                         f.t=true;
                         f.alpha=0;
                         setTimeout(function(){
-                            f.fall=false;
-                            f.alpha=1;
+                            if(f.active) {
+                                f.fall=false;
+                                f.alpha=1;
+                            } else {
+                                f.activeWait=true;
+                            }
                             //console.log("aktywuj ponownie");
                         },randZakres(1,6)*1000);
                     }
                 }
+
             }
         }, this, true);
         game.physics.arcade.overlap(toolsGame.mainElements.firebs.obj, toolsGame.mainElements.waters.obj, function(f,w){
@@ -3244,7 +3482,8 @@ var update=function() {
                 //console.log(p.body);
                 //console.log(p.animations.currentAnim.name);
                 var typeSplash=false;
-                toolsGame.audio.splash();
+                // toolsGame.audio.splash();
+
                 if(w.type==='water-red') {
                     typeSplash='splash-water-red';
                 }
@@ -3271,6 +3510,20 @@ var update=function() {
 
         }, null, this);
 
+        toolsGame.mainElements.waters.obj.forEach(function(w){
+            if(toolsGame.mainElements.player.detectionHoldOnObject(w,1)){
+                //console.log(w.alpha);
+                if(!w.alpha) {
+                    w.alpha = 0.7;
+                }
+                //console.log("ładowANIE WOdy");
+            } else {
+                if(w.alpha) {
+                    w.alpha=0;
+                }
+            }
+        }, this, true);
+
         toolsGame.mainElements.intruzi.obj.forEach(function(intruz){
             if(intruz.gForceWater) {
                 intruz.body.gravity.y = 0;
@@ -3279,43 +3532,44 @@ var update=function() {
         }, this, true);
 
         game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.waters.obj, function(i,w){
-            i.body.gravity.y = -525;
-            clearTimeout(i.gForceWaterTimer);
-            i.gForceWaterTimer = setTimeout(function(){
-                i.gForceWaterOnlyeOne = false;
-            },100);
-            if(!i.gForceWaterOnlyeOne) {
-                //console.log(i.body.position.x + " - " + i.body.position.y);
-                //console.log(i.body);
-                if(i.type===4) {
-                    i.move_y = -33/tileSize;
-                } else {
-                    i.move_y = 0;
-                }
-                if(i.animations.currentAnim.name==="left") {
-                    toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)-(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
-                } else if(i.animations.currentAnim.name==="right") {
-                    toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)+(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
-                } else {
-                    toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,i.move_y + ((i.body.position.y+28)/tileSize));
-                }
-
-                //toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,((i.body.position.y+28)/tileSize));
-                i.gForceWaterOnlyeOne = true;
-            }
-            i.gForceWater = true;
-
-            //console.log(i.animations.currentAnim.name);
-            if(i.animations.currentAnim.name=='right' || i.animations.currentAnim.name=='left') {
-                if(!i.delayWater) {
+            if(i.active) {
+                i.body.gravity.y = -525;
+                clearTimeout(i.gForceWaterTimer);
+                i.gForceWaterTimer = setTimeout(function(){
                     i.gForceWaterOnlyeOne = false;
-                    i.delayWater = true;
+                },100);
+                if(!i.gForceWaterOnlyeOne) {
+                    //console.log(i.body.position.x + " - " + i.body.position.y);
+                    //console.log(i.body);
+                    if(i.type===4) {
+                        i.move_y = -33/tileSize;
+                    } else {
+                        i.move_y = 0;
+                    }
+                    if(i.animations.currentAnim.name==="left") {
+                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)-(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
+                    } else if(i.animations.currentAnim.name==="right") {
+                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)+(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
+                    } else {
+                        toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,i.move_y + ((i.body.position.y+28)/tileSize));
+                    }
+
+                    //toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,((i.body.position.y+28)/tileSize));
+                    i.gForceWaterOnlyeOne = true;
                 }
-                if(timeLoop % 15 == 0) {
-                    i.delayWater = false;
+                i.gForceWater = true;
+
+                //console.log(i.animations.currentAnim.name);
+                if(i.animations.currentAnim.name=='right' || i.animations.currentAnim.name=='left') {
+                    if(!i.delayWater) {
+                        i.gForceWaterOnlyeOne = false;
+                        i.delayWater = true;
+                    }
+                    if(timeLoop % 15 == 0) {
+                        i.delayWater = false;
+                    }
                 }
             }
-
         }, null, this);
 
 		game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.coins.obj, function(player, coin){
@@ -3345,7 +3599,10 @@ var update=function() {
             toolsGame.mainElements.player.numberMainLifes++;
             toolsGame.audio.life();
             player.body.velocity.y = -300;
-            player.scale.setTo(1,1.1);
+            player.scale.setTo(1,playerScaleBig);
+            toolsGame.mainElements.player.scale();
+
+            //player.moreJump = true;
 
             setTimeout(function(){
                 toolsGame.audio.life();
@@ -3508,6 +3765,7 @@ var update=function() {
             if(keys === 1) {
                 //l.alpha = 0;
                 l.kill();
+                toolsGame.audio.doorLift();
                 toolsGame.mainElements.doors.obj.children[0].body.velocity.y = -50;
                 setTimeout(function () {
                     toolsGame.mainElements.doors.obj.children[0].body.velocity.y = 0;
@@ -3629,185 +3887,204 @@ var update=function() {
 
         game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, layer, function(intruz,lay){
 
-            if(!intruz.timeLoop) {
-                intruz.timeLoop = 1;
-                toolsGame.mainElements.intruzi.id++;
-                intruz.id = toolsGame.mainElements.intruzi.id;
-                intruz.break = 4000 * intruz.id;
-                //console.log("intruz type: " + intruz.type + " loaded");
+            // if(toolsGame.mainElements.player.obj.position.x>intruz.position.x-game.width/1.5 &&
+            //     toolsGame.mainElements.player.obj.position.x<intruz.position.x+game.width/1.5 &&
+            //     toolsGame.mainElements.player.obj.position.y>intruz.position.y-game.height/1.5 &&
+            //     toolsGame.mainElements.player.obj.position.y<intruz.position.y+game.height/1.5) {
+            if(toolsGame.mainElements.player.detectionHoldOnObject(intruz,1.5)) {
+                intruz.active = true;
+                if(intruz.alpha===0) {
+                    intruz.alpha=1;
+                }
+            } else {
+                intruz.active = false;
+                intruz.alpha = 0;
+                intruz.body.velocity.x=0;
+                intruz.animations.stop();
             }
 
-            //if parzyste {} else {}
-
-            //console.log(intruz);
-
-            intruz.timeLoop++;
-
-
-            intruz.body.velocity.x = 0;
-
-
-            if(intruz.randomMove=='intruzRight' || intruz.randomMove=='intruzLeft')
-            {
-                if(intruz.type === 1 || intruz.type === 4) {
-
-                    if(intruz.body.blocked.left) {
-                        if(intruz.type === 4) {
-                            intruz.frame=41;
-                            //intruz.animations.play('turn-left');
-                            setTimeout(function(){
-                                intruz.frame=37;
-                            },30);
-                            setTimeout(function(){
-                                intruz.randomMove='intruzLeft';
-                            },60);
-                        }
-                        else intruz.randomMove='intruzLeft';
-                    }
-                    else if(intruz.body.blocked.right) {
-                        if(intruz.type === 4) {
-                            intruz.frame=40;
-                            setTimeout(function(){
-                                intruz.frame=37;
-                            },30);
-                            //intruz.animations.play('turn-right');
-                            setTimeout(function(){
-                                intruz.randomMove='intruzRight';
-                            },60);
-                        }
-                        else intruz.randomMove='intruzRight';
-                    }
+            if(intruz.active) {
+                if(!intruz.timeLoop) {
+                    intruz.timeLoop = 1;
+                    toolsGame.mainElements.intruzi.id++;
+                    intruz.id = toolsGame.mainElements.intruzi.id;
+                    intruz.break = 4000 * intruz.id;
+                    //console.log("intruz type: " + intruz.type + " loaded");
                 }
 
-                if(intruz.body.blocked.up) {
-                    if(intruz.body.blocked.left) intruz.randomMove='intruzLeft';
-                    else if(intruz.body.blocked.right) intruz.randomMove='intruzRight';
-                }
+                //if parzyste {} else {}
 
-                if(intruz.type === 2 || intruz.type === 3) {
-                    if(intruz.body.blocked.left || intruz.body.blocked.right) {
-                        var jumpTimerIntruz = 0;
-                        if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
-                            intruz.body.velocity.y = -450;
-                            jumpTimerIntruz = game.time.now + 450;
-                        }
+                //console.log(intruz);
 
-                        if (timeLoop === 2) {
-                            if (intruz.body.blocked.left) intruz.randomMove = 'intruzLeft';
-                            else if (intruz.body.blocked.right) intruz.randomMove = 'intruzRight';
-                        }
+                intruz.timeLoop++;
 
-                    }
-                }
 
-                if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4) {
-                    if (intruz.randomMove == 'intruzRight') {
-                        if(intruz.type === 4) {
-                            intruz.body.velocity.x = -intruz.randomSpeed/2;
-                        } else {
-                            intruz.body.velocity.x = -intruz.randomSpeed;
-                        }
-                        intruz.animations.play('left');
-                        intruz.check = false;
-                    }
-                    else if (intruz.randomMove == 'intruzLeft') {
-                        if(intruz.type === 4) {
-                            intruz.body.velocity.x = intruz.randomSpeed/2;
-                        } else {
-                            intruz.body.velocity.x = intruz.randomSpeed;
-                        }
-                        intruz.animations.play('right');
-                        intruz.check = false;
-                    }
-                }
-                else if(intruz.type === 3) {
-                    if (intruz.randomMove == 'intruzRight') {
-                        if (intruz.timeLoop >= 2000 + intruz.break && intruz.timeLoop <= 4000 + intruz.break) {
-                            if (!intruz.check) {
-                                intruz.body.velocity.x = 0;
-                                intruz.animations.play('idle-left');
-                                intruz.randomMove = 'intruzLeft';
-                                //console.log("x");
-                                intruz.check = true;
+                intruz.body.velocity.x = 0;
+
+
+                if(intruz.randomMove=='intruzRight' || intruz.randomMove=='intruzLeft')
+                {
+                    if(intruz.type === 1 || intruz.type === 4) {
+
+                        if(intruz.body.blocked.left) {
+                            if(intruz.type === 4) {
+                                intruz.frame=41;
+                                //intruz.animations.play('turn-left');
+                                setTimeout(function(){
+                                    intruz.frame=37;
+                                },30);
+                                setTimeout(function(){
+                                    intruz.randomMove='intruzLeft';
+                                },60);
                             }
-                            if (intruz.killing) {
-                                //console.log("xKill");
-                                intruz.animations.play('kill');
+                            else intruz.randomMove='intruzLeft';
+                        }
+                        else if(intruz.body.blocked.right) {
+                            if(intruz.type === 4) {
+                                intruz.frame=40;
+                                setTimeout(function(){
+                                    intruz.frame=37;
+                                },30);
+                                //intruz.animations.play('turn-right');
+                                setTimeout(function(){
+                                    intruz.randomMove='intruzRight';
+                                },60);
                             }
-                        } else {
-                            intruz.body.velocity.x = -intruz.randomSpeed;
+                            else intruz.randomMove='intruzRight';
+                        }
+                    }
+
+                    if(intruz.body.blocked.up) {
+                        if(intruz.body.blocked.left) intruz.randomMove='intruzLeft';
+                        else if(intruz.body.blocked.right) intruz.randomMove='intruzRight';
+                    }
+
+                    if(intruz.type === 2 || intruz.type === 3) {
+                        if(intruz.body.blocked.left || intruz.body.blocked.right) {
+                            var jumpTimerIntruz = 0;
+                            if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
+                                intruz.body.velocity.y = -450;
+                                jumpTimerIntruz = game.time.now + 450;
+                            }
+
+                            if (timeLoop === 2) {
+                                if (intruz.body.blocked.left) intruz.randomMove = 'intruzLeft';
+                                else if (intruz.body.blocked.right) intruz.randomMove = 'intruzRight';
+                            }
+
+                        }
+                    }
+
+                    if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4) {
+                        if (intruz.randomMove == 'intruzRight') {
+                            if(intruz.type === 4) {
+                                intruz.body.velocity.x = -intruz.randomSpeed/2;
+                            } else {
+                                intruz.body.velocity.x = -intruz.randomSpeed;
+                            }
                             intruz.animations.play('left');
                             intruz.check = false;
                         }
-                    }
-                    else if (intruz.randomMove == 'intruzLeft') {
-                        if (intruz.timeLoop >= 2000 + intruz.break && intruz.timeLoop <= 4000 + intruz.break) {
-                            if (!intruz.check) {
-                                intruz.body.velocity.x = 0;
-                                intruz.animations.play('idle-right');
-                                intruz.randomMove = 'intruzRight';
-                                //console.log("x");
-                                intruz.check = true;
+                        else if (intruz.randomMove == 'intruzLeft') {
+                            if(intruz.type === 4) {
+                                intruz.body.velocity.x = intruz.randomSpeed/2;
+                            } else {
+                                intruz.body.velocity.x = intruz.randomSpeed;
                             }
-                            if (intruz.killing) {
-                                //console.log("xKill");
-                                intruz.animations.play('kill');
-                            }
-                        } else {
-                            intruz.body.velocity.x = intruz.randomSpeed;
                             intruz.animations.play('right');
-                            intruz.check = false; 
+                            intruz.check = false;
                         }
                     }
+                    else if(intruz.type === 3) {
+                        if (intruz.randomMove == 'intruzRight') {
+                            if (intruz.timeLoop >= 2000 + intruz.break && intruz.timeLoop <= 4000 + intruz.break) {
+                                if (!intruz.check) {
+                                    intruz.body.velocity.x = 0;
+                                    intruz.animations.play('idle-left');
+                                    intruz.randomMove = 'intruzLeft';
+                                    //console.log("x");
+                                    intruz.check = true;
+                                }
+                                if (intruz.killing) {
+                                    //console.log("xKill");
+                                    intruz.animations.play('kill');
+                                }
+                            } else {
+                                intruz.body.velocity.x = -intruz.randomSpeed;
+                                intruz.animations.play('left');
+                                intruz.check = false;
+                            }
+                        }
+                        else if (intruz.randomMove == 'intruzLeft') {
+                            if (intruz.timeLoop >= 2000 + intruz.break && intruz.timeLoop <= 4000 + intruz.break) {
+                                if (!intruz.check) {
+                                    intruz.body.velocity.x = 0;
+                                    intruz.animations.play('idle-right');
+                                    intruz.randomMove = 'intruzRight';
+                                    //console.log("x");
+                                    intruz.check = true;
+                                }
+                                if (intruz.killing) {
+                                    //console.log("xKill");
+                                    intruz.animations.play('kill');
+                                }
+                            } else {
+                                intruz.body.velocity.x = intruz.randomSpeed;
+                                intruz.animations.play('right');
+                                intruz.check = false;
+                            }
+                        }
+                    }
+
+                    if (!(intruz.timeLoop >= 1 && intruz.timeLoop <= 4000 + intruz.break)) {
+                        intruz.timeLoop = 1;
+                    }
+
+
+                }
+                else if(intruz.randomMove=='intruzDelete'){
+                    intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
+                    var wsp=[], wspX=150, wspY=100;
+                    if(wspInkub.length>0)
+                    {
+                        var losoweWspInk=randZakres(0,wspInkub.length-1);
+                        //console.log(losoweWspInk);
+                        wsp=wspInkub[losoweWspInk].split(",");
+                        wspX=parseInt(wsp[0]);
+                        wspY=parseInt(wsp[1]);
+                    }
+                    //console.log(wspInkub);
+                    //console.log(wspX + "," + wspY);
+
+                    // intruz.body.x=wspX;
+                    // intruz.body.y=wspY;
+                    intruz.kill();
+
+                    setTimeout(function(){
+
+                        toolsGame.mainElements.intruzi.add(wspX/tileSize,wspY/tileSize,intruz.type);
+                        //console.log((wspX*tileSize) + " x " + (wspY*tileSize));
+                        //toolsGame.mainElements.intruzi.add(100,100);
+                        //\\//\\
+                    }, 3000);
+                    //intruz.alpha=1;
+                }
+                else if(intruz.randomMove=='intruzStop'){
+                    if(intruz.type === 4) {
+                        //intruz.frame = 37;
+                    } else {
+                        intruz.frame = 37;
+                    }
                 }
 
-                if (!(intruz.timeLoop >= 1 && intruz.timeLoop <= 4000 + intruz.break)) {
-                    intruz.timeLoop = 1;
-                }
 
-
-            }
-            else if(intruz.randomMove=='intruzDelete'){
-                intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
-                var wsp=[], wspX=150, wspY=100;
-                if(wspInkub.length>0)
-                {
-                    var losoweWspInk=randZakres(0,wspInkub.length-1);
-                    //console.log(losoweWspInk);
-                    wsp=wspInkub[losoweWspInk].split(",");
-                    wspX=parseInt(wsp[0]);
-                    wspY=parseInt(wsp[1]);
-                }
-                //console.log(wspInkub);
-                //console.log(wspX + "," + wspY);
-
-                // intruz.body.x=wspX;
-                // intruz.body.y=wspY;
-                intruz.kill();
-
-                setTimeout(function(){
-
-                    toolsGame.mainElements.intruzi.add(wspX/tileSize,wspY/tileSize,intruz.type);
-                    //console.log((wspX*tileSize) + " x " + (wspY*tileSize));
-                    //toolsGame.mainElements.intruzi.add(100,100);
-                    //\\//\\
-                }, 3000);
-                //intruz.alpha=1;
-            }
-            else if(intruz.randomMove=='intruzStop'){
                 if(intruz.type === 4) {
-                    //intruz.frame = 37;
-                } else {
-                    intruz.frame = 37;
+                    //console.log(intruz.body.width);
+                    //przesuniecie poziomu dla snake
+                    intruz.body.height = 30;
                 }
             }
 
-
-            if(intruz.type === 4) {
-                //console.log(intruz.body.width);
-                //przesuniecie poziomu dla snake
-                intruz.body.height = 30;
-            }
 
             //console.log(intruz.randomMove);
         },null, this);
@@ -4152,11 +4429,11 @@ var update=function() {
             if(!levelFile.blockedKeys)
             {
                 if(!toolsGame.mainElements.player.obj.gForceWater) {
-                    toolsGame.mainElements.player.obj.body.velocity.y = -430;
-                    toolsGame.mainElements.player.jumpTimer = game.time.now + 430;
+                    toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityNormal;
+                    toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityNormal;
                 } else {
-                    toolsGame.mainElements.player.obj.body.velocity.y = -200;
-                    toolsGame.mainElements.player.jumpTimer = game.time.now + 200;
+                    toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityWater;
+                    toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityWater;
                 }
 
                 if(!toolsGame.mainElements.player.obj.body.bounce.y) {
@@ -4240,6 +4517,7 @@ var endGame=function() {
 	    console.log("########### end game #############");
 		game.world.removeAll();
 		timer.destroy();
+        toolsGame.audio.bg.stop();
 		playGame.main=false;
 		create();
 	}
@@ -4258,7 +4536,6 @@ var render=function() {
 
 	
 };
-
 
 var game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });
 

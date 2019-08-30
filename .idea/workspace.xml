@@ -2,97 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43036ef2-fef9-4caf-b6ce-3f7c3e9f357f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/wildworld/www/css/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/LifeFull.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/LifeSingle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/background1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/background1_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/background2_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/background3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/background4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/blank-tile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/box-menu4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/building1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/building2p.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/building3p.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/bullet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/button-level.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/buttons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/cactus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/cave.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/door2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/end_level.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fire_down3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fire_left3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fire_right3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fire_up3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fireb.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fish7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fog-white.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/fog-yellow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/grass_lr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/ground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/gun-bullets6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/gun2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/icons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/intruder2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/intruders1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/intruders2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/intruders3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/intruders4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/key.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/kladka-short.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/kladka.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level10.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level11.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level12.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level13.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level14.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level15.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level16.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level17.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level18.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level5.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level6.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level7.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level8.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/level9.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/lock1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/menu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/mine-part1-6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/mine-part2-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/navigations1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/nu3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/pause.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/players1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/save_level.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/snake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/splash-red9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/splash7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/the-end.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/tile-size-black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/tiles-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/top-menu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/water_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/water_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/water_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/water_red6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_1_5_new.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_2_5_new.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/cookies.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/jquery-2.0.3.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/phaser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/phaser.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js/varibles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/www/images/_level1.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/buttons.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/buttons.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level1.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level14.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level14.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level15.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level15.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level2.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level3.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/main.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -109,9 +27,29 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="190" column="9" selection-start-line="190" selection-start-column="9" selection-end-line="190" selection-end-column="9" />
+            <state relative-caret-position="265">
+              <caret line="2630" column="9" lean-forward="true" selection-start-line="2630" selection-start-column="9" selection-end-line="2630" selection-end-column="9" />
+              <folding>
+                <element signature="e#181503#181742#0" />
+                <element signature="e#181766#182199#0" />
+              </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="level1.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wildworld/www/images/level1.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="410">
+              <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_level1.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wildworld/www/images/_level1.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-13817" />
           </provider>
         </entry>
       </file>
@@ -119,36 +57,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jump</find>
-      <find>toolsGame.mainElements.player.obj.onGround</find>
-      <find>onGround</find>
-      <find>.onGround</find>
-      <find>checkIfWasKilledAndOther</find>
-      <find>kladki.poz</find>
-      <find>footst</find>
-      <find>coins.obj</find>
-      <find>foots</find>
-      <find>cursors</find>
-      <find>shoot</find>
-      <find>shoot.</find>
-      <find>.let.</find>
-      <find>bullets</find>
-      <find>_gun</find>
-      <find>gun</find>
+      <find>toolsGame.mainElements.player.obj.position.x&lt;</find>
+      <find>water</find>
+      <find>waters.obj</find>
+      <find>obj.forEach(</find>
       <find>intruzi.obj</find>
-      <find>audio</find>
-      <find>explosion-intruder</find>
-      <find>explosionIntruder</find>
-      <find>visual fog</find>
-      <find>time-over</find>
-      <find>explo</find>
-      <find>breakBones</find>
-      <find>splash</find>
-      <find>lifes.obj</find>
-      <find>life</find>
-      <find>audio:</find>
-      <find>break-ground</find>
-      <find>logs.obj</find>
+      <find>play('r</find>
+      <find>animations.</find>
+      <find>fps</find>
+      <find>bg:</find>
+      <find>40</find>
+      <find>40</find>
+      <find>index</find>
+      <find>detectionHoldOnObject</find>
+      <find>detectionHoldOnTile</find>
+      <find>==514</find>
+      <find>bgSet</find>
+      <find>alert(&quot;x</find>
+      <find>levelFile=</find>
+      <find>map =</find>
+      <find>levels'</find>
+      <find>layer =</find>
+      <find>layer.</find>
+      <find>layer.</find>
+      <find>layerFr</find>
+      <find>map.layers</find>
+      <find>forEach</find>
+      <find>Front</find>
+      <find>layerFr</find>
+      <find>cactus</find>
+      <find>cacti</find>
     </findStrings>
     <replaceStrings>
       <replace>pionStatic</replace>
@@ -206,9 +144,9 @@
     <handled-path value="$PROJECT_DIR$/wildworld/platforms/android/cordova/node_modules" />
     <handled-path value="$PROJECT_DIR$/wildworld/platforms/browser/cordova/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="251" />
-    <option name="y" value="56" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-7" />
+    <option name="y" value="2" />
     <option name="width" value="1932" />
     <option name="height" value="1045" />
   </component>
@@ -217,7 +155,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -319,12 +256,20 @@
               <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="images" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
+              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -335,14 +280,14 @@
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -378,7 +323,8 @@
       <workItem from="1565624572326" duration="2244000" />
       <workItem from="1565635043476" duration="27807000" />
       <workItem from="1565806849910" duration="54303000" />
-      <workItem from="1566195171639" duration="144082000" />
+      <workItem from="1566195171639" duration="189251000" />
+      <workItem from="1567103476418" duration="15880000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1562243439386</created>
@@ -387,17 +333,24 @@
       <option name="project" value="LOCAL" />
       <updated>1562243439386</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="new">
+      <created>1566965279716</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1566965279717</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="760902000" />
+    <option name="totallyTimeSpent" value="821951000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="2" width="1932" height="1045" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49356914" visible="true" weight="0.17270789" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49202126" visible="true" weight="0.17467949" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -405,8 +358,8 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
-      <window_info id="Structure" order="1" sideWeight="0.50643086" side_tool="true" visible="true" weight="0.17270789" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3224401" />
+      <window_info id="Structure" order="1" sideWeight="0.50797874" side_tool="true" visible="true" weight="0.17467949" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.17089306" />
       <window_info id="Favorites" order="2" sideWeight="0.50108933" side_tool="true" weight="0.26439232" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -426,176 +379,61 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="new" />
+    <option name="LAST_COMMIT_MESSAGE" value="new" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/wildworld/www/js/main.js</url>
+          <line>3887</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/wildworld/www/js/main.js</url>
+          <line>2345</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="9" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/Bez-nazwy-3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/blank-tile.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/bullets2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/button-level.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_5.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_6.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_7.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_8.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_9.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_10.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_11.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_12.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_13.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_14.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_18.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_17.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_19.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_dev2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dude_x1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/dudeX.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fire_b.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fish2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruders1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruder2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/main-men.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/mine-part1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/p2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/paus.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/pause.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/players1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/tiles-1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/buttons.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/icons.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index 2.html">
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        <state relative-caret-position="17520">
+          <caret line="876" column="40" selection-start-line="876" selection-start-column="40" selection-end-line="876" selection-end-column="40" />
+          <folding>
+            <element signature="e#181503#181742#0" />
+            <element signature="e#181766#182199#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index 2.html" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html" />
+    <entry file="file://$PROJECT_DIR$/wildworld/www/images/_level1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="43" column="4" lean-forward="true" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="65" />
-        </state>
+        <state relative-caret-position="-13817" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/mine-part2-4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/nu1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/life.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/LifeSingle.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/bullet.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun-bullets3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun-bullets4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun-bullets5.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/nu3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun-bullets6.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/LifeFull.png">
-      <provider selected="true" editor-type-id="images" />
+    <entry file="file://$PROJECT_DIR$/wildworld/www/images/level1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="190" column="9" selection-start-line="190" selection-start-column="9" selection-end-line="190" selection-end-column="9" />
+        <state relative-caret-position="265">
+          <caret line="2630" column="9" lean-forward="true" selection-start-line="2630" selection-start-column="9" selection-end-line="2630" selection-end-column="9" />
+          <folding>
+            <element signature="e#181503#181742#0" />
+            <element signature="e#181766#182199#0" />
+          </folding>
         </state>
       </provider>
     </entry>
