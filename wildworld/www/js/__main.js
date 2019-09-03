@@ -161,8 +161,8 @@ var map,
 	tileSize=16,
 	layer,
     layerFront,
-    layerObject,
-	fispeed=[90,110,130],
+    layerObjects,
+	fispeed=[80,100,120],
 	wspInkub=[],
 	facing = 'right',
 	cursors,
@@ -434,7 +434,7 @@ preload = function () {
     game.load.spritesheet('intruder1', 'images/intruders4.png', 48, 64);
     game.load.spritesheet('intruder2', 'images/intruders2.png', 48, 64);
     game.load.spritesheet('intruder3', 'images/intruders3.png', 48, 64);
-    game.load.spritesheet('intruder4', 'images/snake3.png', 71, 33);
+    game.load.spritesheet('intruder4', 'images/snakeX2.png', 71, 37);
     //game.load.spritesheet('intruder', 'images/intruder2.png', 48, 48);
     game.load.image('backgroundMenu', 'images/menu.png');
     game.load.image('boxMenu', 'images/box-menu4.png', 640, 290);
@@ -471,12 +471,11 @@ preload = function () {
 
     game.load.image('cactus', 'images/cactus.png');
     game.load.image('grassLr', 'images/grass_lr.png');
-    game.load.spritesheet('grass-lr-anim', 'images/grass_anim8.png',34.5,32); //32,32
 
     game.load.image('bullet', 'images/bullet.png');
     game.load.spritesheet('bullets_gun', 'images/gun-bullets6.png', 20, 28);
     game.load.spritesheet('end_level', 'images/end_level.png', 100, 130);
-    game.load.spritesheet('save_level', 'images/save-level2.png', 100, 130);
+    game.load.spritesheet('save_level', 'images/save_level.png', 100, 130);
 
     game.load.spritesheet('fire_up', 'images/fire_up3.png', 24, 24);
     game.load.spritesheet('fire_down', 'images/fire_down3.png', 24, 24);
@@ -491,6 +490,7 @@ preload = function () {
     game.load.image('gun', 'images/gun2.png');
 
     game.load.image('cave', 'images/cave.png');
+    game.load.image('building1', 'images/building1.png');
     game.load.image('building2', 'images/building2p.png');
     game.load.image('building3', 'images/building3p.png');
 
@@ -507,6 +507,7 @@ preload = function () {
     game.load.spritesheet('fireb', 'images/fish7.png', 16, 40);
     game.load.spritesheet('fireb2', 'images/fireb.png', 16, 16);
 
+    game.load.image('kladka', 'images/kladka.png');
     game.load.image('kladka-short', 'images/kladka-short.png');
 
 
@@ -518,7 +519,6 @@ preload = function () {
     game.load.audio('explosion-intruder', 'audio/explosion-intruder.mp3');
     game.load.audio('break-bones', 'audio/break-bones.mp3');
     game.load.audio('scream', 'audio/scream.mp3'); // licence ok
-    game.load.audio('scream2', 'audio/scream2.mp3'); // licence ok
     game.load.audio('splash', 'audio/splash.mp3'); // licence ok
     game.load.audio('life', 'audio/life.mp3'); // licence ok
     game.load.audio('key', 'audio/key.mp3'); // licence no ok
@@ -526,11 +526,6 @@ preload = function () {
     game.load.audio('quake', 'audio/quake.mp3'); // licence ok
     game.load.audio('door-lift', 'audio/door-lift.mp3'); // licence ok
     game.load.audio('bg1', 'audio/bg.mp3'); // licence ok
-    game.load.audio('flash', 'audio/flash.mp3'); // licence ok
-    game.load.audio('next-level', 'audio/next-level.mp3'); // licence ok
-    game.load.audio('tic-score', 'audio/tic.mp3'); // licence ok
-
-
 
 
     //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -616,8 +611,9 @@ var toolsGame={
     //     }
     // },
     audio: {
+        mute: false,
         footStep: function (volume) { // toolsGame.audio.footStep();
-            if(!this.a1) {
+            if(!this.mute && !this.a1) {
                 var footstep = game.add.audio('footstep');
                     footstep.play('',false,volume ? volume : 0.2);
                     //footstep.volume = 0.05;
@@ -628,48 +624,46 @@ var toolsGame={
             }
         },
         coin: function (volume) { // toolsGame.audio.footStep();
-            var coin = game.add.audio('coin');
-            coin.play('',false,volume ? volume : 0.2);
-
-        },
-        ticScore: function (volume) { // toolsGame.audio.footStep();
-            var ticScore = game.add.audio('tic-score');
-            ticScore.play('',false,volume ? volume : 0.2);
-
+            if(!this.mute) {
+                var coin = game.add.audio('coin');
+                coin.play('',false,volume ? volume : 0.2);
+            }
         },
         shoot: function (volume) { // toolsGame.audio.footStep();
-            var shoot = game.add.audio('shoot');
-            shoot.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var shoot = game.add.audio('shoot');
+                shoot.play('', false, volume ? volume : 0.2);
+            }
         },
         bullets: function (volume) { // toolsGame.audio.footStep();
-            var bullets = game.add.audio('bullets');
-            bullets.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var bullets = game.add.audio('bullets');
+                bullets.play('', false, volume ? volume : 0.2);
+            }
         },
         explosionIntruder: function () { // toolsGame.audio.footStep();
-            var explosionIntruder = game.add.audio('explosion-intruder');
-            explosionIntruder.play('', false, 0.5);
+            if(!this.mute) {
+                var explosionIntruder = game.add.audio('explosion-intruder');
+                explosionIntruder.play('', false, 0.5);
+            }
         },
         breakBones: function (volume) { // toolsGame.audio.footStep();
-            var breakBones = game.add.audio('break-bones');
-            breakBones.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var breakBones = game.add.audio('break-bones');
+                breakBones.play('', false, volume ? volume : 0.2);
+            }
         },
         scream: function (volume) { // toolsGame.audio.footStep();
-            var scream = game.add.audio('scream');
-            scream.play('', false, volume ? volume : 0.2);
-        },
-        screamIntruder: function (volume) { // toolsGame.audio.footStep();
-            var screamIntruder = game.add.audio('scream2');
-            screamIntruder.play('', false, volume ? volume : 0.2);
-        },
-        flash: function (volume) { // toolsGame.audio.footStep();
-            var flash = game.add.audio('flash');
-            flash.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var scream = game.add.audio('scream');
+                scream.play('', false, volume ? volume : 0.2);
+            }
         },
         splash: function (volume) { // toolsGame.audio.footStep();
             // var splash = game.add.audio('splash');
             // splash.play('',false,volume?volume:0.2);
 
-            if(!this.aSplash) {
+            if(!this.mute && !this.aSplash) {
                 var splash = game.add.audio('splash');
                 splash.play('',false,0.1);
                 //footstep.volume = 0.05;
@@ -683,24 +677,34 @@ var toolsGame={
             }
         },
         life: function (volume) { // toolsGame.audio.footStep();
-            var life = game.add.audio('life');
-            life.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var life = game.add.audio('life');
+                life.play('', false, volume ? volume : 0.2);
+            }
         },
         key: function (volume) { // toolsGame.audio.footStep();
-            var key = game.add.audio('key');
-            key.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var key = game.add.audio('key');
+                key.play('', false, volume ? volume : 0.2);
+            }
         },
         breakGround: function (volume) { // toolsGame.audio.footStep();
-            var breakGround = game.add.audio('break-ground');
-            breakGround.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var breakGround = game.add.audio('break-ground');
+                breakGround.play('', false, volume ? volume : 0.2);
+            }
         },
         quake: function (volume) { // toolsGame.audio.footStep();
-            var quake = game.add.audio('quake');
-            quake.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var quake = game.add.audio('quake');
+                quake.play('', false, volume ? volume : 0.2);
+            }
         },
         doorLift: function (volume) { // toolsGame.audio.footStep();
-            var doorLift = game.add.audio('door-lift');
-            doorLift.play('', false, volume ? volume : 0.2);
+            if(!this.mute) {
+                var doorLift = game.add.audio('door-lift');
+                doorLift.play('', false, volume ? volume : 0.2);
+            }
         },
         bg: {
             obj: false,
@@ -714,42 +718,30 @@ var toolsGame={
             stop:function () {
                 if(this.obj) this.obj.stop();
             }
-        },
-        nextLevel: function (volume) { // toolsGame.audio.footStep();
-            if(!this.nL) {
-                var nextLevel = game.add.audio('next-level');
-                nextLevel.play('',false,volume ? volume : 0.2);
-                this.nL= true;
-                nextLevel.onStop.addOnce(function() {
-                    this.nL=false;
-                }, this);
-            }
-        },
+        }
 
     },
     preloader: {
         obj: true,
-        add: function(x,y,lastMap,percentLevel) {
+        add: function(x,y,lastMap) {
             //alert(theEndCredits);
 
             toolsGame.bgSet('#000000');
             toolsGame.preloader.obj = game.add.group();
             toolsGame.preloader.obj.enableBody = true;
 
-            // if(!theEndCredits) {
-            //     var w =  this.obj.create(x*tileSize, y*tileSize, 'windmill_1_new'), theEnd=false;
-            //     w.anchor.setTo(0.5, 0.5);
-            //     w.body.allowGravity = false;
-            //     w.fixedToCamera = true;
-            //
-            //     this.interval = setInterval(function () {
-            //         w.angle += 1;
-            //         //console.log("preloader works");
-            //     },10);
-            // }
-            var score = percentLevel?('Your gold score: '+percentLevel+'%' + "\n"):'';
-            var LoadingCongratylation = theEndCredits?(lastMap?score+'Congratulations!...' + "\n" + "The End":''):(score+"Level " + levelFile.activeIdLevel + "\n" + 'Loading...');
-            toolsGame.text.show('center',0,0,0.9,LoadingCongratylation,'bold 46px Arial','#ffffff',true,'loading');
+            if(!theEndCredits) {
+                var w =  this.obj.create(x*tileSize, y*tileSize, 'windmill_1_new'), theEnd=false;
+                w.anchor.setTo(0.5, 0.5);
+                w.body.allowGravity = false;
+                w.fixedToCamera = true;
+
+                this.interval = setInterval(function () {
+                    w.angle += 1;
+                    //console.log("preloader works");
+                },10);
+            }
+            toolsGame.text.show('center',0,0,0.9,theEndCredits?(lastMap?'Congratulations!...' + "\n" + "The End":''):("Level " + levelFile.activeIdLevel + "\n" + 'Loading...'),'bold 46px Arial','#ffffff',true,'loading');
         },
         hide: function () {
             this.obj.destroy();
@@ -881,9 +873,9 @@ var toolsGame={
                 this.obj.alpha = 0;
                 this.obj.fixedToCamera = true;
                 if(!type){
-                    game.add.tween(this.obj).to({alpha: 0.8}, 180, Phaser.Easing.Linear.None, true);
+                    game.add.tween(this.obj).to({alpha: 0.7}, 180, Phaser.Easing.Linear.None, true);
                 } else {
-                    this.obj.alpha = 0.8;
+                    this.obj.alpha = 0.7;
                 }
                 // game.physics.arcade.enable(this.obj);
                 // console.log(this.obj);
@@ -1433,7 +1425,7 @@ var toolsGame={
 
 		},
 		hide: function(idName){
-			if(this.obj[idName]) this.obj[idName].destroy();
+			this.obj[idName].destroy();
 		}
 	},
     image: {
@@ -1473,7 +1465,7 @@ var toolsGame={
 			width = game.cache._cache.image[name].frameWidth;
             height = game.cache._cache.image[name].frameHeight;
 		}
-        return thatObj.create((x*tileSize)+(2*tileSize)-(width﻿/2+tileSize+tileSize/2), (y*tileSize)-(height-2*tileSize), name);
+        return thatObj.create(x+(2*tileSize)-(width﻿/2+tileSize+tileSize/2), y-height, name);
 	},
     createLeftObject: function(thatObj,x,y,name,type) {
         var height = game.cache.getImage(name).height;
@@ -1755,7 +1747,7 @@ var toolsGame={
 				if(this.obj==false)
 				{
 					//toolsGame.mainElements.player.obj =  player
-				    this.obj = game.add.sprite((x*tileSize), ((y*tileSize)-(4*tileSize)), 'dude');
+				    this.obj = game.add.sprite(x, (y-(4*tileSize)), 'dude');
 				    game.physics.enable(this.obj, Phaser.Physics.ARCADE);
 				    this.obj.body.bounce.y = 0.3;
 				    this.obj.body.collideWorldBounds = true;
@@ -1812,16 +1804,8 @@ var toolsGame={
                 }
                 //var typeIntruder = Math.floor(Math.random() * 3)+1; // 3 typy intruzów
                 //console.log(this.typeIntruder);
-				var intruz = this.obj.create((x*tileSize), ((y*tileSize)-(2*tileSize)), 'intruder'+type);
-                intruz.scale.setTo(0, 0);
-                console.log(intruz.scale);
-                //intruz.scale.setTo(1, 1);
-                game.add.tween(intruz.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Linear.None, true);
-
+				var intruz = this.obj.create(x, y-(2*tileSize), 'intruder'+type);
                 intruz.type = type;
-                intruz.wspStartX = x;
-                intruz.wspStartY = y;
-
 				game.physics.enable(intruz, Phaser.Physics.ARCADE);
 				intruz.body.bounce.y = 0.4;
 				intruz.body.collideWorldBounds = true;
@@ -1886,8 +1870,6 @@ var toolsGame={
                 },1000/60);
                 if(destiny==="total-kill")
                 {
-                    toolsGame.audio.breakBones(0.5);
-                    toolsGame.audio.explosionIntruder();
                     if(intruz.type===4) {
                         intruz.animations.add('left', [28,29,30,31,32,33,34,35], 15, false);
                         intruz.animations.add('right', [28,29,30,31,32,33,34,35], 15, false);
@@ -1942,7 +1924,7 @@ var toolsGame={
 			obj: true,
 			add: function(x,y) {
 				//toolsGame.mainElements.coins.obj = coins
-		        var coin = this.obj.create(x*tileSize, y*tileSize, 'coin');
+		        var coin = this.obj.create(x, y, 'coin');
 				coin.animations.add('run',[0,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,0]);
 				coin.animations.play('run', 18, true);
 
@@ -1965,35 +1947,17 @@ var toolsGame={
         logs:{
             obj: true,
             lengthBonusCoins: 0,
-            add: function(x,y,type) {
+            add: function(x,y,isCoin) {
                 //toolsGame.mainElements.log.obj = logs
-                var log = this.obj.create(x*tileSize, y*tileSize, 'log');
+                var log = this.obj.create(x, y-tileSize, 'log');
                 log.animations.add('run');
                 game.physics.enable(log, Phaser.Physics.ARCADE);
                 //log.animations.play('run', 15, true);
                 log.body.allowGravity = false;
                 log.body.collideWorldBounds = true;
                 log.body.immovable = true;
-                if(type==='coin') {
+                if(isCoin) {
                     log.coin = true;
-                } else if(type==='surprise'){
-                    var lotterySuprise = randZakres(1,4);
-                    console.log(lotterySuprise);
-                    switch (lotterySuprise) {
-                        case 1:
-                            log.surprise = 1;
-                            break;
-                        case 2:
-                            log.surprise = 2;
-                            break;
-                        case 3:
-                            log.surprise = 3;
-                            break;
-                        case 4:
-                            log.surprise = 4;
-                            toolsGame.mainElements.logs.lengthBonusCoins++;
-                            break;
-                    }
                 }
             }
         },
@@ -2002,7 +1966,7 @@ var toolsGame={
             obj: true,
             add: function(x,y) {
                 //toolsGame.mainElements.Lifes.obj = Lifes
-                var Life = this.obj.create(x*tileSize, y*tileSize, 'Life');
+                var Life = this.obj.create(x, y, 'Life');
                 Life.animations.add('run',[2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,0,0,1]);
                 Life.animations.play('run', 18, true);
                 Life.body.allowGravity = false;
@@ -2011,7 +1975,7 @@ var toolsGame={
         LifeSingleS:{ //toolsGame.mainElements.Lifes.obj = Lifes
             obj: true,
             add: function(x,y) {
-                var Life = this.obj.create(x*tileSize, y*tileSize, 'Life2');
+                var Life = this.obj.create(x, y, 'Life2');
                 Life.animations.add('run',[4,5,6,7,8,8,7,6,5,4,3,2,1,0,0,1,2,3]);
                 Life.animations.play('run', 18, true);
                 Life.body.allowGravity = false;
@@ -2021,7 +1985,7 @@ var toolsGame={
 			obj: true,
 			add: function(x,y) {
 				//toolsGame.mainElements.bulletsGuns.obj = bullets_guns
-		        var bullets_gun = this.obj.create((x*tileSize)-5, (y*tileSize)-5, 'bullets_gun');
+		        var bullets_gun = this.obj.create(Math.round(x-5), Math.round(y-5), 'bullets_gun');
 				bullets_gun.animations.add('run',[8,7,6,5,4,3,2,1,0,0,1,2,3,4,5,6,7,8]);
 				bullets_gun.animations.play('run', 18, true);
 				bullets_gun.body.allowGravity = false;
@@ -2072,21 +2036,6 @@ var toolsGame={
                 grass.body.allowGravity = false;
             }
 		},
-        grassAnim: {
-            obj: true,
-            add: function(x,y,type) {
-                var grass = toolsGame.createCenterObject(this.obj,x,y,"grass-lr-anim","sprite");
-                grass.animations.add('run',[0,1,2,3,4,5,5,4,3,2,1,0]);
-                grass.animations.play('run', 8, true);
-                if(type==='right') {
-                    grass.scale.x *= -1;
-                    grass.anchor.setTo(1,0);﻿
-                }
-
-
-                grass.body.allowGravity = false;
-            }
-        },
         grassRight: {
             obj: true,
             add: function(x,y) {
@@ -2177,9 +2126,8 @@ var toolsGame={
         },
         splashs:{
             obj: true,
-            add: function(x,y,typeColor,typeName) {
-
-                var splash = toolsGame.createCenterObject(this.obj,x,y,typeColor?typeColor:"splash","sprite");
+            add: function(x,y,type) {
+                var splash = toolsGame.createCenterObject(this.obj,x,y,type?type:"splash","sprite");
                 splash.animations.add('run').onComplete.add(function(s){
                     //toolsGame.mainElements.player.obj.gForceWaterOnlyeOne = false;
                     s.kill();
@@ -2187,16 +2135,7 @@ var toolsGame={
                 splash.animations.play('run', 30, false);
                 splash.body.allowGravity = false;
                 splash.alpha = .6;
-                if(typeName==='blood') {
-                    splash.position.y = splash.position.y - 2*tileSize;
-                    splash.position.x = splash.position.x + tileSize;
-                    splash.scale.setTo(.8, .8);
-                    splash.alpha=.9;
-                    // splash.scale.y *= -1;
-                    // splash.anchor.setTo(.5,.5);﻿
-                } else {
-                    toolsGame.audio.splash();
-                }
+                toolsGame.audio.splash();
             }
         },
 		endLevelS:{ //end_level_s
@@ -2212,20 +2151,12 @@ var toolsGame={
         },
         saveLevelS:{
             obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
-            add: function(x,y,type) {
+            add: function(x,y) {
 
-                var save_level = toolsGame.createCenterObject(this.obj,x,y,"save_level","sprite"),
-                    frames1, frames2;
+                var save_level = toolsGame.createCenterObject(this.obj,x,y,"save_level","sprite");
                 //var save_level = this.obj.create((x*tileSize)-42, (y*tileSize)-110, 'save_level');
-                if(type==='<-') {
-                    frames1=[26,25,24,23,22,22,23,24,25,26,26,21,20,19,18,18,19,20,21,26]; // 18-26
-                    frames2=[35,34,33,32,31,31,32,33,34,35,35,30,29,28,27,27,28,29,30,35]; // 27-35
-                } else {
-                    frames1=[0, 1, 2, 3, 4, 4, 3, 2, 1, 0, 0, 5, 6, 7, 8, 8, 7, 6, 5, 0];
-                    frames2=[9,10,11,12,13,13,12,11,10,9,9,14,15,16,17,17,16,15,14,9];
-                }
-                save_level.animations.add('run1',frames1);
-                save_level.animations.add('run2',frames2);
+                save_level.animations.add('run1',[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]);
+                save_level.animations.add('run2',[18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]);
                 save_level.animations.play('run1', 17, true);
                 save_level.body.allowGravity = false;
             }
@@ -2282,7 +2213,7 @@ var toolsGame={
                 var w2 = toolsGame.createCenterObject(this.obj2,x,y,"windmill_2_new"); //this.obj2.create((x*tileSize), (y*tileSize)-200, 'windmill_2_new');
                 w2.body.allowGravity = false;
 
-                var w1 =  this.obj1.create((x*tileSize)+9, (y*tileSize)-240, 'windmill_1_new'); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
+                var w1 =  this.obj1.create(x+9, y-240, 'windmill_1_new'); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
                 w1.anchor.setTo(0.5, 0.5);
                 w1.body.allowGravity = false;
             },
@@ -2292,7 +2223,7 @@ var toolsGame={
 			poziom: {
 				obj: true, // toolsGame.mainElements.kladki.poziom.obj = kladki
 				add: function(x,y){
-			        var kladkaPoz = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+			        var kladkaPoz = this.obj.create(x, y, 'kladka-short');
 			        game.physics.enable(kladkaPoz, Phaser.Physics.ARCADE);
 			        kladkaPoz.body.collideWorldBounds = true;
 					kladkaPoz.body.allowGravity = false;
@@ -2336,7 +2267,7 @@ var toolsGame={
 			pionTopBack: {
 				obj: true, // toolsGame.mainElements.kladki.pionTopBack.obj = pionTopBack
 				add: function(x,y){
-			        var kladkapionTopBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+			        var kladkapionTopBack = this.obj.create(x, y, 'kladka-short');
 			        game.physics.enable(kladkapionTopBack, Phaser.Physics.ARCADE);
                     kladkapionTopBack.body.collideWorldBounds = true;
                     kladkapionTopBack.body.allowGravity = false;
@@ -2347,7 +2278,7 @@ var toolsGame={
             pionBottomBack: {
                 obj: true, // toolsGame.mainElements.kladki.pionBottomBack.obj = pionBottomBack
                 add: function(x,y){
-                    var kladkapionBottomBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    var kladkapionBottomBack = this.obj.create(x, y, 'kladka-short');
                     game.physics.enable(kladkapionBottomBack, Phaser.Physics.ARCADE);
                     kladkapionBottomBack.body.collideWorldBounds = true;
                     kladkapionBottomBack.body.allowGravity = false;
@@ -2358,7 +2289,7 @@ var toolsGame={
 			pionTop: {
                 obj: true, // toolsGame.mainElements.kladki.pionTop.obj = kladkipionTop
                 add: function(x,y){
-                    var kladkaPionTop = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    var kladkaPionTop = this.obj.create(x, y, 'kladka-short');
                     game.physics.enable(kladkaPionTop, Phaser.Physics.ARCADE);
                     kladkaPionTop.body.collideWorldBounds = true;
                     kladkaPionTop.body.allowGravity = false;
@@ -2369,7 +2300,7 @@ var toolsGame={
             pionBottom: {
                 obj: true, // toolsGame.mainElements.kladki.pionBottom.obj = kladkipionBottom
                 add: function(x,y){
-                    var kladkaPionBottom = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    var kladkaPionBottom = this.obj.create(x, y, 'kladka-short');
                     game.physics.enable(kladkaPionBottom, Phaser.Physics.ARCADE);
                     kladkaPionBottom.body.collideWorldBounds = true;
                     kladkaPionBottom.body.allowGravity = false;
@@ -2412,7 +2343,7 @@ var toolsGame={
 }
 
 
-var startGame=function(type,lastMap,percentLevel) {
+var startGame=function(type,lastMap) {
     levelFile.readyLoad=false;
     levelFile.blockedKeys=false;
 
@@ -2430,7 +2361,7 @@ var startGame=function(type,lastMap,percentLevel) {
         theEndCredits = true;
     }
 
-    toolsGame.preloader.add(13,14,lastMap,percentLevel);
+    toolsGame.preloader.add(13,14,lastMap);
 
 	//odmierzanie czasu co 1s
 	timer = game.time.create(false);
@@ -2607,6 +2538,7 @@ var startGame=function(type,lastMap,percentLevel) {
 	    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
 
 
+
 	    //ustawianie obiektow wg indexow mapy
 	    //kolejnosc wyznacza z-index warstwy
 
@@ -2634,11 +2566,22 @@ var startGame=function(type,lastMap,percentLevel) {
         toolsGame.mainElements.grassRight.obj = game.add.group();
         toolsGame.mainElements.grassRight.obj.enableBody = true;
 
-        toolsGame.mainElements.grassAnim.obj = game.add.group();
-        toolsGame.mainElements.grassAnim.obj.enableBody = true;
-
 	    toolsGame.mainElements.endLevelS.obj = game.add.group();
 	    toolsGame.mainElements.endLevelS.obj.enableBody = true;
+
+
+        layer = map.createLayer('levels');
+        layer.resizeWorld();
+        console.log(map);
+
+        map.layers.forEach(function(m){
+            // console.log(m.name);
+            if(m.name === 'levels-front') {
+                layerFront = map.createLayer('levels-front');
+                layerFront.resizeWorld();
+            }
+        });
+
 
         toolsGame.mainElements.keys.obj = game.add.group();
         toolsGame.mainElements.keys.obj.enableBody = true;
@@ -2676,179 +2619,6 @@ var startGame=function(type,lastMap,percentLevel) {
 		toolsGame.mainElements.bulletsGuns.obj = game.add.group();
 		toolsGame.mainElements.bulletsGuns.obj.enableBody = true;
 
-
-        toolsGame.mainElements.player.obj=false;
-
-        //kolejnosc ladowania warstw
-
-        layerFront = map.createLayer('levels-deep');
-        layerFront.resizeWorld();
-
-        layerObject = map.createLayer('levels-objects');
-        layerObject.resizeWorld();
-
-        layer = map.createLayer('levels-main');
-        layer.resizeWorld();
-
-
-        // map.layers.forEach(function(m){
-        //     // console.log(m.name);
-        //     if(m.name === 'levels-front') {
-        //         layerFront = map.createLayer('levels-front');
-        //         layerFront.resizeWorld();
-        //     }
-        //     if(m.name === 'levels-objects') {
-        //         layerObject = map.createLayer('levels-objects');
-        //         layerObject.resizeWorld();
-        //     }
-        //     if(m.name === 'levels') {
-        //         layer = map.createLayer('levels');
-        //         layer.resizeWorld();
-        //     }
-        // });
-
-	    for(var x=0; x<map.width; x++) {
-            for (var y = 0; y < map.height; y++) {
-                //generowanie jaskini
-                if (map.getTile(x, y, layerObject, true).index == 1) {
-                    toolsGame.mainElements.caves.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie building1
-                if (map.getTile(x, y, layerObject, true).index == 2) {
-                    toolsGame.mainElements.building1s.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie building2
-                if (map.getTile(x, y, layerObject, true).index == 4) {
-                    toolsGame.mainElements.building2s.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie building3
-                if (map.getTile(x, y, layerObject, true).index == 5) {
-                    toolsGame.mainElements.building3s.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie mine
-                if (map.getTile(x, y, layerObject, true).index == 6) {
-                    toolsGame.mainElements.mines.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kaktusow
-                if (map.getTile(x, y, layerObject, true).index == 504) {
-                    toolsGame.mainElements.cacti.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                // generowanie trawy z lewej
-                if (map.getTile(x, y, layerObject, true).index == 511) {
-                    toolsGame.mainElements.grassLeft.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie trawy z prawej
-                if (map.getTile(x, y, layerObject, true).index == 512) {
-                    toolsGame.mainElements.grassRight.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                // generowanie animowanej trawy z lewej
-                if (map.getTile(x, y, layerObject, true).index == 461) {
-                    toolsGame.mainElements.grassAnim.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                // generowanie animowanej trawy z prawej
-                if (map.getTile(x, y, layerObject, true).index == 462) {
-                    toolsGame.mainElements.grassAnim.add(x, y, 'right');
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie konca levelu
-                if (map.getTile(x, y, layerObject, true).index == 601) {
-                    toolsGame.mainElements.endLevelS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie klucza
-                if (map.getTile(x, y, layerObject, true).index == 515) {
-                    toolsGame.mainElements.keys.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie drzwi
-                if (map.getTile(x, y, layerObject, true).index == 516) {
-                    toolsGame.mainElements.doors.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-                //generowanie zamków/locks
-                if (map.getTile(x, y, layerObject, true).index == 517) //lewy
-                {
-                    toolsGame.mainElements.locks.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-                if (map.getTile(x, y, layerObject, true).index == 467) //prawy
-                {
-                    toolsGame.mainElements.locks.add(x, y, true);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie zapisywania levelu
-                if (map.getTile(x, y, layerObject, true).index == 602) {
-                    toolsGame.mainElements.saveLevelS.add(x, y,'->');
-                    map.removeTile(x, y, layerObject);
-                }
-                if (map.getTile(x, y, layerObject, true).index == 603) {
-                    toolsGame.mainElements.saveLevelS.add(x, y,'<-');
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie ognia up
-                if (map.getTile(x, y, layerObject, true).index == 111) {
-                    toolsGame.mainElements.fire.fireUpS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie ognia down
-                if (map.getTile(x, y, layerObject, true).index == 110) {
-                    toolsGame.mainElements.fire.fireDownS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie ognia left
-                if (map.getTile(x, y, layerObject, true).index == 109) {
-                    toolsGame.mainElements.fire.fireLeftS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie ognia right
-                if (map.getTile(x, y, layerObject, true).index == 112) {
-                    toolsGame.mainElements.fire.fireRightS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie windmillNewS.add();
-                if (map.getTile(x, y, layerObject, true).index == 3) {
-                    toolsGame.mainElements.windmillNewS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie inkubatora
-                if (map.getTile(x, y, layerObject, true).index === 552 ||
-                    map.getTile(x, y, layerFront, true).index === 552 ||
-                    map.getTile(x, y, layer, true).index === 552) {
-                    wspInkub.push(x * tileSize + "," + y * tileSize);
-                }
-            }
-        }
-
-        // next z-index
-
         toolsGame.mainElements.logs.obj = game.add.group();
         toolsGame.mainElements.logs.obj.enableBody = true;
 
@@ -2879,111 +2649,7 @@ var startGame=function(type,lastMap,percentLevel) {
         toolsGame.mainElements.kladki.pionBottom.obj = game.add.group();
         toolsGame.mainElements.kladki.pionBottom.obj.enableBody = true;
 
-        // next z-inedx
-        for(var x=0; x<map.width; x++) {
-            for (var y = 0; y < map.height; y++) {
-                // generating Life main
-                if (map.getTile(x, y, layerObject, true).index == 510) {
-                    toolsGame.mainElements.Lifes.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                // generating Life single
-                if (map.getTile(x, y, layerObject, true).index == 460) {
-                    toolsGame.mainElements.LifeSingleS.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie monet
-                if (map.getTile(x, y, layerObject, true).index == 502) {
-                    toolsGame.mainElements.coins.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie animowanych klod
-                if (map.getTile(x, y, layerObject, true).index == 513) {
-                    toolsGame.mainElements.logs.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie animowanych klod z niespodzianka
-                if (map.getTile(x, y, layerObject, true).index == 514) {
-                    toolsGame.mainElements.logs.add(x, y, 'coin');
-                    toolsGame.mainElements.logs.lengthBonusCoins++;
-                    map.removeTile(x, y, layerObject);
-                }
-                if (map.getTile(x, y, layerObject, true).index == 464) {
-                    toolsGame.mainElements.logs.add(x, y, 'surprise');
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie nabojow
-                if (map.getTile(x, y, layerObject, true).index == 503) {
-                    toolsGame.mainElements.bulletsGuns.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie intruzow typ 1
-                if (map.getTile(x, y, layerObject, true).index == 551) {
-                    toolsGame.mainElements.intruzi.add(x, y, 1);
-                    map.removeTile(x, y, layerObject);
-                }
-                //generowanie intruzow typ 2
-                if (map.getTile(x, y, layerObject, true).index == 553) {
-                    toolsGame.mainElements.intruzi.add(x, y, 2);
-                    map.removeTile(x, y, layerObject);
-                }
-                //generowanie intruzow typ 3
-                if (map.getTile(x, y, layerObject, true).index == 554) {
-                    toolsGame.mainElements.intruzi.add(x, y, 3);
-                    map.removeTile(x, y, layerObject);
-                }
-                //generowanie intruzow typ 4 snake
-                if (map.getTile(x, y, layerObject, true).index == 555) {
-                    toolsGame.mainElements.intruzi.add(x, y, 4);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kladki poziomej
-                if (map.getTile(x, y, layerObject, true).index == 505) {
-                    toolsGame.mainElements.kladki.poziom.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kladki pionowej top back
-                if (map.getTile(x, y, layerObject, true).index == 506) {
-                    toolsGame.mainElements.kladki.pionTopBack.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kladki pionowej bottom back
-                if (map.getTile(x, y, layerObject, true).index == 509) {
-                    toolsGame.mainElements.kladki.pionBottomBack.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kladki pionowej top
-                if (map.getTile(x, y, layerObject, true).index == 507) {
-                    toolsGame.mainElements.kladki.pionTop.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie kladki pionowej bottom
-                if (map.getTile(x, y, layerObject, true).index == 508) {
-                    toolsGame.mainElements.kladki.pionBottom.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-
-                //generowanie playera
-                if (map.getTile(x, y, layerObject, true).index == 501) {
-                    //player moze byc tylko jeden wiec tylko raz jest genrowany
-                    toolsGame.mainElements.player.add(x, y);
-                    map.removeTile(x, y, layerObject);
-                }
-            }
-	    }
-
-        // next z-index
+        toolsGame.mainElements.player.obj=false;
 
         toolsGame.mainElements.firebs.obj = game.add.group();
         toolsGame.mainElements.firebs.obj.enableBody = true;
@@ -2996,37 +2662,285 @@ var startGame=function(type,lastMap,percentLevel) {
         toolsGame.mainElements.splashs.obj = game.add.group();
         toolsGame.mainElements.splashs.obj.enableBody = true;
 
-        for(var x=0; x<map.width; x++)
-        {
-            for(var y=0; y<map.height; y++)
-            {
 
-                // generowanie ryb
-                if (map.getTile(x, y, layerObject, true).index==520)
+
+        toolsGame.mainElements.firebs.obj = game.add.group();
+        toolsGame.mainElements.firebs.obj.enableBody = true;
+
+        // woda ma miec wyzszy z-index od playera dlatego w tym miejscu
+        toolsGame.mainElements.waters.obj = game.add.group();
+        toolsGame.mainElements.waters.obj.enableBody = true;
+
+        // dodanie spashy wody
+        toolsGame.mainElements.splashs.obj = game.add.group();
+        toolsGame.mainElements.splashs.obj.enableBody = true;
+
+
+
+        if(map.objects.objects) {
+            map.objects.objects.forEach(function(o){
+                //console.log(o);
+
+
+                //generowanie jaskini
+                if (o.gid===1)
                 {
-                    toolsGame.mainElements.firebs.add(x,y,randZakres(1,6));
-                    map.removeTile(x, y, layerObject);
+                    toolsGame.mainElements.caves.add(o.x,o.y);
+
                 }
 
-                // generowanie ognistej kuli
-                if (map.getTile(x, y, layerObject, true).index==521)
+                //generowanie building1
+                if (o.gid===2)
                 {
-                    toolsGame.mainElements.firebs.add(x,y,randZakres(1,6),true);
-                    map.removeTile(x, y, layerObject);
+                    toolsGame.mainElements.building1s.add(o.x,o.y);
+
+                }
+
+                //generowanie building2
+                if (o.gid===4)
+                {
+                    toolsGame.mainElements.building2s.add(o.x,o.y);
+                }
+
+                //generowanie building3
+                if (o.gid===5)
+                {
+                    toolsGame.mainElements.building3s.add(o.x,o.y);
+                }
+
+                //generowanie mine
+                if (o.gid===6)
+                {
+                    toolsGame.mainElements.mines.add(o.x,o.y);
+
+                }
+
+                //generowanie kaktusow
+                if (o.gid===504)
+                {
+                    toolsGame.mainElements.cacti.add(o.x,o.y);
+
+                }
+
+                //generowanie trawy z lewej
+                if (o.gid===511)
+                {
+                    toolsGame.mainElements.grassLeft.add(o.x,o.y);
+
+                }
+
+                //generowanie trawy z prawej
+                if (o.gid===512)
+                {
+                    toolsGame.mainElements.grassRight.add(o.x,o.y);
+
+                }
+
+                //generowanie konca levelu
+                if (o.gid===601)
+                {
+                    toolsGame.mainElements.endLevelS.add(o.x,o.y);
+
+                }
+
+                //generowanie klucza
+                if (o.gid===515)
+                {
+                    toolsGame.mainElements.keys.add(o.x,o.y);
+
+                }
+
+                //generowanie drzwi
+                if (o.gid===516)
+                {
+                    toolsGame.mainElements.doors.add(o.x,o.y);
+
+                }
+                //generowanie zamków/locks
+                if (o.gid===517) //lewy
+                {
+                    toolsGame.mainElements.locks.add(o.x,o.y);
+
+                }
+                if (o.gid===467) //prawy
+                {
+                    toolsGame.mainElements.locks.add(o.x,o.y,true);
+
+                }
+
+
+                //generowanie zapisywania levelu
+                if (o.gid===602)
+                {
+                    toolsGame.mainElements.saveLevelS.add(o.x,o.y);
+
+                }
+
+                //generowanie ognia up
+                if (o.gid===111)
+                {
+                    toolsGame.mainElements.fire.fireUpS.add(o.x,o.y);
+
+                }
+
+                //generowanie ognia down
+                if (o.gid===110)
+                {
+                    toolsGame.mainElements.fire.fireDownS.add(o.x,o.y);
+
+                }
+
+                //generowanie ognia left
+                if (o.gid===109)
+                {
+                    toolsGame.mainElements.fire.fireLeftS.add(o.x,o.y);
+
+                }
+
+                //generowanie ognia right
+                if (o.gid===112)
+                {
+                    toolsGame.mainElements.fire.fireRightS.add(o.x,o.y);
+
+                }
+
+                //generowanie windmillNewS.add();
+                if (o.gid===3)
+                {
+                    toolsGame.mainElements.windmillNewS.add(o.x,o.y);
+
+                }
+
+                //generowanie inkubatora
+                if (o.gid===552)
+                {
+                    wspInkub.push(x*tileSize + "," + y*tileSize);
+                }
+
+                if(o.gid===503)
+                {
+                    toolsGame.mainElements.bulletsGuns.add(o.x,o.y);
+                }
+
+                // generating Life main
+                if (o.gid===510)
+                {
+                    toolsGame.mainElements.Lifes.add(o.x,o.y);
+                }
+
+                // generating Life single
+                if (o.gid===460)
+                {
+                    toolsGame.mainElements.LifeSingleS.add(o.x,o.y);
+                }
+
+                //generowanie monet
+                if (o.gid===502)
+                {
+                    toolsGame.mainElements.coins.add(o.x,o.y);
+                }
+
+                //generowanie animowanych klod
+                if (o.gid===513)
+                {
+                    toolsGame.mainElements.logs.add(o.x,o.y);
+                }
+
+                //generowanie animowanych klod z niespodzianka
+                if (o.gid===514)
+                {
+                    toolsGame.mainElements.logs.add(o.x,o.y,true);
+                    toolsGame.mainElements.logs.lengthBonusCoins ++;
+                }
+
+                //generowanie nabojow
+                if (o.gid===503)
+                {
+                    toolsGame.mainElements.bulletsGuns.add(o.x,o.y);
+                }
+
+                //generowanie intruzow typ 1
+                if (o.gid===551)
+                {
+                    toolsGame.mainElements.intruzi.add(o.x,o.y,1);
+                }
+                //generowanie intruzow typ 2
+                if (o.gid===553)
+                {
+                    toolsGame.mainElements.intruzi.add(o.x,o.y,2);
+                }
+                //generowanie intruzow typ 3
+                if (o.gid===554)
+                {
+                    toolsGame.mainElements.intruzi.add(o.x,o.y,3);
+                }
+                //generowanie intruzow typ 4 snake
+                if (o.gid===555)
+                {
+                    toolsGame.mainElements.intruzi.add(o.x,o.y,4);
+                }
+
+                //generowanie kladki poziomej
+                if (o.gid===505)
+                {
+                    toolsGame.mainElements.kladki.poziom.add(o.x,o.y);
+                }
+
+                //generowanie kladki pionowej top back
+                if (o.gid===506)
+                {
+                    toolsGame.mainElements.kladki.pionTopBack.add(o.x,o.y);
+                }
+
+                //generowanie kladki pionowej bottom back
+                if (o.gid===509)
+                {
+                    toolsGame.mainElements.kladki.pionBottomBack.add(o.x,o.y);
+                }
+
+                //generowanie kladki pionowej top
+                if (o.gid===507)
+                {
+                    toolsGame.mainElements.kladki.pionTop.add(o.x,o.y);
+                }
+
+                //generowanie kladki pionowej bottom
+                if (o.gid===508)
+                {
+                    toolsGame.mainElements.kladki.pionBottom.add(o.x,o.y);
+                }
+
+                //generowanie playera
+                if (o.gid===501)
+                {
+                    //player moze byc tylko jeden wiec tylko raz jest genrowany
+                    toolsGame.mainElements.player.add(o.x,o.y);
+                }
+
+                // generowanie ryb
+                if (o.gid===520)
+                {
+                    toolsGame.mainElements.firebs.add(o.x,o.y,randZakres(1,6));
+                }
+
+
+
+                // generowanie ognistej kuli
+                if (o.gid===521)
+                {
+                    toolsGame.mainElements.firebs.add(o.x,o.y,randZakres(1,6),true);
                 }
 
                 //generowanie wody
-                if (map.getTile(x, y, layerObject, true).index==518)
+                if (o.gid===518)
                 {
-                    toolsGame.mainElements.waters.add(x,y);
-                    map.removeTile(x, y, layerObject);
+                    toolsGame.mainElements.waters.add(o.x,o.y);
                 }
-                if (map.getTile(x, y, layerObject, true).index==519)
+                if (o.gid===519)
                 {
-                    toolsGame.mainElements.waters.add(x,y,'water-red');
-                    map.removeTile(x, y, layerObject);
+                    toolsGame.mainElements.waters.add(o.x,o.y,'water-red');
                 }
-            }
+            });
         }
 
         if(!toolsGame.mainElements.logs.lengthBonusCoins) toolsGame.mainElements.logs.lengthBonusCoins = 0;
@@ -3034,7 +2948,7 @@ var startGame=function(type,lastMap,percentLevel) {
 
 		playGame.main=true;
 		//console.log(game.world.width + "x" + game.world.height);
-        toolsGame.audio.bg.play(0.05,proportiesMap[levelFile.activeIdLevel].bgAudio);
+        toolsGame.audio.bg.play(0.04,proportiesMap[levelFile.activeIdLevel].bgAudio);
 		game.load.start();
 	},loaderSpeed);
 
@@ -3155,6 +3069,7 @@ var update=function() {
 		//console.log(toolsGame.mainElements.player.obj.body.y + ' + ' + toolsGame.mainElements.player.obj.height + ' = ' + map.height*map.tileHeight);
 	    //console.log("x: " + toolsGame.mainElements.player.obj.body.x + " / " + "y: " + toolsGame.mainElements.player.obj.body.y);
 
+		//game.physics.arcade.collide(toolsGame.mainElements.player.obj, layer);
 
 
         //generowanie animowanych klod z niespodzianka
@@ -3322,24 +3237,6 @@ var update=function() {
                         setTimeout(function () {
                             toolsGame.mainElements.coins.add(p.x/tileSize, p.y/tileSize);
                         },200);
-                    } else if(p.surprise) {
-                        setTimeout(function () {
-                            console.log(p.surprise);
-                            switch (p.surprise) {
-                                case 1:
-                                    toolsGame.mainElements.bulletsGuns.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                                case 2:
-                                    toolsGame.mainElements.LifeSingleS.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                                case 3:
-                                    toolsGame.mainElements.intruzi.add(p.x/tileSize, p.y/tileSize, 3);
-                                    break;
-                                case 4:
-                                    toolsGame.mainElements.coins.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                            }
-                        },200);
                     }
 
                     setTimeout(function () {
@@ -3358,51 +3255,15 @@ var update=function() {
 
 		game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruzi.obj, function(bullet, intruz){
 			//jden strzal wywoluje jedna funkcje...
-            if(intruz.type===4) {
-                if(!intruz.killing) {
-                    toolsGame.mainElements.intruzi.collisionIntruz(intruz, "total-kill");
-                }
-                intruz.killing=true;
-            } else {
-                toolsGame.audio.scream();
-                // toolsGame.mainElements.splashs.add(
-                //     intruz.body.position.x/tileSize,
-                //     bullet.body.position.y/tileSize,
-                //     'splash-water-red',
-                //     'blood'
-                // );
-                //console.log(intruz.body.velocity.x);
-                if(!intruz.firstShoot) {
-                    intruz.firstShoot=1;
-                    intruz.body.velocity.y = -1000;
-                    // setTimeout(function(intruz){
-                    //     intruz.body.velocity.x = -3000;
-                    // },1,intruz);
-
-                    intruz.randomSpeed = intruz.randomSpeed/2;
-
-                    if(intruz.randomMove === 'intruzRight') {
-                        intruz.randomMove = 'intruzIdleLeft';
-                    } else {
-                        intruz.randomMove = 'intruzIdleRight';
-                    }
-                    setTimeout(function(){
-                        if(intruz.randomMove === 'intruzIdleLeft') {
-                            intruz.randomMove = 'intruzRight';
-                        } else {
-                            intruz.randomMove = 'intruzLeft';
-                        }
-                    },600);
-                } else {
-                    intruz.randomMove = 'intruzLeft';
-                    if(!intruz.killing) {
-                        toolsGame.mainElements.intruzi.collisionIntruz(intruz, "total-kill");
-                        intruz.killing=true;
-                    }
-                }
+			if(!intruz.killing) {
+                toolsGame.mainElements.intruzi.collisionIntruz(intruz, "total-kill");
             }
-
-            bullet.kill();
+            toolsGame.audio.breakBones(0.5);
+            // setTimeout(function(){
+            //     toolsGame.audio.explosionIntruder();
+            // },150);
+			intruz.killing=true;
+			bullet.kill();
 		}, null, this);
 
 		game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet, layer){
@@ -3438,19 +3299,17 @@ var update=function() {
                 f.start = true;
             }
 
-            // detection activate firebs
+            // if(toolsGame.mainElements.player.obj.position.x>f.position.x-game.width/2 &&
+            //     toolsGame.mainElements.player.obj.position.x<f.position.x+game.width/2 &&
+            //     toolsGame.mainElements.player.obj.position.y>f.position.y-game.height/2 &&
+            //     toolsGame.mainElements.player.obj.position.y<f.position.y+game.height/2) {
             if(toolsGame.mainElements.player.detectionHoldOnObject(f,2)){
                 f.active = true;
                 if(f.activeWait) {
-                    // setTime to Phaser
-                    game.time.events.add(randZakres(0,3)*1000, function(){
+                    setTimeout(function(){
                         f.fall=false;
                         f.alpha=1;
-                    }, this);
-                    // setTimeout(function(){
-                    //     f.fall=false;
-                    //     f.alpha=1;
-                    // },randZakres(0,3)*1000);
+                    },randZakres(0,3)*1000);
                     f.activeWait=false;
                 }
             } else {
@@ -3487,9 +3346,7 @@ var update=function() {
                         f.body.allowGravity = false;
                         f.t=true;
                         f.alpha=0;
-
-                        // detection activate firebs
-                        game.time.events.add(randZakres(1,6)*1000, function(){
+                        setTimeout(function(){
                             if(f.active) {
                                 f.fall=false;
                                 f.alpha=1;
@@ -3497,17 +3354,7 @@ var update=function() {
                                 f.activeWait=true;
                             }
                             //console.log("aktywuj ponownie");
-                        }, this);
-
-                        // setTimeout(function(){
-                        //     if(f.active) {
-                        //         f.fall=false;
-                        //         f.alpha=1;
-                        //     } else {
-                        //         f.activeWait=true;
-                        //     }
-                        //     //console.log("aktywuj ponownie");
-                        // },randZakres(1,6)*1000);
+                        },randZakres(1,6)*1000);
                     }
                 }
 
@@ -3641,16 +3488,12 @@ var update=function() {
                     } else {
                         i.move_y = 0;
                     }
-                    var typeSplash=false;
-                    if(w.type==='water-red') {
-                        typeSplash='splash-water-red';
-                    }
                     if(i.animations.currentAnim.name==="left") {
-                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)-(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize),typeSplash);
+                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)-(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
                     } else if(i.animations.currentAnim.name==="right") {
-                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)+(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize),typeSplash);
+                        toolsGame.mainElements.splashs.add(((i.body.position.x+(i.body.width/2))/tileSize)+(32/tileSize),i.move_y + ((i.body.position.y+32)/tileSize));
                     } else {
-                        toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,i.move_y + ((i.body.position.y+28)/tileSize),typeSplash);
+                        toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,i.move_y + ((i.body.position.y+28)/tileSize));
                     }
 
                     //toolsGame.mainElements.splashs.add((i.body.position.x+(i.body.width/2))/tileSize,((i.body.position.y+28)/tileSize));
@@ -3743,7 +3586,6 @@ var update=function() {
 			if(!levelFile.readyLoad)
 			{
 
-                toolsGame.audio.nextLevel();
 			    // saving to cookies
 
                 setCookies('id-level-last-memory',levelFile.activeIdLevel);
@@ -3772,77 +3614,17 @@ var update=function() {
 				//console.log(toolsGame.mainElements.player.obj.position.y);
 				//toolsGame.mainElements.player.obj.position.y = toolsGame.mainElements.player.obj.position.y - 50;
 
-                var finishLevel = function(){
-                    toolsGame.text.hide('score');
-                    correctCookiesProcent();
-                    levelFile.activeIdLevel=levelFile.activeIdLevel+1;
-                    //alert(Object.keys(game.cache._cacheMap[7]).length + " - " + amountLevels + " - " + levelFile.activeIdLevel);
-                    if(amountLevels === levelFile.activeIdLevel-1) {
-                        // dopracowac
-                        //alert("congratulation");
-                        //endGame();
-                        toolsGame.windows.boxMenu.show('game-complete');
-                        //levelFile.readyLoad=false;
-                        //levelFile.blockedKeys=false;
-                    }
-                    else {
-                        //alert(id);
-                        endGame();
-                        levelFile.name='level'+levelFile.activeIdLevel;
-                        //console.log(getCookies("unlock-levels") + " - " + levelFile.activeIdLevel);
 
-                        if(!getCookies("unlock-levels") || getCookies("unlock-levels")<levelFile.activeIdLevel) {
-                            unlockLevels = levelFile.activeIdLevel;
-                            setCookies('unlock-levels',unlockLevels);
-                            //alert("unlockLevels zapisane: " + unlockLevels);
-                        }
-                        //alert(amountLevels + " - " + levelFile.activeIdLevel);
-                        // if(amountLevels === levelFile.activeIdLevel) {
-                        //     alert("congratulations!");
-                        // }
-                        startGame(false,amountLevels === levelFile.activeIdLevel,scorePercent);
-                        // levelFile.readyLoad=false;
-                        // levelFile.blockedKeys=false;
-                    }
-                };
 
                 if(!theEndCredits) {
-                    toolsGame.mainElements.player.obj.animations.play('end-level');
                     toolsGame.mainElements.player.obj.body.bounce.y = .9;
 
                     // jump for finish level
                     toolsGame.mainElements.player.obj.body.velocity.y = -330;
                     toolsGame.mainElements.player.jumpTimer = game.time.now + 330;
-
-                    // Percent presentation
-                    var scorePercent = 0,
-                        theBestScorePrecent = toolsGame.mainElements.player.numberCoinsLevelProcentLastMemory,
-                        showTheBestScore='';
-
-                    var scoreInterval = function () {
-                        toolsGame.text.show('center',0,0,0.9,'Score: '+scorePercent+'%','bold 20px Arial','#dad9d5',true,'score',true);
-                        toolsGame.audio.ticScore();
-                        if(scorePercent < toolsGame.mainElements.player.numberCoinsLevelProcent) {
-                            scorePercent ++;
-                            game.time.events.add(100, scoreInterval, this);
-                        } else {
-                            clearInterval(scoreInterval);
-                            if(theBestScorePrecent>scorePercent) {
-                                showTheBestScore="\n" + 'Your the best score: ' + theBestScorePrecent + '%';
-                            } else {
-                                showTheBestScore="\n" + 'This is your best score!';
-                            }
-                            game.time.events.add(4000, finishLevel, this);
-                        }
-                        toolsGame.text.hide('score');
-                        toolsGame.text.show('center', 0, 0, 0.9, 'Score: ' + scorePercent + '%' + showTheBestScore, 'bold 20px Arial', '#dad9d5', true, 'score', true);
-                    };
-                    //scoreInterval();
-                    game.time.events.add(3000, scoreInterval, this);
-
-                } else {
-                    game.time.events.add(3000, finishLevel, this);
                 }
+                //toolsGame.mainElements.player.obj.animations.play('idle-right');
+                toolsGame.mainElements.player.obj.animations.play('end-level');
 
                 // animation jump left/right for finish level
                 var start = null;
@@ -3864,6 +3646,38 @@ var update=function() {
 
                 window.requestAnimationFrame(step);
 
+				setTimeout(function(){
+				    correctCookiesProcent();
+					levelFile.activeIdLevel=levelFile.activeIdLevel+1;
+					//alert(Object.keys(game.cache._cacheMap[7]).length + " - " + amountLevels + " - " + levelFile.activeIdLevel);
+					if(amountLevels === levelFile.activeIdLevel-1) {
+						// dopracowac
+						//alert("congratulation");
+                        //endGame();
+                        toolsGame.windows.boxMenu.show('game-complete');
+                        //levelFile.readyLoad=false;
+                        //levelFile.blockedKeys=false;
+                    }
+					else {
+                        //alert(id);
+                        endGame();
+                        levelFile.name='level'+levelFile.activeIdLevel;
+                        //console.log(getCookies("unlock-levels") + " - " + levelFile.activeIdLevel);
+
+                        if(!getCookies("unlock-levels") || getCookies("unlock-levels")<levelFile.activeIdLevel) {
+                            unlockLevels = levelFile.activeIdLevel;
+                            setCookies('unlock-levels',unlockLevels);
+                            //alert("unlockLevels zapisane: " + unlockLevels);
+                        }
+                        //alert(amountLevels + " - " + levelFile.activeIdLevel);
+                        // if(amountLevels === levelFile.activeIdLevel) {
+                        //     alert("congratulations!");
+                        // }
+                        startGame(false,amountLevels === levelFile.activeIdLevel);
+                        // levelFile.readyLoad=false;
+                        // levelFile.blockedKeys=false;
+					}
+				},2000);
 			}
             toolsGame.windows.boxTopMenu.f=false;
 		}, null, this);
@@ -3877,7 +3691,6 @@ var update=function() {
                 saveY = save_level.body.y;
                 save_level.block = true;
                 save_level.animations.play('run2', 17, true);
-                toolsGame.audio.flash(1);
 			}
 
         }, null, this);
@@ -3956,13 +3769,6 @@ var update=function() {
                 if(!intruz.killing) {
                     if(player.body.overlapY>0)
                     {
-                        toolsGame.mainElements.player.checkIfWasKilledAndOther(player);
-
-                        if(intruz.type!==4) {
-                            toolsGame.audio.scream();
-                        } else {
-                            toolsGame.audio.breakBones();
-                        }
                         toolsGame.mainElements.intruzi.collisionIntruz(intruz);
                         if(!intruz.hit || !player.killHitIntruder) {
                             player.killHitIntruder=true;
@@ -4023,13 +3829,11 @@ var update=function() {
 
         game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, layer, function(intruz,lay){
 
-
-
             // if(toolsGame.mainElements.player.obj.position.x>intruz.position.x-game.width/1.5 &&
             //     toolsGame.mainElements.player.obj.position.x<intruz.position.x+game.width/1.5 &&
             //     toolsGame.mainElements.player.obj.position.y>intruz.position.y-game.height/1.5 &&
             //     toolsGame.mainElements.player.obj.position.y<intruz.position.y+game.height/1.5) {
-            if(toolsGame.mainElements.player.detectionHoldOnObject(intruz,1)) {
+            if(toolsGame.mainElements.player.detectionHoldOnObject(intruz,1.5)) {
                 intruz.active = true;
                 if(intruz.alpha===0) {
                     intruz.alpha=1;
@@ -4179,29 +3983,18 @@ var update=function() {
                     }
 
 
-                } else if(intruz.randomMove==='intruzIdleRight') {
-                    intruz.animations.play('idle-right');
-                } else if(intruz.randomMove==='intruzIdleLeft') {
-                    intruz.animations.play('idle-left');
                 }
-                else if(intruz.randomMove==='intruzDelete'){
+                else if(intruz.randomMove=='intruzDelete'){
                     intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
-                    //var wsp=[], wspX=150, wspY=100;
-                    var wsp=[], wspX=intruz.wspStartX, wspY=intruz.wspStartY;
-                    console.log(intruz.wspStartY);
-                    console.log(intruz.wspStartX);
+                    var wsp=[], wspX=150, wspY=100;
                     if(wspInkub.length>0)
                     {
-                        console.log("wsp inkub istnieje");
                         var losoweWspInk=randZakres(0,wspInkub.length-1);
-                        console.log("nr: " + losoweWspInk);
                         //console.log(losoweWspInk);
                         wsp=wspInkub[losoweWspInk].split(",");
-                        wspX=parseInt(wsp[0]/tileSize);
-                        wspY=parseInt(wsp[1]/tileSize);
-                        console.log(wsp[0]/tileSize + "x" + wsp[1]/tileSize);
+                        wspX=parseInt(wsp[0]);
+                        wspY=parseInt(wsp[1]);
                     }
-
                     //console.log(wspInkub);
                     //console.log(wspX + "," + wspY);
 
@@ -4211,11 +4004,11 @@ var update=function() {
 
                     setTimeout(function(){
 
-                        toolsGame.mainElements.intruzi.add(wspX,wspY,intruz.type);
+                        toolsGame.mainElements.intruzi.add(wspX/tileSize,wspY/tileSize,intruz.type);
                         //console.log((wspX*tileSize) + " x " + (wspY*tileSize));
                         //toolsGame.mainElements.intruzi.add(100,100);
                         //\\//\\
-                    }, randZakres(3,6)*1000);
+                    }, 3000);
                     //intruz.alpha=1;
                 }
                 else if(intruz.randomMove=='intruzStop'){
