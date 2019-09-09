@@ -104708,6 +104708,7 @@ PIXI.TextureSilentFail = true;
     }
 
     return Phaser;
+
 }).call(this);
 
 /*

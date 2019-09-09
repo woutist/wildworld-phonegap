@@ -2,14 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43036ef2-fef9-4caf-b6ce-3f7c3e9f357f" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/wildworld/webpack.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/www/js-prod/bundle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level17.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level17.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/css/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/css/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/__level1.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level1.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level1.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/images/level2.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/images/level3.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/level3.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/menu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/tiles-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/tiles-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/__main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/cookies.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/cookies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/jquery-2.0.3.min.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/phaser.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js-prod/phaser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/phaser.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js-prod/phaser.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/varibles.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/varibles.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,6 +24,20 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FavoritesManager">
     <favorites_list name="phonegap-wildworld" />
@@ -26,20 +47,38 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="734" column="23" lean-forward="true" selection-start-line="734" selection-start-column="23" selection-end-line="734" selection-end-column="23" />
+            <state relative-caret-position="1320">
+              <caret line="4913" column="2" lean-forward="true" selection-start-line="4913" selection-start-column="2" selection-end-line="4913" selection-end-column="2" />
               <folding>
-                <marker date="1567838213737" expanded="true" signature="84200:85343" ph="..." />
+                <element signature="e#1#65#0" expanded="true" />
+                <element signature="e#1304#14425#0" />
+                <element signature="e#19161#108758#0" />
+                <element signature="e#104301#129453#0" />
+                <element signature="e#129515#132145#0" />
+                <element signature="e#132191#210905#0" />
+                <element signature="e#210944#211402#0" />
+                <element signature="e#211442#211940#0" />
+                <element signature="e#216641#216972#0" />
+                <element signature="e#212345#212774#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__main.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js">
+      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wildworld/www/css/index.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="2685" column="16" selection-start-line="2685" selection-start-column="16" selection-end-line="2685" selection-end-column="30" />
+            <state relative-caret-position="100">
+              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wildworld/webpack.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -48,36 +87,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>intruz.type === 4</find>
-      <find>intruzi.add</find>
-      <find>intruz.type</find>
-      <find>layerFront</find>
-      <find>layerObjec</find>
-      <find>layerObjectDeep</find>
-      <find>layerObject</find>
-      <find>objects</find>
-      <find>type===4</find>
-      <find>type === 4</find>
-      <find>intruz.hit</find>
-      <find>console.log</find>
-      <find>console.log</find>
-      <find>intruz.body.velocity.y</find>
-      <find>intruz.body.onFloor() &amp;&amp; game.time.now &gt; jumpTimerIntruz</find>
-      <find>jumpToFly</find>
-      <find>forea</find>
-      <find>key'</find>
-      <find>audio.bre</find>
-      <find>condor</find>
+      <find>bulletsG</find>
+      <find>bullets.ob</find>
+      <find>waters.obj</find>
+      <find>console.log(</find>
+      <find>intruzi.collisionIntruz</find>
       <find>type === 5</find>
-      <find>jumpTo</find>
-      <find>jump(</find>
-      <find>timerLimit</find>
-      <find>endLevel</find>
       <find>intruzi.obj</find>
-      <find>detectionHoldOnObject</find>
-      <find>foreach</find>
-      <find>obj:fals</find>
-      <find>obj:</find>
+      <find>body.height</find>
+      <find>game.time</find>
+      <find>game.time.f</find>
+      <find>fps</find>
+      <find>FrameCounter</find>
+      <find>fpsTest</find>
+      <find>clearGameCache</find>
+      <find>$</find>
+      <find>date</find>
+      <find>by</find>
+      <find>by:</find>
+      <find>s1518</find>
+      <find>Phaser:</find>
+      <find>Phaser</find>
+      <find>Phaser.</find>
+      <find>detectionDevice</find>
+      <find>scale</find>
+      <find>LoadingCongratylation1</find>
+      <find>const</find>
+      <find>var</find>
+      <find>var</find>
+      <find>scale.</find>
+      <find>scale.maxWidth</find>
     </findStrings>
     <replaceStrings>
       <replace>pionStatic</replace>
@@ -92,6 +131,7 @@
       <replace>:tileSize</replace>
       <replace>life</replace>
       <replace>layerDeep</replace>
+      <replace>randomBetween</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -103,12 +143,8 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/wildworld/www/css/index.css" />
-        <option value="$PROJECT_DIR$/wildworld/www/css/index.scss" />
         <option value="$PROJECT_DIR$/wildworld/www/js/index.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/index.html" />
         <option value="$PROJECT_DIR$/wildworld/config.xml" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/cookies.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/varibles.js" />
         <option value="$PROJECT_DIR$/wildworld/www/images/_level4.json" />
         <option value="$PROJECT_DIR$/wildworld/www/js/level9.json" />
         <option value="$PROJECT_DIR$/wildworld/www/images/level2.json" />
@@ -121,6 +157,13 @@
         <option value="$PROJECT_DIR$/wildworld/www/images/level9.json" />
         <option value="$PROJECT_DIR$/wildworld/www/images/level1.json" />
         <option value="$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html" />
+        <option value="$PROJECT_DIR$/wildworld/webpack.config.js" />
+        <option value="$PROJECT_DIR$/wildworld/www/js/varibles.js" />
+        <option value="$PROJECT_DIR$/wildworld/package.json" />
+        <option value="$PROJECT_DIR$/wildworld/www/js/phaser.js" />
+        <option value="$PROJECT_DIR$/wildworld/www/js/cookies.js" />
+        <option value="$PROJECT_DIR$/wildworld/www/index.html" />
+        <option value="$PROJECT_DIR$/wildworld/www/css/index.scss" />
         <option value="$PROJECT_DIR$/wildworld/www/js/main.js" />
       </list>
     </option>
@@ -137,9 +180,9 @@
     <handled-path value="$PROJECT_DIR$/wildworld/platforms/browser/cordova/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="218" />
-    <option name="y" value="203" />
-    <option name="width" value="1730" />
+    <option name="x" value="577" />
+    <option name="y" value="197" />
+    <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
@@ -163,77 +206,6 @@
               <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
               <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apk" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apk" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="debug" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -241,21 +213,7 @@
               <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="audio" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="images" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="css" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -272,14 +230,17 @@
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js-prod" />
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js-prod" />
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -318,6 +279,7 @@
       <workItem from="1566195171639" duration="189251000" />
       <workItem from="1567103476418" duration="46404000" />
       <workItem from="1567313745684" duration="118278000" />
+      <workItem from="1568013425811" duration="12110000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1562243439386</created>
@@ -347,25 +309,32 @@
       <option name="project" value="LOCAL" />
       <updated>1567484878851</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update">
+      <created>1567838571756</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1567838571756</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="979423000" />
+    <option name="totallyTimeSpent" value="1008938000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4901704" visible="true" weight="0.17590618" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4879725" visible="true" weight="0.15245202" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Database" order="3" weight="0.15138593" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
-      <window_info id="Structure" order="1" sideWeight="0.50982964" side_tool="true" visible="true" weight="0.17590618" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.16884531" />
+      <window_info id="Structure" order="1" sideWeight="0.5120275" side_tool="true" visible="true" weight="0.15245202" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.36601308" />
       <window_info id="Favorites" order="2" sideWeight="0.50108933" side_tool="true" weight="0.26439232" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -387,35 +356,76 @@
     <MESSAGE value="test" />
     <MESSAGE value="new" />
     <MESSAGE value="setTimeout to phaser f" />
-    <option name="LAST_COMMIT_MESSAGE" value="setTimeout to phaser f" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/wildworld/www/js/__main.js</url>
-          <line>3829</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/wildworld/www/js-prod/phaser.js</url>
+          <line>22822</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/wildworld/www/js/__main.js</url>
-          <line>2345</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/wildworld/www/js-prod/phaser.js</url>
+          <line>23120</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/wildworld/www/js/main.js</url>
+          <line>4880</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="9" />
+      <option name="time" value="13" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/___level1.json">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6060">
+          <caret line="303" column="27" selection-start-line="303" selection-start-column="27" selection-end-line="303" selection-end-column="27" />
+          <folding>
+            <element signature="e#1#65#0" expanded="true" />
+            <element signature="e#1304#14425#0" />
+            <element signature="e#19161#108758#0" />
+            <element signature="e#104301#129453#0" />
+            <element signature="e#129515#132145#0" />
+            <element signature="e#132191#210905#0" />
+            <element signature="e#210944#211402#0" />
+            <element signature="e#211442#211940#0" />
+            <element signature="e#216641#216972#0" />
+            <element signature="e#212345#212774#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53700">
+          <caret line="2685" column="16" selection-start-line="2685" selection-start-column="16" selection-end-line="2685" selection-end-column="30" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72280">
           <caret line="3614" column="44" lean-forward="true" selection-start-line="3614" selection-start-column="44" selection-end-line="3614" selection-end-column="44" />
           <folding>
-            <marker date="1567838213737" expanded="true" signature="84200:85343" ph="..." />
+            <element signature="e#1#65#0" expanded="true" />
+            <element signature="e#1304#14425#0" />
+            <element signature="e#19161#108758#0" />
+            <element signature="e#104301#129453#0" />
+            <element signature="e#129515#132145#0" />
+            <element signature="e#132191#210905#0" />
+            <element signature="e#210944#211402#0" />
+            <element signature="e#211442#211940#0" />
+            <element signature="e#216641#216972#0" />
+            <element signature="e#212345#212774#0" />
           </folding>
         </state>
       </provider>
@@ -428,9 +438,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index 2.html" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/___level1.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -444,102 +451,6 @@
           <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background1_1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background2_1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/background4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/blank-tile.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/box-menu4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fire_left3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fire_right3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/ground.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/grass_lr.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/key.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruders4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruders3.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruders2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruder2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/intruders1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/kladka.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/kladka-short.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/grass_anim8.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/building1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/building2p.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/building3p.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/bullet.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/button-level.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/buttons.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/cactus.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fish7.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fog-white.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/fog-yellow.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/gun-bullets6.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -560,7 +471,16 @@
         <state relative-caret-position="173">
           <caret line="3065" column="17" selection-start-line="3065" selection-start-column="17" selection-end-line="3065" selection-end-column="17" />
           <folding>
-            <marker date="1567838213737" expanded="true" signature="84200:85343" ph="..." />
+            <element signature="e#1#65#0" expanded="true" />
+            <element signature="e#1304#14425#0" />
+            <element signature="e#19161#108758#0" />
+            <element signature="e#104301#129453#0" />
+            <element signature="e#129515#132145#0" />
+            <element signature="e#132191#210905#0" />
+            <element signature="e#210944#211402#0" />
+            <element signature="e#211442#211940#0" />
+            <element signature="e#216641#216972#0" />
+            <element signature="e#212345#212774#0" />
           </folding>
         </state>
       </provider>
@@ -577,7 +497,16 @@
         <state relative-caret-position="72280">
           <caret line="3614" column="44" lean-forward="true" selection-start-line="3614" selection-start-column="44" selection-end-line="3614" selection-end-column="44" />
           <folding>
-            <marker date="1567838213737" expanded="true" signature="84200:85343" ph="..." />
+            <element signature="e#1#65#0" expanded="true" />
+            <element signature="e#1304#14425#0" />
+            <element signature="e#19161#108758#0" />
+            <element signature="e#104301#129453#0" />
+            <element signature="e#129515#132145#0" />
+            <element signature="e#132191#210905#0" />
+            <element signature="e#210944#211402#0" />
+            <element signature="e#211442#211940#0" />
+            <element signature="e#216641#216972#0" />
+            <element signature="e#212345#212774#0" />
           </folding>
         </state>
       </provider>
@@ -604,26 +533,137 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="43" column="4" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="4" />
+        <state relative-caret-position="53700">
+          <caret line="2685" column="16" selection-start-line="2685" selection-start-column="16" selection-end-line="2685" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js">
+    <entry file="file://$PROJECT_DIR$/wildworld/www/css/index.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/phaser.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="2685" column="16" selection-start-line="2685" selection-start-column="16" selection-end-line="2685" selection-end-column="30" />
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/phaser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="104711" column="14" selection-start-line="104711" selection-start-column="14" selection-end-line="104711" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#606904#607046#0" />
+            <element signature="e#607049#607111#0" />
+            <element signature="e#650137#650451#0" />
+            <element signature="e#650809#651479#0" />
+            <element signature="e#652392#653116#0" />
+            <element signature="e#653146#657403#0" />
+            <element signature="e#657709#657828#0" />
+            <element signature="e#658183#658440#0" />
+            <element signature="e#658651#658768#0" />
+            <element signature="e#659081#659341#0" />
+            <element signature="e#659832#660044#0" />
+            <element signature="e#660476#660803#0" />
+            <element signature="e#661563#662012#0" />
+            <element signature="e#662039#672995#0" />
+            <element signature="e#673166#673345#0" />
+            <element signature="e#673516#673631#0" />
+            <element signature="e#673797#673905#0" />
+            <element signature="e#674097#674208#0" />
+            <element signature="e#674398#674483#0" />
+            <element signature="e#678344#679285#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/phaser.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/bundle.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/spec.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1134">
+          <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/varibles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/js/cookies.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="43" column="7" lean-forward="true" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/www/css/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wildworld/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="734" column="23" lean-forward="true" selection-start-line="734" selection-start-column="23" selection-end-line="734" selection-end-column="23" />
+        <state relative-caret-position="1320">
+          <caret line="4913" column="2" lean-forward="true" selection-start-line="4913" selection-start-column="2" selection-end-line="4913" selection-end-column="2" />
           <folding>
-            <marker date="1567838213737" expanded="true" signature="84200:85343" ph="..." />
+            <element signature="e#1#65#0" expanded="true" />
+            <element signature="e#1304#14425#0" />
+            <element signature="e#19161#108758#0" />
+            <element signature="e#104301#129453#0" />
+            <element signature="e#129515#132145#0" />
+            <element signature="e#132191#210905#0" />
+            <element signature="e#210944#211402#0" />
+            <element signature="e#211442#211940#0" />
+            <element signature="e#216641#216972#0" />
+            <element signature="e#212345#212774#0" />
           </folding>
         </state>
       </provider>

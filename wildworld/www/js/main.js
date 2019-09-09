@@ -1,159 +1,7 @@
-'use strict';
+import {setCookies, removeCookies, getCookies} from './cookies';
+import {detectionDevice, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, triggerKeyboardEvent} from './varibles';
 
-const detectionDevice = function() {
-    if (typeof cordova === "object") {
-        return (window.cordova.platformId === "android");
-    } else {
-        return false;
-    }
-};
-
-const setCookies = function(name, value, days) {
-    if(detectionDevice()){
-        localStorage.setItem(name, value);
-    } else {
-        var expires;
-        if (days) {
-            const data = new Date();
-            data.setTime(data.getTime()+(days*24*60*60*1000));
-            //data.setTime(data.getTime()+(2*60*1000));     // na dwie minuty
-            expires = "; expires="+data.toGMTString();
-        } else {
-            expires = "";
-        }
-
-        document.cookie = name+"=" + value + expires + "; path=/";
-    }
-};
-
-const removeCookies = function(name) {
-    if(detectionDevice()){
-        localStorage.removeItem(name);
-    } else {
-        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    }
-};
-
-const getCookies = function(name,array) {
-    if(detectionDevice()) {
-        if(array) {
-            return JSON.parse(localStorage.getItem(name));
-        } else {
-            return localStorage.getItem(name);
-        }
-    } else {
-        if (document.cookie !== "") {
-            const cookies=document.cookie.split(/; */);
-            for (let i=0; i<cookies.length; i++) {
-                const nameCookie=cookies[i].split("=")[0];
-                const valueCookie=cookies[i].split("=")[1];
-                if (nameCookie===decodeURIComponent(name)) {
-                    return decodeURIComponent(valueCookie);
-                }
-            }
-        }
-    }
-};
-
-var isEven=function(n) {
-    return n == parseFloat(n)? !(n%2) : void 0;
-};
-
-/* full screen test
-var onFullScreenEnter=function() {
-  console.log("Entered fullscreen!");
-  elem.onwebkitfullscreenchange = onFullScreenExit;
-  elem.onmozfullscreenchange = onFullScreenExit;
-};
-
-var enterFullscreen=function() {
-  //console.log("enterFullscreen()");
-  var elem = document.querySelector(document.webkitExitFullscreen ? "body" : "body");
-  elem.onwebkitfullscreenchange = onFullScreenEnter;
-  elem.onmozfullscreenchange = onFullScreenEnter;
-  elem.onfullscreenchange = onFullScreenEnter;
-  if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-  } else {
-    if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else {
-      elem.requestFullscreen();
-    }
-  }
-}
-document.getElementById("full-screen").onclick=function(){
-	enterFullscreen();
-};
-/* end full screen test */
-
-var inArrayObject=function(nameArray,myArray,myValue){
-	var inArrayObject=false;
-	for(var i=0, iLength=myArray.length; i<iLength; i++){
-		if(nameArray=="intruzi")
-		{
-			if(myArray[i].randomMove==myValue) inArrayObject=true;
-		}
-		else if(nameArray=="kladki")
-		{
-			if(myArray[i].isUp==myValue) inArrayObject=true;
-		}
-	}
-	return inArrayObject;
-};
-
-var inArray=function(myArray,myValue){
-    var inArray = false;
-    myArray.map(function(key){
-        if (key === myValue){
-            inArray=true;
-        }
-    });
-    return inArray;
-};
-
-var removeA=function(arr) {
-    var what, a = arguments, L = a.length, ax;
-    while (L > 1 && arr.length) {
-        what = a[--L];
-        while ((ax= arr.indexOf(what)) !== -1) {
-            arr.splice(ax, 1);
-        }
-    }
-    return arr;
-};
-
-var randZakres=function( min, max ){
-    min = parseInt( min, 10 );
-    max = parseInt( max, 10 );
-
-    if ( min > max ){
-        var tmp = min;
-        min = max;
-        max = tmp;
-    }
-
-    return Math.floor( Math.random() * ( max - min + 1 ) + min );
-};
-
-
-// jQuery(window).on("load", function() {
-//     var list='---'+"\n";
-//     if(detectionDevice()) {
-//         jQuery.each(localStorage, function(key, value){
-//             list += key + " -> " + value + "\n";
-//         });
-//     } else {
-//         var theCookies = document.cookie.split(';');
-//         for (var i = 1 ; i <= theCookies.length; i++) {
-//             list += i + ' ' + theCookies[i-1] + "\n";
-//         }
-//     }
-//     alert(list);
-// });
-
-//alert("aktualnie unlockLevels: " + getCookies("unlock-levels") + " - powinno sie rownac: " + ((parseInt(getCookies("unlock-levels"))>1)?getCookies("unlock-levels"):1));
-var map,
+let map,
 	unlockLevels,
 	amountLevels,
 	bgMenu,
@@ -177,7 +25,6 @@ var map,
 	timer,
 	timerTotal = 0,
     timerLimit = false,
-	fpsTest=0,
 	saveX = 0,
 	saveY = 0,
 	jumpKillF=false,
@@ -197,26 +44,7 @@ var map,
     playerJumpVelocityWaterBig = 290,
     playerJumpVelocityWaterSmall = 200;
 
-var triggerKeyboardEvent = function(el,keyC,typeKey){
-	var eventObj=document.createEvent("Events");
-
-	eventObj.initEvent(typeKey, true, true);
-	eventObj.keyCode = keyC;
-	eventObj.which = keyC;
-
-	el.dispatchEvent(eventObj);   
-}; 
-
-// popinac ewentualnei do przycisku z przeladowaniem strony
-var clearGameCache=function() {
-    game.cache = new Phaser.Cache(game);
-    game.load.reset();
-    game.load.removeAll();
-}
-//clearGameCache();
-
-var preload;
-preload = function () {
+const preload = () => {
 
     game.load.tilemap('level1', 'images/level1.json', null, Phaser.Tilemap.TILED_JSON);
 
@@ -271,22 +99,34 @@ preload = function () {
 
     game.load.tilemap('level3', 'images/level3.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[3] = {
-        background: "background3",
-        backgroundColor: "#def7c3",
+        background: "background4",
+        backgroundMoveX: 800,
+        //backgroundSecond:"background1_1",
+        backgroundColor: "#f3f5ff",
         fog: "yellowFog",
         fogPositionY: 0,
-        positionGround: true,
-        parallax: false
+        fogSpeed: 0, //0.25,
+        positionGround: 96, // 271
+        parallax: true,
+        timeLimit: 200, // sec
+        // background: "background3",
+        // backgroundColor: "#def7c3",
+        // fog: "yellowFog",
+        // fogPositionY: 0,
+        // positionGround: true,
+        // parallax: false
     };
 
 
     game.load.tilemap('level4', 'images/level4.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[4] = {
-        background: "background1",
-        backgroundSecond: "background1_1",
+        background: "background4",
+        backgroundMoveX: 1000,
+        //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        positionGround: true,
+        fogPositionY: -tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
@@ -553,25 +393,15 @@ preload = function () {
 
     //this.scale.updateLayout;
 
-    this.scale.maxWidth = 800;
-    this.scale.maxHeight = 450;
-    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    this.scale.windowConstraints.bottom = "visual";
+    game.scale.maxWidth = 800;
+    game.scale.maxHeight = 450;
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.windowConstraints.bottom = "visual";
     //this.scale.setScreenSize();
 };
 
-//FPS
-var FrameCounter = {
-    lastFrameTime: new Date().getTime(),
-    updateFPS: function(){
-        var currentTime = new Date().getTime();
-        fpsTest = Math.floor(1000/(currentTime-this.lastFrameTime),2)+'fps';
-        this.lastFrameTime = currentTime;
-    }
-};
-
-// nowy uklad gry - tu dodawac opcje!
-var toolsGame={
+// game options
+const toolsGame={
     resetGameCookies: function(type) {
         if(type==="all") {
             removeCookies("unlock-levels");
@@ -580,7 +410,7 @@ var toolsGame={
             removeCookies('coins-procent-last-memory');
             removeCookies('id-level-last-memory');
 
-            for(var i=1; i<=amountLevels; i++) {
+            for(let i=1; i<=amountLevels; i++) {
                 removeCookies('coins-' + i);
                 removeCookies('coins-procent-' + i);
             }
@@ -632,7 +462,7 @@ var toolsGame={
     audio: {
         footStep: function (volume) { // toolsGame.audio.footStep();
             if(!this.a1) {
-                var footstep = game.add.audio('footstep');
+                const footstep = game.add.audio('footstep');
                     footstep.play('',false,volume ? volume : 0.2);
                     //footstep.volume = 0.05;
                 this.a1= true;
@@ -642,41 +472,41 @@ var toolsGame={
             }
         },
         coin: function (volume) { // toolsGame.audio.footStep();
-            var coin = game.add.audio('coin');
+            const coin = game.add.audio('coin');
             coin.play('',false,volume ? volume : 0.2);
 
         },
         ticScore: function (volume) { // toolsGame.audio.footStep();
-            var ticScore = game.add.audio('tic-score');
+            const ticScore = game.add.audio('tic-score');
             ticScore.play('',false,volume ? volume : 0.2);
 
         },
         shoot: function (volume) { // toolsGame.audio.footStep();
-            var shoot = game.add.audio('shoot');
+            const shoot = game.add.audio('shoot');
             shoot.play('', false, volume ? volume : 0.2);
         },
         bullets: function (volume) { // toolsGame.audio.footStep();
-            var bullets = game.add.audio('bullets');
+            const bullets = game.add.audio('bullets');
             bullets.play('', false, volume ? volume : 0.2);
         },
         explosionIntruder: function () { // toolsGame.audio.footStep();
-            var explosionIntruder = game.add.audio('explosion-intruder');
+            const explosionIntruder = game.add.audio('explosion-intruder');
             explosionIntruder.play('', false, 0.5);
         },
         breakBones: function (volume) { // toolsGame.audio.footStep();
-            var breakBones = game.add.audio('break-bones');
+            const breakBones = game.add.audio('break-bones');
             breakBones.play('', false, volume ? volume : 0.2);
         },
         scream: function (volume) { // toolsGame.audio.footStep();
-            var scream = game.add.audio('scream');
+            const scream = game.add.audio('scream');
             scream.play('', false, volume ? volume : 0.2);
         },
         screamIntruder: function (volume) { // toolsGame.audio.footStep();
-            var screamIntruder = game.add.audio('scream2');
+            const screamIntruder = game.add.audio('scream2');
             screamIntruder.play('', false, volume ? volume : 0.2);
         },
         flash: function (volume) { // toolsGame.audio.footStep();
-            var flash = game.add.audio('flash');
+            const flash = game.add.audio('flash');
             flash.play('', false, volume ? volume : 0.2);
         },
         splash: function (volume) { // toolsGame.audio.footStep();
@@ -684,7 +514,7 @@ var toolsGame={
             // splash.play('',false,volume?volume:0.2);
 
             if(!this.aSplash) {
-                var splash = game.add.audio('splash');
+                const splash = game.add.audio('splash');
                 splash.play('',false,0.1);
                 //footstep.volume = 0.05;
                 this.aSplash= true;
@@ -701,16 +531,16 @@ var toolsGame={
             }
         },
         life: function (volume) { // toolsGame.audio.footStep();
-            var life = game.add.audio('life');
+            const life = game.add.audio('life');
             life.play('', false, volume ? volume : 0.2);
         },
         key: function (volume) { // toolsGame.audio.footStep();
-            var key = game.add.audio('key');
+            const key = game.add.audio('key');
             key.play('', false, volume ? volume : 0.2);
         },
         condor: function (volume) { // toolsGame.audio.footStep();
             if(!this.aCcondor) {
-                var condor = game.add.audio('condor');
+                const condor = game.add.audio('condor');
                 condor.play('',false,volume ? volume : 0.2);
                 //footstep.volume = 0.05;
                 this.aCcondor = true;
@@ -720,33 +550,33 @@ var toolsGame={
             }
         },
         breakGround: function (volume) { // toolsGame.audio.footStep();
-            var breakGround = game.add.audio('break-ground');
+            const breakGround = game.add.audio('break-ground');
             breakGround.play('', false, volume ? volume : 0.2);
         },
         quake: function (volume) { // toolsGame.audio.footStep();
-            var quake = game.add.audio('quake');
+            const quake = game.add.audio('quake');
             quake.play('', false, volume ? volume : 0.2);
         },
         doorLift: function (volume) { // toolsGame.audio.footStep();
-            var doorLift = game.add.audio('door-lift');
+            const doorLift = game.add.audio('door-lift');
             doorLift.play('', false, volume ? volume : 0.2);
         },
         bg: {
-            obj: false,
+            //obj: false,
             play:function (volume,bg) {
                 if(bg) {
-                    if(this.obj) this.obj.destroy();
+                    if(isExists(this.obj)) this.obj.destroy();
                     this.obj = game.add.audio(bg);
                     this.obj.play('', false, volume ? volume : 0.2, true);
                 }
             },
             stop:function () {
-                if(this.obj) this.obj.stop();
+                if(isExists(this.obj)) this.obj.stop();
             }
         },
         nextLevel: function (volume) { // toolsGame.audio.footStep();
             if(!this.nL) {
-                var nextLevel = game.add.audio('next-level');
+                const nextLevel = game.add.audio('next-level');
                 nextLevel.play('',false,volume ? volume : 0.2);
                 this.nL= true;
                 nextLevel.onStop.addOnce(function() {
@@ -757,7 +587,7 @@ var toolsGame={
 
     },
     preloader: {
-        obj: true,
+        //obj: true,
         add: function(x,y,lastMap,percentLevel) {
             //alert(theEndCredits);
 
@@ -778,7 +608,7 @@ var toolsGame={
             // }
             //var score = percentLevel?(percentLevel+'%' + "\n"):'';
 
-            var LoadingCongratylation1 = theEndCredits?(lastMap?'Congratulations!...':''):("Level " + levelFile.activeIdLevel ),
+            const LoadingCongratylation1 = theEndCredits?(lastMap?'Congratulations!...':''):("Level " + levelFile.activeIdLevel ),
                 LoadingCongratylation2 = theEndCredits?(lastMap?"The End":''):('Loading...');
             toolsGame.text.show('center',0,-tileSize,0.9,LoadingCongratylation1,'bold 52px Arial','#ffffff',true,'loading1');
             toolsGame.text.show('center',0,0.7*tileSize,0.9,LoadingCongratylation2,'bold 28px Arial','#ffffff',true,'loading2');
@@ -786,12 +616,14 @@ var toolsGame={
             toolsGame.text.show('center',0,5.75*tileSize,0.9,'semDesign','14px Arial','#ffffff',true,'loadingCopyright2');
         },
         hide: function () {
-            if(this.obj) this.obj.destroy();
+            if(isExists(this.obj)) {
+                this.obj.destroy();
+            }
             toolsGame.text.hide('loading1');
             toolsGame.text.hide('loading2');
             toolsGame.text.hide('loadingCopyright1');
             toolsGame.text.hide('loadingCopyright2');
-            clearInterval(this.interval);
+            //clearInterval(this.interval);
         }
     },
 	windows:{
@@ -847,8 +679,8 @@ var toolsGame={
                 }, //  toolsGame.windows.boxTopMenu.const.hide();
                 hide: function () {
                     if(!theEndCredits) {
-                        var hideArray = ['Life1','Life2','coin','bullets_gun','key'];
-                        for(var i=0, iLnegth=hideArray.length; i<iLnegth; i++ ){
+                        const hideArray = ['Life1','Life2','coin','bullets_gun','key'];
+                        for(let i=0, iLnegth=hideArray.length; i<iLnegth; i++ ){
                             toolsGame.image.hide(hideArray[i]);
                         }
                     }
@@ -994,12 +826,14 @@ var toolsGame={
 			hide:function(){
 				//if(game.paused)
 				//{
-                    var hide = game.add.tween(this.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
+                    const hide = game.add.tween(this.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
                     hide.onComplete.add(function(o){
                         o.destroy();
                     }, this);
 					//this.obj.destroy();
+
 					this.obj=false;
+
 					toolsGame.buttons.end.hide();
                     toolsGame.buttons.startFromBeginning.hide();
                     toolsGame.buttons.reset.hide();
@@ -1036,14 +870,14 @@ var toolsGame={
 	},
 	buttons:{
 		openBoxMenu:{
-			obj:false,
+			//obj:false,
 			show:function(type){
 				//x
 				//buttonPauseMenu
 				//console.log(toolsGame.buttons.openBoxMenu);
 				//console.log(this);
 				
-				if(this.obj) this.obj.destroy();
+				if(isExists(this.obj)) this.obj.destroy();
 				if(type==='play-game') {
                     this.obj = game.add.button(0, 0, 'buttonPause', function(){
                         toolsGame.windows.boxMenu.show();
@@ -1061,7 +895,7 @@ var toolsGame={
 			    this.obj.fixedToCamera = true;	
 			},
 			hide:function(){
-			    if(typeof this.obj === "object") {
+			    if(isExists(this.obj)) {
                     this.obj.destroy();
                 }
 				//toolsGame.buttons.openBoxMenu.obj.visible = false;
@@ -1069,13 +903,13 @@ var toolsGame={
 		},
 		//buttonsIcons
 		closeBoxMenu:{
-			obj:false,
+			//obj:false,
 			show:function(){
 				//buttonPauseMenu
 				//console.log(toolsGame.buttons.openBoxMenu);
 				//console.log(this);
 
-				if(this.obj) this.obj.destroy();
+				if(isExists(this.obj)) this.obj.destroy();
 			    this.obj = game.add.button(44*tileSize, 3*tileSize, 'buttonsIcons', function(){
 			        toolsGame.windows.boxMenu.hide();
                 }, this,3,2);
@@ -1083,17 +917,17 @@ var toolsGame={
 			    this.obj.fixedToCamera = true;
 			},
 			hide:function(){
-				if(typeof this.obj === 'object') {
+				if(isExists(this.obj)) {
                     this.obj.destroy();
 				}
 				//toolsGame.buttons.closeBoxMenu.obj.visible = false;
 			}			
 		},
 		play: { //toolsGame.buttons.play.show()
-			obj:false,
+			//obj:false,
 			show:function(){
 				//buttonPlay
-				if(this.obj) this.obj.destroy();
+				if(isExists(this.obj)) this.obj.destroy();
 			    this.obj = game.add.button(9*tileSize, tileSize, 'buttonsWindowMenu', function(){
                     startGame('continuation');
                 }, this);
@@ -1101,7 +935,7 @@ var toolsGame={
 			    this.obj.fixedToCamera = true;
 			},
 			hide:function(){
-                if(this.obj) {
+                if(isExists(this.obj)) {
                     //this.obj.y=2*tileSize;
                     //console.log(this.obj.position.y);
                     // var hidePlay = game.add.tween(this.obj).to({alpha: 0}, 300, Phaser.Easing.Linear.None, true);
@@ -1116,10 +950,10 @@ var toolsGame={
 			}
 		},
         quit: { //toolsGame.buttons.quit.show()
-            obj:false,
+            //obj:false,
             show:function(){
                 //buttonQuit
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(17*tileSize, 1*tileSize, 'buttonsWindowMenu', function(){
                     //alert("Quit game!");
                     //toolsGame.windows.boxMenu.show('quite');
@@ -1139,15 +973,15 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 //toolsGame.buttons.play.obj.visible = false;
             }
         },
 		end: {
-			obj:false,
+			//obj:false,
 			show:function(){
 				//buttonEnd
-				if(this.obj) this.obj.destroy();
+				if(isExists(this.obj)) this.obj.destroy();
 			    this.obj = game.add.button(3*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
 			    	//game.paused = false;
 			    	//closeMenu();
@@ -1162,15 +996,15 @@ var toolsGame={
 			    this.obj.fixedToCamera = true;
 			},
 			hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
 				//toolsGame.buttons.end.obj.visible = false;
 			}
 		},
         startFromBeginning: {
-            obj:false,
+            //obj:false,
             show:function(){
                 //buttonStartFromBeginning
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(11*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
                     game.time.events.removeAll();
                     toolsGame.windows.boxMenu.hide();
@@ -1197,14 +1031,14 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
         reset: {
-            obj:false,
+            //obj:false,
             show:function(){
                 //buttonResetFromBeginning
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(19*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
                     toolsGame.windows.boxMenu.hide();
                     levelFile.name='level1';
@@ -1218,14 +1052,14 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
         resume: {
-            obj:false,
+            //obj:false,
             show:function(){
                 //buttonResume
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(20*tileSize, 14*tileSize, 'buttonsWindowMenu', function(){
                     toolsGame.windows.boxMenu.hide();
                     if(!playGame.main) {
@@ -1238,15 +1072,15 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
         mute: {
-            obj:false,
+            //obj:false,
             show:function(frames){
                 //buttonResume
-                if(this.obj) this.obj.destroy();
-                var x = (playGame.main)?3*tileSize:tileSize,
+                if(isExists(this.obj)) this.obj.destroy();
+                const x = (playGame.main)?3*tileSize:tileSize,
                     y = (playGame.main)?7*tileSize:5*tileSize;
                 this.obj = game.add.button(x, y, 'buttonsWindowMenu', function(){
                     if(game.paused) {
@@ -1276,16 +1110,16 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
         yes: { // toolsGame.buttons.yes.show(x,y,'quit');
-            obj:false,
+            //obj:false,
             show:function(x,y,type){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
                     if(type==='quit') {
-                        if(detectionDevice()){
+                        if(detectionDevice){
                             navigator.app.exitApp();
                         } else {
                             //alert('This option doesn\'t work in the browser');
@@ -1297,20 +1131,20 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
         no: { // toolsGame.buttons.no.show(x,y,'quit');
-            obj:false,
+            //obj:false,
             show:function(x,y,type){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
                     if(type==='quit') {
                         toolsGame.buttons.no.hide();
                         toolsGame.buttons.yes.hide();
                         //toolsGame.windows.boxMenu.obj.destroy();
                         if(this.obj) {
-                            var hide = game.add.tween(toolsGame.windows.boxMenu.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
+                            const hide = game.add.tween(toolsGame.windows.boxMenu.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
                             hide.onComplete.add(function(o){
                                 o.destroy();
                             }, this);
@@ -1329,25 +1163,25 @@ var toolsGame={
                 this.obj.fixedToCamera = true;
             },
             hide:function(){
-                if(this.obj) this.obj.destroy();
+                if(isExists(this.obj)) this.obj.destroy();
             }
         },
 
 
 		navigations: {
-			left:false,
-			right:false,
-			up:false,
-			shot:false,
+			//left:false,
+			//right:false,
+			//up:false,
+			//shot:false,
 			show:function(){
-				if(this.left) this.left.destroy();
+				if(isExists(this.left)) this.left.destroy();
 			    this.left = game.add.button(0,(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,0,0); //#
 			    this.left.alpha = 0.1;
 			    this.left.fixedToCamera = true;
 				this.left.onInputDown.add(function(){ triggerKeyboardEvent(window,37,"keydown"); });
 				this.left.onInputUp.add(function(){ triggerKeyboardEvent(window,37,"keyup"); });
 
-				if(this.right) this.right.destroy();
+				if(isExists(this.right)) this.right.destroy();
 			    this.right = game.add.button(6*tileSize,game.height-(7*tileSize), 'buttonNavigation', function(){}, this,1,1); //#
 			    this.right.alpha = 0.1;
 			    this.right.fixedToCamera = true;
@@ -1355,7 +1189,7 @@ var toolsGame={
 				this.right.onInputUp.add(function(){ triggerKeyboardEvent(window,39,"keyup"); });
 
 				/////
-				if(this.shot) this.shot.destroy();
+				if(isExists(this.shot)) this.shot.destroy();
 				this.shot = game.add.button((game.width-(7*tileSize)),(game.height-(13*tileSize)), 'buttonNavigation', function(){}, this,3,3); //#
 				this.shot.alpha = toolsGame.mainElements.player.countBullets ? 0.1 : 0; // toolsGame.buttons.navigations.show.shot.alpha
                 this.shot.inputEnabled = toolsGame.mainElements.player.countBullets ? true : false;
@@ -1367,7 +1201,7 @@ var toolsGame={
 					triggerKeyboardEvent(window,17,"keyup");
 				});
 
-                if(this.up) this.up.destroy();
+                if(isExists(this.up)) this.up.destroy();
                 this.up = game.add.button((game.width-(7*tileSize)),(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,2,2); //#
                 this.up.alpha = 0.1;
                 this.up.fixedToCamera = true;
@@ -1376,11 +1210,7 @@ var toolsGame={
 
 			},
 			hide:function(){
-                if(typeof this.left === "object" &&
-                    typeof this.right === "object" &&
-                    typeof this.up === "object" &&
-                    typeof this.shot === "object"
-                ) {
+                if(isExists(this.left) && isExists(this.right) && isExists(this.up) && isExists(this.shot)) {
                     this.left.destroy();
                     this.right.destroy();
                     this.up.destroy();
@@ -1394,7 +1224,7 @@ var toolsGame={
             text2: [],
 			show:function(){
 				//toolsGame.buttons.levels
-				var item=0, itemMoveX=0, itemMoveY=0, theEnd=false;
+				let item=0, itemMoveX=0, itemMoveY=0, theEnd=false;
 				//alert(levelFile.activeIdLevel + " =? " + unlockLevels + " =? " + getCookies("unlock-levels"));
 
                 //console.log(Object.keys(game.cache._cacheMap[7]).length);
@@ -1447,7 +1277,7 @@ var toolsGame={
 			},
 			hide:function(){
 				//alert(toolsGame.buttons.levels.obj.length);
-				for(var i=1, iLength=this.obj.length; i<iLength; i++) {
+				for(let i=1, iLength=this.obj.length; i<iLength; i++) {
 					//console.log(this.obj[i]);
 					this.obj[i].destroy();
 				}
@@ -1487,7 +1317,7 @@ var toolsGame={
 
                 game.time.events.add(600,
                     function() {
-                        var tween = game.add.tween(this.obj[idName]).to({alpha: 0}, 300, Phaser.Easing.Linear.None, true);
+                        const tween = game.add.tween(this.obj[idName]).to({alpha: 0}, 300, Phaser.Easing.Linear.None, true);
                         tween.onComplete.add(function(o){
                             o.destroy();
                         }, this);
@@ -1519,7 +1349,7 @@ var toolsGame={
         hide: function(idName,fade){
             if(this.obj[idName]) {
                 if(fade) {
-                    var hide = game.add.tween(this.obj[idName]).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
+                    const hide = game.add.tween(this.obj[idName]).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
                     hide.onComplete.add(function(o){
                         o.destroy();
                     }, this);
@@ -2032,15 +1862,17 @@ var toolsGame={
                     if(intruz.type === 4) {
                         intruz.animations.add('left', [28,29,30,31,32,33,34,35], 15, false);
                         intruz.animations.add('right', [28,29,30,31,32,33,34,35], 15, false);
-                    } else if(intruz.type === 4) {
-                        intruz.animations.add('left', [28,29,30,31,32,33,34,35], 15, false);
-                        intruz.animations.add('right', [28,29,30,31,32,33,34,35], 15, false);
+                    } else if(intruz.type === 5) {
+                        //alert("x");
+                        intruz.animations.add('left', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
+                        intruz.animations.add('right', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                     } else {
                         intruz.animations.add('left', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                         intruz.animations.add('right', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                     }
                     intruz.randomSpeed=0;
                     game.time.events.add(500, function(){
+                        intruz.killed = false;
                         game.time.events.remove(ftf);
 
                         // to ponizej nie potrzebne
@@ -2097,7 +1929,7 @@ var toolsGame={
             }
 		},
 		coins:{
-			obj: true,
+			//obj: true,
 			add: function(x,y) {
 				//toolsGame.mainElements.coins.obj = coins
 		        var coin = this.obj.create(x*tileSize, y*tileSize, 'coin');
@@ -2121,7 +1953,7 @@ var toolsGame={
 		},
 
         logs:{
-            obj: true,
+            //obj: true,
             lengthBonusCoins: 0,
             add: function(x,y,type) {
                 //toolsGame.mainElements.log.obj = logs
@@ -2135,7 +1967,7 @@ var toolsGame={
                 if(type==='coin') {
                     log.coin = true;
                 } else if(type==='surprise'){
-                    var lotterySuprise = randZakres(1,4);
+                    var lotterySuprise = randomBetween(1,5);
                     // console.log(lotterySuprise);
                     switch (lotterySuprise) {
                         case 1:
@@ -2160,7 +1992,7 @@ var toolsGame={
         },
 
         Lifes:{ //toolsGame.mainElements.Lifes.obj = Lifes
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 //toolsGame.mainElements.Lifes.obj = Lifes
                 var Life = this.obj.create(x*tileSize, y*tileSize, 'Life');
@@ -2170,7 +2002,7 @@ var toolsGame={
             }
         },
         LifeSingleS:{ //toolsGame.mainElements.Lifes.obj = Lifes
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var Life = this.obj.create(x*tileSize, y*tileSize, 'Life2');
                 Life.animations.add('run',[4,5,6,7,8,8,7,6,5,4,3,2,1,0,0,1,2,3]);
@@ -2179,7 +2011,7 @@ var toolsGame={
             }
         },
 		bulletsGuns:{
-			obj: true,
+			//obj: true,
 			add: function(x,y) {
 				//toolsGame.mainElements.bulletsGuns.obj = bullets_guns
 		        var bullets_gun = this.obj.create((x*tileSize)-5, (y*tileSize)-5, 'bullets_gun');
@@ -2189,7 +2021,7 @@ var toolsGame={
 			}
 		},
         keys: {
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var key = this.obj.create((x*tileSize), (y*tileSize), 'key');
                 key.animations.add('run',[7,8,8,7,6,5,4,3,2,1,0,0,1,2,3,4,5,6]);
@@ -2198,7 +2030,7 @@ var toolsGame={
             }
         },
         locks: {
-            obj: true,
+            //obj: true,
             add: function(x,y,reverse) {
                 var lock = this.obj.create((x*tileSize)+(reverse?tileSize:0), (y*tileSize), 'lock');
                 if(reverse) lock.scale.x *= -1;
@@ -2206,7 +2038,7 @@ var toolsGame={
             }
         },
         doors: {
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var door = toolsGame.createCenterObject(this.obj,x,y,"door");
                 door.animations.add('run');
@@ -2220,21 +2052,21 @@ var toolsGame={
             }
         },
 		cacti:{
-			obj: true,
+			//obj: true,
 			add: function(x,y) {
                 var cactus = toolsGame.createCenterObject(this.obj,x,y,"cactus");
 				cactus.body.allowGravity = false;
 			}
 		},
 		grassLeft: {
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
                 grass.body.allowGravity = false;
             }
 		},
         grassAnim: {
-            obj: true,
+            //obj: true,
             add: function(x,y,type) {
                 var grass = toolsGame.createCenterObject(this.obj,x,y,"grass-lr-anim","sprite");
                 grass.animations.add('run',[0,1,2,3,4,5,5,4,3,2,1,0]);
@@ -2249,7 +2081,7 @@ var toolsGame={
             }
         },
         grassRight: {
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
                 grass.body.allowGravity = false;
@@ -2257,7 +2089,7 @@ var toolsGame={
             }
         },
 		caves:{
-			obj: true,
+			//obj: true,
 			add: function(x,y) {
 		        var cave = this.obj.create((x*tileSize)+(2*tileSize), (y*tileSize)-240, 'cave');
 				cave.body.allowGravity = false;
@@ -2276,28 +2108,28 @@ var toolsGame={
         //     }
         // },
         building1s:{
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var building = toolsGame.createCenterObject(this.obj,x,y,"building1"); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building1").width﻿/2), (y*tileSize)-(game.cache.getImage("building1").height-tileSize), 'building1');
                 building.body.allowGravity = false;
             }
         },
         building2s:{
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var building = toolsGame.createCenterObject(this.obj,x,y,"building2"); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building2").width﻿/2), (y*tileSize)-(game.cache.getImage("building2").height-tileSize), 'building2');
                 building.body.allowGravity = false;
             }
         },
         building3s:{
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var building = toolsGame.createCenterObject(this.obj,x,y,"building3");
                 building.body.allowGravity = false;
             }
         },
         mines:{
-            obj: true,
+            //obj: true,
             add: function(x,y) {
                 var building2 = toolsGame.createCenterObject(this.obj,x+6.5,y,"mine-part-2","sprite");
                 building2.animations.add('run',[0,1,2,3,4,5,4,3,2,1,0,6,7,8,9,10,9,8,7,6]);
@@ -2309,7 +2141,7 @@ var toolsGame={
             }
         },
         waters:{
-            obj: true,
+            //obj: true,
             add: function(x,y,type) {
                 var water = toolsGame.createLeftObject(this.obj,x,y,type?type:"water","sprite");
                 water.animations.add('run');
@@ -2322,7 +2154,7 @@ var toolsGame={
             }
         },
         firebs:{
-            obj: true,
+            //obj: true,
             add: function(x,y,randomStart,typeFire) {
                 var fireb = toolsGame.createLeftObject(this.obj,x,y,typeFire?"fireb2":"fireb","sprite");
                 if(!typeFire) {
@@ -2337,7 +2169,7 @@ var toolsGame={
             }
         },
         splashs:{
-            obj: true,
+            //obj: true,
             add: function(x,y,typeColor,typeName) {
 
                 var splash = toolsGame.createCenterObject(this.obj,x,y,typeColor?typeColor:"splash","sprite");
@@ -2361,7 +2193,7 @@ var toolsGame={
             }
         },
 		endLevelS:{ //end_level_s
-            obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
+            //obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
             add: function(x,y) {
 
                 var end_level = toolsGame.createCenterObject(this.obj,x,y,"end_level","sprite");
@@ -2372,7 +2204,7 @@ var toolsGame={
             }
         },
         saveLevelS:{
-            obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
+            //obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
             add: function(x,y,type) {
 
                 var save_level = toolsGame.createCenterObject(this.obj,x,y,"save_level","sprite"),
@@ -2395,37 +2227,37 @@ var toolsGame={
             fireAnimation: function(that,x,y,type) {
                 var fire = that.obj.create(x, y, type);
                 fire.animations.add('run');
-                fire.animations.play('run', randZakres(24,30), true);
+                fire.animations.play('run', randomBetween(24,30), true);
                 fire.alpha = .8;
                 fire.body.allowGravity = false;
             },
             fireUpS:{
-                obj: true,
+                //obj: true,
                 add: function(x,y) {
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize)-4,(y*tileSize)-8,'fire_up');
                 }
             },
             fireDownS:{
-                obj: true,
+                //obj: true,
                 add: function(x,y) {
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize)-4,(y*tileSize),'fire_down');
                 }
             },
             fireLeftS:{
-                obj: true,
+                //obj: true,
                 add: function(x,y) {
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize)-8,(y*tileSize)-4,'fire_left');
                 }
             },
             fireRightS:{
-                obj: true,
+                //obj: true,
                 add: function(x,y) {
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize),(y*tileSize)-4,'fire_right');
                 }
             },
 		},
         windmills:{
-            obj: true,
+            //obj: true,
             add: function(x,y) {
             	//alert(game.cache._cache.image["windmill"].frameWidth);
             	// console.log(game.cache);
@@ -2437,8 +2269,8 @@ var toolsGame={
             }
         },
         windmillNewS:{ // toolsGame.mainElements.windmillNewS.obj
-            obj1: true,
-            obj2: true,
+            //obj1: true,
+            //obj2: true,
             add: function(x,y) {
                 var w2 = toolsGame.createCenterObject(this.obj2,x,y,"windmill_2_new"); //this.obj2.create((x*tileSize), (y*tileSize)-200, 'windmill_2_new');
                 w2.body.allowGravity = false;
@@ -2451,7 +2283,7 @@ var toolsGame={
 		kladki:{
 			kladkaPlayerBounceReset: true, // toolsGame.mainElements.kladki.kladkaPlayerBounceReset
 			poziom: {
-				obj: true, // toolsGame.mainElements.kladki.poziom.obj = kladki
+				//obj: true, // toolsGame.mainElements.kladki.poziom.obj = kladki
 				add: function(x,y){
 			        var kladkaPoz = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
 			        game.physics.enable(kladkaPoz, Phaser.Physics.ARCADE);
@@ -2499,7 +2331,7 @@ var toolsGame={
                 }
 			},
 			pionTopBack: {
-				obj: true, // toolsGame.mainElements.kladki.pionTopBack.obj = pionTopBack
+				//obj: true, // toolsGame.mainElements.kladki.pionTopBack.obj = pionTopBack
 				add: function(x,y){
 			        var kladkapionTopBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
 			        game.physics.enable(kladkapionTopBack, Phaser.Physics.ARCADE);
@@ -2510,7 +2342,7 @@ var toolsGame={
 				}
 			},
             pionBottomBack: {
-                obj: true, // toolsGame.mainElements.kladki.pionBottomBack.obj = pionBottomBack
+                //obj: true, // toolsGame.mainElements.kladki.pionBottomBack.obj = pionBottomBack
                 add: function(x,y){
                     var kladkapionBottomBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkapionBottomBack, Phaser.Physics.ARCADE);
@@ -2521,7 +2353,7 @@ var toolsGame={
                 }
             },
 			pionTop: {
-                obj: true, // toolsGame.mainElements.kladki.pionTop.obj = kladkipionTop
+                //obj: true, // toolsGame.mainElements.kladki.pionTop.obj = kladkipionTop
                 add: function(x,y){
                     var kladkaPionTop = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkaPionTop, Phaser.Physics.ARCADE);
@@ -2532,7 +2364,7 @@ var toolsGame={
                 }
             },
             pionBottom: {
-                obj: true, // toolsGame.mainElements.kladki.pionBottom.obj = kladkipionBottom
+                //obj: true, // toolsGame.mainElements.kladki.pionBottom.obj = kladkipionBottom
                 add: function(x,y){
                     var kladkaPionBottom = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkaPionBottom, Phaser.Physics.ARCADE);
@@ -2576,8 +2408,7 @@ var toolsGame={
     }
 }
 
-
-var startGame=function(type,lastMap,percentLevel) {
+const startGame = (type,lastMap,percentLevel) => {
     levelFile.readyLoad=false;
     levelFile.blockedKeys=false;
 
@@ -2601,12 +2432,16 @@ var startGame=function(type,lastMap,percentLevel) {
 	timer = game.time.create(false);
 	timerTotal=0;
 	timer.loop(1000, function(){
-	    timerTotal++
+	    if(!levelFile.blockedKeys) {
+            timerTotal++;
+        }
     }, this);
 	timer.start();
 
 	game.time.advancedTiming = true;
-    game.time.desiredFps = ($(window).width()<800)?40:50;
+
+    game.time.desiredFps = (window.innerWidth<800)?40:50;
+
     //game.time.desiredFps = 60;
 
 	//reset inkubatorow
@@ -3174,14 +3009,14 @@ var startGame=function(type,lastMap,percentLevel) {
                 // generowanie ryb
                 if (map.getTile(x, y, layerObject, true).index==520)
                 {
-                    toolsGame.mainElements.firebs.add(x,y,randZakres(1,6));
+                    toolsGame.mainElements.firebs.add(x,y,randomBetween(1,6));
                     map.removeTile(x, y, layerObject);
                 }
 
                 // generowanie ognistej kuli
                 if (map.getTile(x, y, layerObject, true).index==521)
                 {
-                    toolsGame.mainElements.firebs.add(x,y,randZakres(1,6),true);
+                    toolsGame.mainElements.firebs.add(x,y,randomBetween(1,6),true);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -3213,8 +3048,8 @@ var startGame=function(type,lastMap,percentLevel) {
     toolsGame.buttons.mute.hide();
 };
 
-//laduje sie n* kazde kolejny restart
-var create=function() {
+// n* else next time
+const create = () => {
     //console.log("test-create");
 	// ladowanie tla dla menu i domyslnego dla mapy gry
     unlockLevels=(parseInt(getCookies("unlock-levels"))>1)?getCookies("unlock-levels"):1;
@@ -3227,7 +3062,7 @@ var create=function() {
     toolsGame.buttons.quit.show();
     toolsGame.buttons.mute.show(getCookies('mute')?10:9);
 	
-	toolsGame.text.show(false,game.width-165,game.height-25,.9,'semDesign Game (' + (detectionDevice() ? 'Android' : 'Browser') + ')', '400 12px Arial' ,'#000000',true,'logoText');
+	toolsGame.text.show(false,game.width-165,game.height-25,.9,'semDesign Game (' + (detectionDevice ? 'Android' : 'Browser') + ')', '400 12px Arial' ,'#000000',true,'logoText');
 
 	toolsGame.buttons.openBoxMenu.show();
 
@@ -3236,7 +3071,7 @@ var create=function() {
     game.sound.mute = getCookies('mute')?true:false;
 
     // fix for repeat onload
-    var onlyOneLoad=true;
+    let onlyOneLoad=true;
     game.load.onLoadComplete.add(function() {
         if(onlyOneLoad) {
             toolsGame.preloader.hide();
@@ -3281,12 +3116,10 @@ var create=function() {
 };
 
 // main loop the game
-var update=function() {
+const update = () => {
 	
 	if(playGame.main)
 	{
-
-
         // spowolnia gre
         // for(var x=0; x<map.width; x++) {
         //     for (var y = 0; y < map.height; y++) {
@@ -3316,6 +3149,9 @@ var update=function() {
 		}, this, true);
 
         // dopracowac kolizje playera
+        //console.log('player: ');
+        //console.log(toolsGame.mainElements.player.obj.body);
+        toolsGame.mainElements.player.obj.body.offset.x=8;
         toolsGame.mainElements.player.obj.body.width = 32;
         //console.log(toolsGame.mainElements.player.obj.body);
 
@@ -3629,14 +3465,14 @@ var update=function() {
                 f.active = true;
                 if(f.activeWait) {
                     // setTime to Phaser
-                    game.time.events.add(randZakres(0,3)*1000, function(){
+                    game.time.events.add(randomBetween(0,3)*1000, function(){
                         f.fall=false;
                         f.alpha=1;
                     }, this);
                     // setTimeout(function(){
                     //     f.fall=false;
                     //     f.alpha=1;
-                    // },randZakres(0,3)*1000);
+                    // },randomBetween(0,3)*1000);
                     f.activeWait=false;
                 }
             } else {
@@ -3675,7 +3511,7 @@ var update=function() {
                         f.alpha=0;
 
                         // detection activate firebs
-                        game.time.events.add(randZakres(1,6)*1000, function(){
+                        game.time.events.add(randomBetween(1,6)*1000, function(){
                             if(f.active) {
                                 f.fall=false;
                                 f.alpha=1;
@@ -3693,7 +3529,7 @@ var update=function() {
                         //         f.activeWait=true;
                         //     }
                         //     //console.log("aktywuj ponownie");
-                        // },randZakres(1,6)*1000);
+                        // },randomBetween(1,6)*1000);
                     }
                 }
 
@@ -3833,9 +3669,14 @@ var update=function() {
                 intruz.gForceWater = false;
             }
 
-            if(intruz.type === 5) {
+            if(intruz.type === 4) {
+                intruz.body.offset.y=6;
+                intruz.body.height = 26;
+            } else if(intruz.type === 5) {
                 // intruz.body.velocity.y = -intruz.randomSpeed/2;
 
+                intruz.body.offset.y=16;
+                intruz.body.height = 52;
                 if(!intruz.jumpToFly) {
                     if(timeLoop >= 0 && timeLoop < 60) {
                         intruz.body.velocity.y = -50;
@@ -3885,6 +3726,10 @@ var update=function() {
                     }
                     var typeSplash=false;
                     if(w.type==='water-red') {
+                        if(!i.killed) {
+                            toolsGame.mainElements.intruzi.collisionIntruz(i, "total-kill");
+                            i.killed = true;
+                        }
                         typeSplash='splash-water-red';
                     }
                     if(i.animations.currentAnim.name==="left") {
@@ -4568,7 +4413,7 @@ var update=function() {
                     if(wspInkub.length>0)
                     {
                         //console.log("wsp inkub istnieje");
-                        var losoweWspInk=randZakres(0,wspInkub.length-1);
+                        var losoweWspInk=randomBetween(0,wspInkub.length-1);
                         //console.log("nr: " + losoweWspInk);
                         //console.log(losoweWspInk);
                         wsp=wspInkub[losoweWspInk].split(",");
@@ -4586,10 +4431,10 @@ var update=function() {
 
                     // setTimeout(function(){
                     //     toolsGame.mainElements.intruzi.add(wspX,wspY,intruz.type);
-                    // }, randZakres(3,6)*1000);
+                    // }, randomBetween(3,6)*1000);
 
                     // if we want reactivate intruder:
-                    game.time.events.add(randZakres(3,6)*1000, function(){
+                    game.time.events.add(randomBetween(3,6)*1000, function(){
                         toolsGame.mainElements.intruzi.add(wspX,wspY,intruz.type);
                     }, this);
 
@@ -4603,13 +4448,6 @@ var update=function() {
                     } else {
                         intruz.frame = 37;
                     }
-                }
-
-
-                if(intruz.type === 4) {
-                    //console.log(intruz.body.width);
-                    //przesuniecie poziomu dla snake
-                    intruz.body.height = 30;
                 }
             }
 
@@ -4996,7 +4834,7 @@ var update=function() {
         }
 
         if(!theEndCredits) {
-            // FrameCounter.updateFPS();
+            // game.time.advancedTiming = true;﻿
             // toolsGame.text.show(false,
             //     (toolsGame.windows.boxMenu.obj)?3*tileSize:tileSize,
             //     (toolsGame.windows.boxMenu.obj)?7*tileSize:5*tileSize,
@@ -5011,7 +4849,7 @@ var update=function() {
             //         'Golds: ' +  toolsGame.mainElements.player.numberCoins + ' (' + toolsGame.mainElements.player.numberCoinsLevelProcent + '%)' + "\n" +
             //         '\u204D bullets: ' + toolsGame.mainElements.player.countBullets + "\n" +
             //         '\u26BF keys: ' + keys + "\n" +
-            //         "FPS: " + fpsTest
+            //         "FPS: " + game.time.fps
             //     ),
             //     '700 12px Arial' ,'#ded4b8',true,'infogame',true
             // );
@@ -5031,19 +4869,7 @@ var update=function() {
  
 };
 
-/*
-var gofull=function() {
-    if (game.scale.isFullScreen)
-    {
-        game.scale.stopFullScreen();
-    }
-    else
-    {
-        game.scale.startFullScreen(false);
-    }
-}
-*/
-var correctCookiesProcent = function () {
+const correctCookiesProcent = () => {
     console.log("########### Correct procent #############");
 
     if(toolsGame.mainElements.player.numberCoinsLevelProcentLastMemory>toolsGame.mainElements.player.numberCoinsLevelProcent) {
@@ -5051,7 +4877,8 @@ var correctCookiesProcent = function () {
         setCookies('coins-procent-' + levelFile.activeIdLevel, toolsGame.mainElements.player.numberCoinsLevelProcentLastMemory);
     }
 };
-var cookiesLastLevelMemory = function () {
+
+const cookiesLastLevelMemory = () => {
     if(getCookies('coins-procent-last-memory')>0 && getCookies('id-level-last-memory')>0) {
         console.log("################# cookies last level and last ID #################");
         console.log(getCookies('id-level-last-memory') + " = prcent:" + getCookies('coins-procent-last-memory'));
@@ -5061,7 +4888,7 @@ var cookiesLastLevelMemory = function () {
 };
 cookiesLastLevelMemory();
 
-var endGame=function() {
+const endGame = () => {
 	if(playGame.main) {
 	    console.log("########### end game #############");
 		game.world.removeAll();
@@ -5077,27 +4904,13 @@ var endGame=function() {
 		//navigator.app.exitApp();
 	}
 };
-var render=function() {
 
+const render = () => {
     //game.debug.text(game.time.physicsElapsed, 32, 32);
     //game.debug.bodyInfo(toolsGame.mainElements.player.obj, 16, 24);
    	//if(toolsGame.mainElements.intruzi.obj.children[0]) game.debug.body(toolsGame.mainElements.intruzi.obj.children[0]);
     //if(toolsGame.mainElements.intruzi.obj.children[0]) game.debug.bodyInfo(toolsGame.mainElements.intruzi.obj.children[0], 16, 24);
 	//console.log("x-game.load.onLoadStart");
-
-	
 };
 
-var game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });
-
-
-jQuery(window).on("error", function(evt) {
-    console.log("jQuery error event:", evt);
-    var e = evt.originalEvent; // get the javascript event
-    console.log("original event:", e);
-    if (e.message) { 
-        alert("Error:\n\t" + e.message + "\nLine:\n\t" + e.lineno + "\nFile:\n\t" + e.filename);
-    } else {
-        alert("Error:\n\t" + e.type + "\nElement:\n\t" + (e.srcElement || e.target));
-    }
-});
+const game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });

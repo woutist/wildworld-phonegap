@@ -1,12 +1,6 @@
-const detectionDevice = () => {
-    if (typeof cordova === "object") {
-        return (window.cordova.platformId === "android") ? true : false;
-    } else {
-        return false;
-    }
-};
+import {detectionDevice} from './varibles';
 
-const setCookies = (name, value, days) => {
+export const setCookies = (name, value, days) => {
     if(detectionDevice){
         localStorage.setItem(name, value);
     } else {
@@ -23,17 +17,16 @@ const setCookies = (name, value, days) => {
         document.cookie = name+"=" + value + expires + "; path=/";
     }
 };
-const removeCookies = (name) => {
+
+export const removeCookies = (name) => {
     if(detectionDevice){
         localStorage.removeItem(name);
     } else {
-        const data = new Date();
-        data.setTime(date.getMonth()-1);
-        const name = encodeURIComponent(name);
-        document.cookie = name + "=; expires=" + data.toGMTString();
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 };
-const getCookies = (name,array) => {
+
+export const getCookies = (name,array) => {
     if(detectionDevice) {
         if(array) {
             return JSON.parse(localStorage.getItem(name));
