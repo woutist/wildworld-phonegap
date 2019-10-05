@@ -1,11 +1,10 @@
-const dD = () => {
+export const detectionDevice = () => {
     if (typeof cordova === "object") {
         return (window.cordova.platformId === "android") ? true : false;
     } else {
         return false;
     }
 };
-export const detectionDevice = dD();
 
 export const isEven = (n) => {
     return n == parseFloat(n)? !(n%2) : void 0;
@@ -66,6 +65,10 @@ export const randomBetween = ( min, max ) => {
     }
 
     return Math.floor( Math.random() * ( max - min + 1 ) + min );
+};
+
+export const randomArray = ( arr ) => {
+    return arr[Math.floor((Math.random()*arr.length))];
 };
 
 export const triggerKeyboardEvent = (el,keyC,typeKey) => {

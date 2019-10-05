@@ -1,7 +1,7 @@
-import {detectionDevice} from './varibles';
+import {detectionDevice} from './functions';
 
 export const setCookies = (name, value, days) => {
-    if(detectionDevice){
+    if(detectionDevice()){
         localStorage.setItem(name, value);
     } else {
         let expires;
@@ -19,7 +19,7 @@ export const setCookies = (name, value, days) => {
 };
 
 export const removeCookies = (name) => {
-    if(detectionDevice){
+    if(detectionDevice()){
         localStorage.removeItem(name);
     } else {
         document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -27,7 +27,7 @@ export const removeCookies = (name) => {
 };
 
 export const getCookies = (name,array) => {
-    if(detectionDevice) {
+    if(detectionDevice()) {
         if(array) {
             return JSON.parse(localStorage.getItem(name));
         } else {

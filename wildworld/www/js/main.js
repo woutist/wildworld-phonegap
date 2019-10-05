@@ -1,52 +1,56 @@
+import '../scss/index.scss';
 import {setCookies, removeCookies, getCookies} from './cookies';
-import {detectionDevice, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, triggerKeyboardEvent} from './varibles';
+import {detectionDevice, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, randomArray, triggerKeyboardEvent} from './functions';
 
-let map,
-	unlockLevels,
-	amountLevels,
-	bgMenu,
-	levelFile={name:'level1', activeIdLevel:1, readyLoad:false, blockedKeys:false, backgroundLevel:false, backgroundColor:false, backgroundParallax:false},
-	tileSize=16,
-	layer,
-    layerDeep,
-    layerObject,
-	fispeed=[90,110,130],
-	wspInkub=[],
-	facing = 'right',
-	cursors,
-	jumpButton,
-	fireButton,
-	bg,
-	bg2,
-	oFog,
-	ground,
-	playGame={main:false},
-	timeLoop = 1,
-	timer,
-	timerTotal = 0,
-    timerLimit = false,
-	saveX = 0,
-	saveY = 0,
-	jumpKillF=false,
-	jumpKillY=false,
+const tileSize=16,
     proportiesMap=[],
-    oneHP=0,
-    keys=0,
     amountMainLife=3,
     amountLife=3,
     amountBullet=60,
+    playerScaleBig = 1.08,
+    playerJumpVelocityNormalBig = 520,
+    playerJumpVelocityNormalSmall = 440,
+    playerJumpVelocityWaterBig = 290,
+    playerJumpVelocityWaterSmall = 200,
+    playerJumpVelocityIntruder = 480;
+
+let map,
+    unlockLevels,
+    amountLevels,
+    bgMenu,
+    levelFile={name:'level1', activeIdLevel:1, readyLoad:false, blockedKeys:false, backgroundLevel:false, backgroundColor:false, backgroundParallax:false},
+    layer,
+    layerDeep,
+    layerObject,
+    wspInkub=[],
+    facing = 'right',
+    cursors,
+    jumpButton,
+    fireButton,
+    bg,
+    bg2,
+    oFog,
+    ground,
+    playGame={main:false},
+    timeLoop = 1,
+    timer,
+    scorePercent = 0,
+    timerTotal = 0,
+    timerLimit = false,
+    saveX = 0,
+    saveY = 0,
+    jumpKillF=false,
+    jumpKillY=false,
+    oneHP=0,
+    keys=0,
     theEndCredits=false,
     moveX,
     moveY,
-    playerScaleBig = 1.08,
-    playerJumpVelocityNormalBig = 520,
-    playerJumpVelocityNormalSmall = 430,
-    playerJumpVelocityWaterBig = 290,
-    playerJumpVelocityWaterSmall = 200;
+    playerSpeedLeftRight = 200;
 
 const preload = () => {
 
-    game.load.tilemap('level1', 'images/level1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level1', 'levels/level1.json', null, Phaser.Tilemap.TILED_JSON);
 
     // example full options:
     // proportiesMap[1] = {
@@ -66,17 +70,18 @@ const preload = () => {
     proportiesMap[1] = {
         background: "background4",
         //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
+        //backgroundColor: "#f3f5ff",
+        //backgroundColor: "#00ff00",
         fog: "yellowFog",
         fogPositionY: 520,
         fogSpeed: 0, //0.25,
         positionGround: 672,
         parallax: true,
-        timeLimit: 200, // sec
-        bgAudio: 'bg1'
+        //timeLimit: 200, // sec
+        //bgAudio: 'bg1'
     };
 
-    game.load.tilemap('level2', 'images/level2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level2', 'levels/level2.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[2] = {
         background: "background4",
         backgroundMoveX: 500,
@@ -97,7 +102,7 @@ const preload = () => {
         // parallax: true
     };
 
-    game.load.tilemap('level3', 'images/level3.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level3', 'levels/level3.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[3] = {
         background: "background4",
         backgroundMoveX: 800,
@@ -118,7 +123,7 @@ const preload = () => {
     };
 
 
-    game.load.tilemap('level4', 'images/level4.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level4', 'levels/level4.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[4] = {
         background: "background4",
         backgroundMoveX: 1000,
@@ -130,132 +135,163 @@ const preload = () => {
         parallax: true
     };
 
-    game.load.tilemap('level5', 'images/level5.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level5', 'levels/level5.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[5] = {
-        background: "background1",
-        backgroundColor: "#ffffff",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
+        //backgroundSecond:"background1_1",
+        backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        positionGround: true,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level6', 'images/level6.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level6', 'levels/level6.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[6] = {
-        background: "background1",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
+        //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        positionGround: true,
+        //fog: "yellowFog",
+        //fogPositionY: -2*tileSize,
+        positionGround: 480 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level7', 'images/level7.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level7', 'levels/level7.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[7] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogSpeed: 0,
-        positionGround: true,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level8', 'images/level8.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level8', 'levels/level8.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[8] = {
-        background: "background1",
-        backgroundSecond: "background1_1",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
+        //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        positionGround: true,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level9', 'images/level9.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level9', 'levels/level9.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[9] = {
-        background: "background3",
-        backgroundColor: "#def7c3",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
+        //backgroundSecond:"background1_1",
+        backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        positionGround: true,
-        parallax: false
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
+        parallax: true
     };
 
-    game.load.tilemap('level10', 'images/level10.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level10', 'levels/level10.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[10] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level11', 'images/level11.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level11', 'levels/level11.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[11] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level12', 'images/level12.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level12', 'levels/level12.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[12] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level13', 'images/level13.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level13', 'levels/level13.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[13] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level14', 'images/level14.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level14', 'levels/level14.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[14] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level15', 'images/level15.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level15', 'levels/level15.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[15] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level16', 'images/level16.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level16', 'levels/level16.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[16] = {
-        background: "background4",
+        background: "background5",
+        backgroundRepeatX: true,
+        //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         fog: "yellowFog",
-        fogPositionY: tileSize,
-        positionGround: 7 * tileSize,
+        fogPositionY: -2*tileSize,
+        positionGround: 4 * tileSize,
         parallax: true
     };
 
-    game.load.tilemap('level17', 'images/level17.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level17', 'levels/level17.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[17] = {
         background: "background4",
         //backgroundSecond:"background1_1",
@@ -266,7 +302,7 @@ const preload = () => {
         parallax: true
     };
 
-    game.load.tilemap('level18', 'images/level18.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level18', 'levels/level18.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[18] = {
         background: "the-end",
         backgroundColor: "#000000",
@@ -278,24 +314,24 @@ const preload = () => {
 
     game.load.image('tiles-1', 'images/tiles-1.png');
 
-    game.load.image('blank-tile', 'images/blank-tile.png');
-
     //game.load.spritesheet('dude', 'images/, 35, 48);
     game.load.spritesheet('dude', 'images/players1.png', 48, 64);
     game.load.spritesheet('intruder1', 'images/intruders4.png', 48, 64);
     game.load.spritesheet('intruder2', 'images/intruders2.png', 48, 64);
     game.load.spritesheet('intruder3', 'images/intruders3.png', 48, 64);
     game.load.spritesheet('intruder4', 'images/snake3.png', 71, 33);
-    game.load.spritesheet('intruder5', 'images/condor.png', 71, 68);
+    game.load.spritesheet('intruder5', 'images/condor2.png', 64, 68);
+    game.load.spritesheet('intruder6', 'images/intruders6.png', 48, 64);
     //game.load.spritesheet('intruder', 'images/intruder2.png', 48, 48);
-    game.load.image('backgroundMenu', 'images/menu.png');
-    game.load.image('boxMenu', 'images/box-menu4.png', 640, 290);
-    game.load.image('boxTopMenu', 'images/top-menu.png');
+    game.load.image('backgroundMenu', 'images/menu.jpg');
+    game.load.image('boxMenu', 'images/box-menu4-mini.png');
+    game.load.image('boxTopMenu', 'images/top-menu-mini.png');
     game.load.image('background1', 'images/background1.png');
     game.load.image('background1_1', 'images/background1_1.png');
     game.load.image('background2', 'images/background2_1.png');
     game.load.image('background3', 'images/background3.png');
-    game.load.image('background4', 'images/background4.png');
+    game.load.image('background4', 'images/background4.jpg');
+    game.load.image('background5', 'images/background5.jpg');
     game.load.image('tile-size-black', 'images/tile-size-black.png');
     game.load.image('the-end', 'images/the-end.png');
 
@@ -309,6 +345,7 @@ const preload = () => {
     game.load.spritesheet('lifes-single-bar', 'images/lifes-single-bar.png', 58, 16);
 
     game.load.spritesheet('log', 'images/log.png', 16, 16);
+    game.load.spritesheet('stone', 'images/stone.png', 16, 16);
 
     game.load.image('yellowFog', 'images/fog-yellow.png');
     game.load.image('whiteFog', 'images/fog-white.png');
@@ -319,34 +356,53 @@ const preload = () => {
     game.load.spritesheet('Life', 'images/LifeFull.png', 16, 31);
     game.load.spritesheet('Life2', 'images/LifeSingle.png', 16, 24);
     game.load.spritesheet('key', 'images/key.png', 16, 43);
-    game.load.spritesheet('door', 'images/door2.png', 16, 128);
+    game.load.image('door', 'images/door2.png');
+    game.load.image('door-horizontal', 'images/door-horizontal.png');
     game.load.image('lock', 'images/lock1.png');
 
-    game.load.image('cactus', 'images/cactus.png');
+    game.load.image('cactus', 'images/cactus2.png');
     game.load.image('grassLr', 'images/grass_lr.png');
+    game.load.spritesheet('cactus-animate', 'images/cactus-animate.png',61,94); //32,32
     game.load.spritesheet('grass-lr-anim', 'images/grass_anim8.png',34.5,32); //32,32
+    game.load.spritesheet('tree', 'images/tree-short.png',130,179); //32,32
 
     game.load.image('bullet', 'images/bullet.png');
     game.load.spritesheet('bullets_gun', 'images/gun-bullets6.png', 20, 28);
     game.load.spritesheet('end_level', 'images/end_level.png', 100, 130);
     game.load.spritesheet('save_level', 'images/save-level2.png', 100, 130);
 
-    game.load.spritesheet('fire_up', 'images/fire_up3.png', 24, 24);
+    game.load.spritesheet('fire_up', 'images/fire_up3.png', 48, 48);
     game.load.spritesheet('fire_down', 'images/fire_down3.png', 24, 24);
     game.load.spritesheet('fire_left', 'images/fire_left3.png', 24, 24);
     game.load.spritesheet('fire_right', 'images/fire_right3.png', 24, 24);
 
-    game.load.spritesheet('windmill', 'images/windmill_2.png', 120, 322);
-
     game.load.image('windmill_1_new', 'images/windmill_1_5_new.png');
     game.load.image('windmill_2_new', 'images/windmill_2_5_new.png');
 
-    game.load.image('gun', 'images/gun2.png');
+    //game.load.image('gun', 'images/gun2.png');
+
+    game.load.image('gun', 'images/gun-real.png');
 
     game.load.image('cave', 'images/cave.png');
-    game.load.image('building2', 'images/building2p.png');
-    game.load.image('building3', 'images/building3p.png');
 
+    game.load.image('stone-big', 'images/stone-big.png');
+    game.load.spritesheet('stone-big-explosion', 'images/stone-big-explosion.png', 96, 96);
+
+    game.load.spritesheet('fog-single', 'images/fog-anim.png',800,206);
+
+    game.load.image('building1', 'images/building-barn1.png');
+    game.load.image('building2', 'images/building-home1.png');
+    game.load.image('building3', 'images/building-big-home1.png');
+    game.load.image('building4', 'images/building-home2.png');
+    game.load.image('building5', 'images/building-big-home2.png');
+    game.load.image('building6', 'images/building-blacksmith.png');
+    game.load.image('building7', 'images/building-sheriff.png');
+    game.load.image('building8', 'images/building-saloon.png');
+    game.load.image('building9', 'images/building-store.png');
+
+    game.load.image('b-sheriff', 'images/b-sheriff.png');
+    game.load.image('b-saloon', 'images/b-saloon.png');
+    game.load.image('b-store', 'images/b-store.png');
 
     game.load.spritesheet('mine-part-2', 'images/mine-part2-4.png', 175, 331);
     game.load.image('mine-part-1', 'images/mine-part1-6.png');
@@ -360,18 +416,24 @@ const preload = () => {
     game.load.spritesheet('fireb', 'images/fish7.png', 16, 40);
     game.load.spritesheet('fireb2', 'images/fireb.png', 16, 16);
 
+    game.load.spritesheet('explosion', 'images/explosion.png', 64, 64);
+
+    game.load.image('invisible', 'images/invisible.png');
+
     game.load.image('kladka-short', 'images/kladka-short.png');
 
 
     // audio
-    game.load.audio('footstep', 'audio/footstep.mp3'); // licence no ok
+    game.load.audio('footstep', 'audio/footstep2.mp3'); // licence no ok
     game.load.audio('coin', 'audio/coin.mp3'); // licence ok
     game.load.audio('shoot', 'audio/shoot2.mp3'); // licence ok
     game.load.audio('bullets', 'audio/bullets3.mp3');
     game.load.audio('explosion-intruder', 'audio/explosion-intruder.mp3');
+    game.load.audio('explosion', 'audio/explosion.mp3');
     game.load.audio('break-bones', 'audio/break-bones.mp3');
     game.load.audio('scream', 'audio/scream.mp3'); // licence ok
     game.load.audio('scream2', 'audio/scream2.mp3'); // licence ok
+    game.load.audio('scream-intruder', 'audio/scream-intruder.mp3'); // licence ok
     game.load.audio('splash', 'audio/splash.mp3'); // licence ok
     game.load.audio('life', 'audio/life.mp3'); // licence ok
     game.load.audio('condor', 'audio/condor.mp3'); // licence ok
@@ -383,6 +445,9 @@ const preload = () => {
     game.load.audio('flash', 'audio/flash.mp3'); // licence ok
     game.load.audio('next-level', 'audio/next-level.mp3'); // licence ok
     game.load.audio('tic-score', 'audio/tic.mp3'); // licence ok
+    game.load.audio('scale-down', 'audio/down.mp3'); // licence ok
+    game.load.audio('magic', 'audio/magic.mp3'); // licence no ok
+    game.load.audio('bingo', 'audio/bingo.mp3'); // licence no ok
 
 
 
@@ -430,7 +495,7 @@ const toolsGame={
     //     show: function() { // toolsGame.slider.show();
     //         //define the boundary of the handler
     //         this.bounds= new Phaser.Rectangle(100,100,500,80);
-    //         var graphics = game.add.graphics(this.bounds.x, this.bounds.y);
+    //         const graphics = game.add.graphics(this.bounds.x, this.bounds.y);
     //         graphics.beginFill(0x000077);
     //         graphics.drawRect(0, 0, this.bounds.width, this.bounds.height);
     //         graphics.fixedToCamera = true;
@@ -444,7 +509,7 @@ const toolsGame={
     //         this.slider.input.enableDrag(false,false,false,255,this.bounds);
     //         this.slider.input.allowVerticalDrag = false;
     //         this.slider.events.onDragStop.add(function(){
-    //             var that = toolsGame.slider;
+    //             const that = toolsGame.slider;
     //             if(that.slider.x>(that.bounds.width/2)+that.bounds.x){
     //                 that.min=((that.bounds.width+that.bounds.x-that.slider.x-that.slider.width)/(that.bounds.width+that.bounds.x-that.slider.width))*100;
     //             }
@@ -463,13 +528,23 @@ const toolsGame={
         footStep: function (volume) { // toolsGame.audio.footStep();
             if(!this.a1) {
                 const footstep = game.add.audio('footstep');
-                    footstep.play('',false,volume ? volume : 0.2);
-                    //footstep.volume = 0.05;
+                footstep.play('',false,volume ? volume : 0.2);
+                //footstep.volume = 0.05;
                 this.a1= true;
                 footstep.onStop.addOnce(function() {
                     this.a1=false;
                 }, this);
             }
+        },
+        magic: function (volume) { // toolsGame.audio.footStep();
+            const magic = game.add.audio('magic');
+            magic.play('',false,volume ? volume : 0.2);
+
+        },
+        bingo: function (volume) { // toolsGame.audio.bingo();
+            const bingo = game.add.audio('bingo');
+            bingo.play('',false,volume ? volume : 0.2);
+
         },
         coin: function (volume) { // toolsGame.audio.footStep();
             const coin = game.add.audio('coin');
@@ -493,41 +568,38 @@ const toolsGame={
             const explosionIntruder = game.add.audio('explosion-intruder');
             explosionIntruder.play('', false, 0.5);
         },
+        explosion: function () { // toolsGame.audio.footStep();
+            const explosion = game.add.audio('explosion');
+            explosion.play('', false, 0.5);
+        },
         breakBones: function (volume) { // toolsGame.audio.footStep();
             const breakBones = game.add.audio('break-bones');
             breakBones.play('', false, volume ? volume : 0.2);
+        },
+        scaleDown: function (volume) { // toolsGame.audio.footStep();
+            const sd = game.add.audio('scale-down');
+            sd.play('', false, volume ? volume : 0.2);
         },
         scream: function (volume) { // toolsGame.audio.footStep();
             const scream = game.add.audio('scream');
             scream.play('', false, volume ? volume : 0.2);
         },
         screamIntruder: function (volume) { // toolsGame.audio.footStep();
-            const screamIntruder = game.add.audio('scream2');
-            screamIntruder.play('', false, volume ? volume : 0.2);
+            const s = game.add.audio('scream-intruder');
+            s.play('', false, volume ? volume : 0.2);
         },
         flash: function (volume) { // toolsGame.audio.footStep();
             const flash = game.add.audio('flash');
             flash.play('', false, volume ? volume : 0.2);
         },
         splash: function (volume) { // toolsGame.audio.footStep();
-            // var splash = game.add.audio('splash');
-            // splash.play('',false,volume?volume:0.2);
-
             if(!this.aSplash) {
                 const splash = game.add.audio('splash');
-                splash.play('',false,0.1);
-                //footstep.volume = 0.05;
+                splash.play('',false,volume ? volume : 0.1);
                 this.aSplash= true;
                 game.time.events.add(500, function(){
                     this.aSplash=false;
                 }, this);
-                // setTimeout(function(that){
-                //     that.aSplash=false;
-                // },500,this);
-
-                // splash.onStop.addOnce(function() {
-                //     this.aSplash=false;
-                // }, this);
             }
         },
         life: function (volume) { // toolsGame.audio.footStep();
@@ -595,19 +667,6 @@ const toolsGame={
             toolsGame.preloader.obj = game.add.group();
             toolsGame.preloader.obj.enableBody = true;
 
-            // if(!theEndCredits) {
-            //     var w =  this.obj.create(x*tileSize, y*tileSize, 'windmill_1_new'), theEnd=false;
-            //     w.anchor.setTo(0.5, 0.5);
-            //     w.body.allowGravity = false;
-            //     w.fixedToCamera = true;
-            //
-            //     this.interval = setInterval(function () {
-            //         w.angle += 1;
-            //         //console.log("preloader works");
-            //     },10);
-            // }
-            //var score = percentLevel?(percentLevel+'%' + "\n"):'';
-
             const LoadingCongratylation1 = theEndCredits?(lastMap?'Congratulations!...':''):("Level " + levelFile.activeIdLevel ),
                 LoadingCongratylation2 = theEndCredits?(lastMap?"The End":''):('Loading...');
             toolsGame.text.show('center',0,-tileSize,0.9,LoadingCongratylation1,'bold 52px Arial','#ffffff',true,'loading1');
@@ -626,7 +685,7 @@ const toolsGame={
             //clearInterval(this.interval);
         }
     },
-	windows:{
+    windows:{
         boxTopMenu: {
             positionBar: function (type) {
                 if(toolsGame.windows.boxMenu.obj || type==='inside-boxMenu') {
@@ -693,7 +752,7 @@ const toolsGame={
                     if(proportiesMap[levelFile.activeIdLevel].timeLimit && !levelFile.blockedKeys) {
                         if(timerTotal === proportiesMap[levelFile.activeIdLevel].timeLimit) {
                             toolsGame.windows.boxMenu.show('time-over');
-                           //toolsGame.windows.boxMenu.show();
+                            //toolsGame.windows.boxMenu.show();
                         }
                         timerLimit=proportiesMap[levelFile.activeIdLevel].timeLimit-timerTotal;
                     }
@@ -749,11 +808,12 @@ const toolsGame={
                 }
             }
         },
-		boxMenu:{
-			obj:false,
+        boxMenu:{
+            obj:false,
             bg:function(type){
                 if(this.obj) this.obj.destroy();
-                this.obj=game.add.image(tileSize*2, tileSize*2, 'boxMenu');
+                //this.obj = game.add.image(tileSize*2, tileSize*2, 'boxMenu');
+                this.obj = game.add.tileSprite(tileSize*2, tileSize*2, 736, 377, 'boxMenu');
                 this.obj.alpha = 0;
                 this.obj.fixedToCamera = true;
                 if(!type){
@@ -763,23 +823,23 @@ const toolsGame={
                 }
 
                 // game.physics.arcade.enable(this.obj);
-                // console.log(this.obj);
+                //console.log(this.obj);
                 // game.add.tween(this.obj).to( { x: 200 }, 300, Phaser.Easing.Exponential.Out, true);
-                // console.log("x");
+                //console.log("x");
             },
-			show:function(type){
-				//console.log(toolsGame.windows.boxMenu.obj);
-				//console.log(this.obj);
-		    	toolsGame.buttons.openBoxMenu.hide();
+            show:function(type){
+                //console.log(toolsGame.windows.boxMenu.obj);
+                //console.log(this.obj);
+                toolsGame.buttons.openBoxMenu.hide();
 
-				//boxMenu.
-				// if(this.obj) this.obj.destroy();
+                //boxMenu.
+                // if(this.obj) this.obj.destroy();
                 // this.obj=game.add.image(tileSize*2, tileSize*2, 'boxMenu');
                 // this.obj.alpha = 0.8;
                 // this.obj.fixedToCamera = true;
                 this.bg(type); // toolsGame.windows.boxMenu.bg();
 
-			    toolsGame.buttons.end.show();
+                toolsGame.buttons.end.show();
                 toolsGame.buttons.startFromBeginning.show();
                 //toolsGame.buttons.reset.show();
                 toolsGame.buttons.mute.show(getCookies('mute')?10:9);
@@ -810,75 +870,75 @@ const toolsGame={
 
 
                 //toolsGame.buttons.closeBoxMenu.show();
-			    if(type === 'game-complete') {
+                if(type === 'game-complete') {
                     toolsGame.text.show('center',0,0,0.6,"Thank you for playing",'bold 46px Arial','#ffffff',true,'game-complite');
-				} else if(type === 'game-over') {
+                } else if(type === 'game-over') {
                     toolsGame.text.show('center', 0, 0, 0.6, "Game Over!", 'bold 46px Arial', '#ffffff', true, 'game-complite');
                 } else if(type === 'time-over')  {
                     toolsGame.text.show('center', 0, 0, 0.6, "Time Over!", 'bold 46px Arial', '#ffffff', true, 'game-complite');
                 } else {
                     toolsGame.buttons.closeBoxMenu.show();
                     toolsGame.buttons.resume.show();
-				}
+                }
                 toolsGame.windows.boxTopMenu.f=false;
 
-			},
-			hide:function(){
-				//if(game.paused)
-				//{
-                    const hide = game.add.tween(this.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
-                    hide.onComplete.add(function(o){
-                        o.destroy();
-                    }, this);
-					//this.obj.destroy();
+            },
+            hide:function(){
+                //if(game.paused)
+                //{
+                const hide = game.add.tween(this.obj).to({alpha: 0}, 200, Phaser.Easing.Linear.None, true);
+                hide.onComplete.add(function(o){
+                    o.destroy();
+                }, this);
+                //this.obj.destroy();
 
-					this.obj=false;
+                this.obj=false;
 
-					toolsGame.buttons.end.hide();
-                    toolsGame.buttons.startFromBeginning.hide();
-                    toolsGame.buttons.reset.hide();
-                    toolsGame.buttons.resume.hide();
-                    toolsGame.buttons.mute.hide();
-					toolsGame.buttons.closeBoxMenu.hide();
-					//game.input.onDown.removeAll();
-					game.paused = false;
-			    	if(playGame.main) {
-			    	    if(!theEndCredits) {
-                            toolsGame.buttons.navigations.show();
-                            toolsGame.image.show(
-                                (toolsGame.windows.boxMenu.obj)?0:0,
-                                (toolsGame.windows.boxMenu.obj)?0:0,
-                                'boxTopMenu','boxTopMenu',.85,1,false,false,false,true
-                            );
-                            toolsGame.windows.boxTopMenu.const.show();
-                        }
-                        toolsGame.buttons.openBoxMenu.show('play-game');
-			    	}
-					else 
-					{
-                        toolsGame.buttons.openBoxMenu.show();
-						toolsGame.buttons.levels.show();
-						toolsGame.buttons.play.show();
-                        toolsGame.buttons.quit.show();
-                        toolsGame.buttons.mute.show(getCookies('mute')?10:9);
-					}
-                    toolsGame.windows.boxTopMenu.f=false;
-				//}
+                toolsGame.buttons.end.hide();
+                toolsGame.buttons.startFromBeginning.hide();
+                toolsGame.buttons.reset.hide();
+                toolsGame.buttons.resume.hide();
+                toolsGame.buttons.mute.hide();
+                toolsGame.buttons.closeBoxMenu.hide();
+                //game.input.onDown.removeAll();
+                game.paused = false;
+                if(playGame.main) {
+                    if(!theEndCredits) {
+                        toolsGame.buttons.navigations.show();
+                        toolsGame.image.show(
+                            (toolsGame.windows.boxMenu.obj)?0:0,
+                            (toolsGame.windows.boxMenu.obj)?0:0,
+                            'boxTopMenu','boxTopMenu',.85,1,false,false,false,true
+                        );
+                        toolsGame.windows.boxTopMenu.const.show();
+                    }
+                    toolsGame.buttons.openBoxMenu.show('play-game');
+                }
+                else
+                {
+                    toolsGame.buttons.openBoxMenu.show();
+                    toolsGame.buttons.levels.show();
+                    toolsGame.buttons.play.show();
+                    toolsGame.buttons.quit.show();
+                    toolsGame.buttons.mute.show(getCookies('mute')?10:9);
+                }
+                toolsGame.windows.boxTopMenu.f=false;
+                //}
 
-			}
-		}
-	},
-	buttons:{
-		openBoxMenu:{
-			//obj:false,
-			show:function(type){
-				//x
-				//buttonPauseMenu
-				//console.log(toolsGame.buttons.openBoxMenu);
-				//console.log(this);
-				
-				if(isExists(this.obj)) this.obj.destroy();
-				if(type==='play-game') {
+            }
+        }
+    },
+    buttons:{
+        openBoxMenu:{
+            //obj:false,
+            show:function(type){
+                //x
+                //buttonPauseMenu
+                //console.log(toolsGame.buttons.openBoxMenu);
+                //console.log(this);
+
+                if(isExists(this.obj)) this.obj.destroy();
+                if(type==='play-game') {
                     this.obj = game.add.button(0, 0, 'buttonPause', function(){
                         toolsGame.windows.boxMenu.show();
                     }, this,0,0);
@@ -892,63 +952,57 @@ const toolsGame={
                 } else {
                     this.obj.alpha = 0.6;
                 }
-			    this.obj.fixedToCamera = true;	
-			},
-			hide:function(){
-			    if(isExists(this.obj)) {
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
+                if(isExists(this.obj)) {
                     this.obj.destroy();
                 }
-				//toolsGame.buttons.openBoxMenu.obj.visible = false;
-			}
-		},
-		//buttonsIcons
-		closeBoxMenu:{
-			//obj:false,
-			show:function(){
-				//buttonPauseMenu
-				//console.log(toolsGame.buttons.openBoxMenu);
-				//console.log(this);
+                //toolsGame.buttons.openBoxMenu.obj.visible = false;
+            }
+        },
+        //buttonsIcons
+        closeBoxMenu:{
+            //obj:false,
+            show:function(){
+                //buttonPauseMenu
+                //console.log(toolsGame.buttons.openBoxMenu);
+                //console.log(this);
 
-				if(isExists(this.obj)) this.obj.destroy();
-			    this.obj = game.add.button(44*tileSize, 3*tileSize, 'buttonsIcons', function(){
-			        toolsGame.windows.boxMenu.hide();
+                if(isExists(this.obj)) this.obj.destroy();
+                this.obj = game.add.button(44*tileSize, 3*tileSize, 'buttonsIcons', function(){
+                    toolsGame.windows.boxMenu.hide();
                 }, this,3,2);
-			    this.obj.alpha = 0.4;
-			    this.obj.fixedToCamera = true;
-			},
-			hide:function(){
-				if(isExists(this.obj)) {
+                this.obj.alpha = 0.4;
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
+                if(isExists(this.obj)) {
                     this.obj.destroy();
-				}
-				//toolsGame.buttons.closeBoxMenu.obj.visible = false;
-			}			
-		},
-		play: { //toolsGame.buttons.play.show()
-			//obj:false,
-			show:function(){
-				//buttonPlay
-				if(isExists(this.obj)) this.obj.destroy();
-			    this.obj = game.add.button(9*tileSize, tileSize, 'buttonsWindowMenu', function(){
+                }
+                //toolsGame.buttons.closeBoxMenu.obj.visible = false;
+            }
+        },
+        play: { //toolsGame.buttons.play.show()
+            //obj:false,
+            show:function(){
+                //buttonPlay
+                if(isExists(this.obj)) this.obj.destroy();
+                this.obj = game.add.button(9*tileSize, tileSize, 'buttonsWindowMenu', function(){
                     startGame('continuation');
                 }, this);
-			    this.obj.alpha = 0.6;
-			    this.obj.fixedToCamera = true;
-			},
-			hide:function(){
+                this.obj.alpha = 0.6;
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
                 if(isExists(this.obj)) {
-                    //this.obj.y=2*tileSize;
-                    //console.log(this.obj.position.y);
-                    // var hidePlay = game.add.tween(this.obj).to({alpha: 0}, 300, Phaser.Easing.Linear.None, true);
-                    // hidePlay.onComplete.add(function(o){
-                    //     o.destroy();
-                    // }, this);
 
                     this.obj.destroy();
 
                 }
-				//toolsGame.buttons.play.obj.visible = false;
-			}
-		},
+                //toolsGame.buttons.play.obj.visible = false;
+            }
+        },
         quit: { //toolsGame.buttons.quit.show()
             //obj:false,
             show:function(){
@@ -977,29 +1031,29 @@ const toolsGame={
                 //toolsGame.buttons.play.obj.visible = false;
             }
         },
-		end: {
-			//obj:false,
-			show:function(){
-				//buttonEnd
-				if(isExists(this.obj)) this.obj.destroy();
-			    this.obj = game.add.button(3*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
-			    	//game.paused = false;
-			    	//closeMenu();
-                    game.time.events.removeAll();
-			    	toolsGame.windows.boxMenu.hide();
-                    correctCookiesProcent();
-			    	endGame(); 
-			    	levelFile.name='level1';
-			    	levelFile.activeIdLevel=1; 
-			    }, this,1,1);
-			    this.obj.alpha = 0.4;
-			    this.obj.fixedToCamera = true;
-			},
-			hide:function(){
+        end: {
+            //obj:false,
+            show:function(){
+                //buttonEnd
                 if(isExists(this.obj)) this.obj.destroy();
-				//toolsGame.buttons.end.obj.visible = false;
-			}
-		},
+                this.obj = game.add.button(3*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
+                    //game.paused = false;
+                    //closeMenu();
+                    game.time.events.removeAll();
+                    toolsGame.windows.boxMenu.hide();
+                    correctCookiesProcent();
+                    endGame();
+                    levelFile.name='level1';
+                    levelFile.activeIdLevel=1;
+                }, this,1,1);
+                this.obj.alpha = 0.4;
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
+                if(isExists(this.obj)) this.obj.destroy();
+                //toolsGame.buttons.end.obj.visible = false;
+            }
+        },
         startFromBeginning: {
             //obj:false,
             show:function(){
@@ -1009,10 +1063,19 @@ const toolsGame={
                     game.time.events.removeAll();
                     toolsGame.windows.boxMenu.hide();
 
-                    toolsGame.mainElements.player.numberMainLifes=amountMainLife;
-                    toolsGame.mainElements.player.numberLifes=amountLife;
-                    toolsGame.mainElements.player.countBullets=amountBullet;
+                    toolsGame.mainElements.player.numberMainLifes = amountMainLife;
+                    toolsGame.mainElements.player.numberLifes = amountLife;
+                    toolsGame.mainElements.player.countBullets = amountBullet;
                     toolsGame.mainElements.player.numberCoins = 0;
+
+                    // necessary after the endLevelS event
+                    setCookies('coins', 0);
+                    setCookies('Lifes', amountLife);
+                    setCookies('main-Lifes', amountMainLife);
+                    setCookies('bullets', amountBullet);
+
+
+                    //alert(toolsGame.mainElements.player.numberMainLifes + " - " + toolsGame.mainElements.player.numberLifes + " -" + toolsGame.mainElements.player.countBullets + " - " + toolsGame.mainElements.player.numberCoins);
 
                     endGame();
                     //alert(levelFile.activeIdLevel + " - " + unlockLevels + " - " + amountLevels);
@@ -1086,14 +1149,9 @@ const toolsGame={
                     if(game.paused) {
                         game.paused = false;
                         game.time.events.remove(this.t);
-                        this.t = game.time.events.add(25, function(){
+                        this.t = game.time.events.add(100, function(){
                             game.paused = true;
                         }, this);
-
-                        // clearTimeout(this.t);
-                        // this.t = setTimeout(function(){
-                        //     game.paused = true;
-                        // },25);
                     }
                     this.obj.destroy();
                     if(getCookies('mute')) {
@@ -1119,7 +1177,7 @@ const toolsGame={
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
                     if(type==='quit') {
-                        if(detectionDevice){
+                        if(detectionDevice()){
                             navigator.app.exitApp();
                         } else {
                             //alert('This option doesn\'t work in the browser');
@@ -1168,72 +1226,92 @@ const toolsGame={
         },
 
 
-		navigations: {
-			//left:false,
-			//right:false,
-			//up:false,
-			//shot:false,
-			show:function(){
-				if(isExists(this.left)) this.left.destroy();
-			    this.left = game.add.button(0,(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,0,0); //#
-			    this.left.alpha = 0.1;
-			    this.left.fixedToCamera = true;
-				this.left.onInputDown.add(function(){ triggerKeyboardEvent(window,37,"keydown"); });
-				this.left.onInputUp.add(function(){ triggerKeyboardEvent(window,37,"keyup"); });
+        navigations: {
+            //left:false,
+            //right:false,
+            //up:false,
+            //shot:false,
+            show:function(){
+                if(isExists(this.left)) this.left.destroy();
+                this.left = game.add.button(0,(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,0,0); //#
+                this.left.alpha = 0.3;
+                this.left.fixedToCamera = true;
+                this.left.onInputDown.add(function(){
+                    cursors.left.isDown = true;
+                    //triggerKeyboardEvent(window,37,"keydown");
+                });
+                this.left.onInputUp.add(function(){
+                    cursors.left.isDown = false;
+                    //triggerKeyboardEvent(window,37,"keyup");
+                });
 
-				if(isExists(this.right)) this.right.destroy();
-			    this.right = game.add.button(6*tileSize,game.height-(7*tileSize), 'buttonNavigation', function(){}, this,1,1); //#
-			    this.right.alpha = 0.1;
-			    this.right.fixedToCamera = true;
-				this.right.onInputDown.add(function(){ triggerKeyboardEvent(window,39,"keydown"); });
-				this.right.onInputUp.add(function(){ triggerKeyboardEvent(window,39,"keyup"); });
+                if(isExists(this.right)) this.right.destroy();
+                this.right = game.add.button(6*tileSize,game.height-(7*tileSize), 'buttonNavigation', function(){}, this,1,1); //#
+                this.right.alpha = 0.3;
+                this.right.fixedToCamera = true;
+                this.right.onInputDown.add(function(){
+                    cursors.right.isDown = true;
+                    //triggerKeyboardEvent(window,39,"keydown");
+                });
+                this.right.onInputUp.add(function(){
+                    cursors.right.isDown = false;
+                    //triggerKeyboardEvent(window,39,"keyup");
+                });
 
-				/////
-				if(isExists(this.shot)) this.shot.destroy();
-				this.shot = game.add.button((game.width-(7*tileSize)),(game.height-(13*tileSize)), 'buttonNavigation', function(){}, this,3,3); //#
-				this.shot.alpha = toolsGame.mainElements.player.countBullets ? 0.1 : 0; // toolsGame.buttons.navigations.show.shot.alpha
+                // check varible fireButton
+                if(isExists(this.shot)) this.shot.destroy();
+                this.shot = game.add.button((game.width-(7*tileSize)),(game.height-(13*tileSize)), 'buttonNavigation', function(){}, this,3,3); //#
+                this.shot.alpha = toolsGame.mainElements.player.countBullets ? 0.3 : 0; // toolsGame.buttons.navigations.show.shot.alpha
                 this.shot.inputEnabled = toolsGame.mainElements.player.countBullets ? true : false;
-				this.shot.fixedToCamera = true;
-				this.shot.onInputDown.add(function(){
-					triggerKeyboardEvent(window,17,"keydown");
-				});
-				this.shot.onInputUp.add(function(){
-					triggerKeyboardEvent(window,17,"keyup");
-				});
+                this.shot.fixedToCamera = true;
+                this.shot.onInputDown.add(function(){
+                    fireButton.isDown = true;
+                    //triggerKeyboardEvent(window,17,"keydown");
+                });
+                this.shot.onInputUp.add(function(){
+                    fireButton.isDown = false;
+                    //triggerKeyboardEvent(window,17,"keyup");
+                });
 
                 if(isExists(this.up)) this.up.destroy();
                 this.up = game.add.button((game.width-(7*tileSize)),(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,2,2); //#
-                this.up.alpha = 0.1;
+                this.up.alpha = 0.3;
                 this.up.fixedToCamera = true;
-                this.up.onInputDown.add(function(){ triggerKeyboardEvent(window,38,"keydown"); });
-                this.up.onInputUp.add(function(){ triggerKeyboardEvent(window,38,"keyup"); });
+                this.up.onInputDown.add(function(){
+                    cursors.up.isDown = true;
+                    //triggerKeyboardEvent(window,38,"keydown");
+                });
+                this.up.onInputUp.add(function(){
+                    cursors.up.isDown = false;
+                    //triggerKeyboardEvent(window,38,"keyup");
+                });
 
-			},
-			hide:function(){
+            },
+            hide:function(){
                 if(isExists(this.left) && isExists(this.right) && isExists(this.up) && isExists(this.shot)) {
                     this.left.destroy();
                     this.right.destroy();
                     this.up.destroy();
                     this.shot.destroy();
                 }
-			}
-		},
-		levels: {
-			obj:[],
-			text:[],
+            }
+        },
+        levels: {
+            obj:[],
+            text:[],
             text2: [],
-			show:function(){
-				//toolsGame.buttons.levels
-				let item=0, itemMoveX=0, itemMoveY=0, theEnd=false;
-				//alert(levelFile.activeIdLevel + " =? " + unlockLevels + " =? " + getCookies("unlock-levels"));
+            show:function(){
+                //toolsGame.buttons.levels
+                let item=0, itemMoveX=0, itemMoveY=0, theEnd=false;
+                //alert(levelFile.activeIdLevel + " =? " + unlockLevels + " =? " + getCookies("unlock-levels"));
 
                 //console.log(Object.keys(game.cache._cacheMap[7]).length);
-				for (var key in game.cache._cacheMap[7]) {
-					if (game.cache._cacheMap[7].hasOwnProperty(key)) {
-						item++;
-						//console.log(key + " - " + item);
-						this.obj.push(item);
-						this.text.push(item);
+                for (const key in game.cache._cacheMap[7]) {
+                    if (game.cache._cacheMap[7].hasOwnProperty(key)) {
+                        item++;
+                        //console.log(key + " - " + item);
+                        this.obj.push(item);
+                        this.text.push(item);
                         this.text2.push(item);
 
                         if(item>9) {
@@ -1269,47 +1347,47 @@ const toolsGame={
                         this.obj[item].addChild(this.text[item]);
                         this.obj[item].fixedToCamera = true;
 
-					}
-				}
+                    }
+                }
                 amountLevels = item;
-				//console.log("levels: " + amountLevels);
-				//alert(this.start.length);
-			},
-			hide:function(){
-				//alert(toolsGame.buttons.levels.obj.length);
-				for(let i=1, iLength=this.obj.length; i<iLength; i++) {
-					//console.log(this.obj[i]);
-					this.obj[i].destroy();
-				}
-				this.obj=[];
-				this.text=[];
+                //console.log("levels: " + amountLevels);
+                //alert(this.start.length);
+            },
+            hide:function(){
+                //alert(toolsGame.buttons.levels.obj.length);
+                for(let i=1, iLength=this.obj.length; i<iLength; i++) {
+                    //console.log(this.obj[i]);
+                    this.obj[i].destroy();
+                }
+                this.obj=[];
+                this.text=[];
                 this.text2=[];
 
-			}
-		}
-	},
-	text: {
-		obj: [],
-		show: function(typeText,x,y,opacitySpec,textSpec,fontSpec,colorSpec,cameraFixed,idName,textShadow){
-			if(this.obj[idName]) this.obj[idName].destroy();
-			this.obj.push(idName);
-			if(typeText === 'center')
-			{
-			    this.obj[idName] = game.add.text(x, y, textSpec, { font: fontSpec, fill: colorSpec, boundsAlignH: "center", boundsAlignV: "middle"  });
-			    this.obj[idName].setTextBounds(x, y, game.width, game.height);
-			}
-			else 
-			{
-				this.obj[idName] = game.add.text(x, y, textSpec, { font: fontSpec, fill: colorSpec });			
-			}		
-		    this.obj[idName].alpha = opacitySpec;
-		    this.obj[idName].fixedToCamera = cameraFixed;
-		    if(textShadow) {
+            }
+        }
+    },
+    text: {
+        obj: [],
+        show: function(typeText,x,y,opacitySpec,textSpec,fontSpec,colorSpec,cameraFixed,idName,textShadow){
+            if(this.obj[idName]) this.obj[idName].destroy();
+            this.obj.push(idName);
+            if(typeText === 'center')
+            {
+                this.obj[idName] = game.add.text(x, y, textSpec, { font: fontSpec, fill: colorSpec, boundsAlignH: "center", boundsAlignV: "middle"  });
+                this.obj[idName].setTextBounds(x, y, game.width, game.height);
+            }
+            else
+            {
+                this.obj[idName] = game.add.text(x, y, textSpec, { font: fontSpec, fill: colorSpec });
+            }
+            this.obj[idName].alpha = opacitySpec;
+            this.obj[idName].fixedToCamera = cameraFixed;
+            if(textShadow) {
                 this.obj[idName].setShadow(1, -1, 'rgba(0,0,0,1)', 0);
             }
             if(typeText === 'add-point') {
                 //game.physics.arcade.enable([ this.obj[idName] ]);
-		        //console.log(this.obj[idName]);
+                //console.log(this.obj[idName]);
                 //this.obj[idName].enableBody = true;
                 //this.obj[idName].body.allowGravity = false;
                 //this.obj[idName].body.velocity.y=-50;
@@ -1325,17 +1403,21 @@ const toolsGame={
                 );
             }
 
-		},
-		hide: function(idName){
-			if(this.obj[idName]) this.obj[idName].destroy();
-		}
-	},
+        },
+        hide: function(idName){
+            if(this.obj[idName]) this.obj[idName].destroy();
+        }
+    },
     image: {
         obj: [],
         show: function(x,y,nameSpriteOrImage,idName,opacitySpec,cameraFixed,scaleW,scaleH,frame,fade){
             if(this.obj[idName]) this.obj[idName].destroy();
             this.obj.push(idName);
-            this.obj[idName] = game.add.image(x, y, nameSpriteOrImage);
+            if(nameSpriteOrImage === 'boxTopMenu'){
+                this.obj[idName] = game.add.tileSprite(x, y, game.scale.maxWidth, 48, nameSpriteOrImage);
+            } else {
+                this.obj[idName] = game.add.image(x, y, nameSpriteOrImage);
+            }
             if(opacitySpec) this.obj[idName].alpha = opacitySpec;
             if(cameraFixed) this.obj[idName].fixedToCamera = cameraFixed;
             if(scaleW && scaleH) this.obj[idName].scale.setTo(scaleW,scaleH);﻿
@@ -1360,36 +1442,43 @@ const toolsGame={
         }
     },
 
-	createCenterObject: function(thatObj,x,y,name,type) {
-		var width = game.cache.getImage(name).width,
+    createCenterObject: function(thatObj,x,y,name,type) {
+        let width = game.cache.getImage(name).width,
             height = game.cache.getImage(name).height;
-		if(type === "sprite") {
-			width = game.cache._cache.image[name].frameWidth;
+        if(type === "sprite") {
+            width = game.cache._cache.image[name].frameWidth;
             height = game.cache._cache.image[name].frameHeight;
-		}
+        }
         return thatObj.create((x*tileSize)+(2*tileSize)-(width﻿/2+tileSize+tileSize/2), (y*tileSize)-(height-2*tileSize), name);
-	},
+    },
     createLeftObject: function(thatObj,x,y,name,type) {
-        var height = game.cache.getImage(name).height;
+        let height = game.cache.getImage(name).height;
         if(type == "sprite") {
             height = game.cache._cache.image[name].frameHeight;
         }
         return thatObj.create((x*tileSize), (y*tileSize)-(height-2*tileSize), name);
     },
     checkSpecialBlankBlockElement: function(lay) {
-        if(lay.index === 51) {
+        if(lay.index === 101) {
             lay.collideDown=true;
             lay.collideUp=true;
             lay.collideLeft=true;
             lay.collideRight=true;
         }
     },
-	mainElements: {
-		player:{
-		    detectionHoldOnObject:function(o,numberAlgo) { // toolsGame.mainElements.player.detectionHoldOnObject()
-		        //console.log("my:");
-		        //console.log(this.obj.position.x-o.position.x);
-		        //console.log("phaser:");
+    jumpCollision: function(o,yVelocity) {
+        let jumpTimer = 0;
+        if (game.time.now > jumpTimer) {
+            o.body.velocity.y = -yVelocity;
+            jumpTimer = game.time.now + yVelocity;
+        }
+    },
+    mainElements: {
+        player:{
+            detectionHoldOnObject:function(o,numberAlgo) { // toolsGame.mainElements.player.detectionHoldOnObject()
+                //console.log("my:");
+                //console.log(this.obj.position.x-o.position.x);
+                //console.log("phaser:");
                 //console.log(game.physics.arcade.distanceBetween(toolsGame.mainElements.player.obj,o));
 
                 if(this.obj.position.x>o.position.x-game.width/numberAlgo &&
@@ -1425,7 +1514,7 @@ const toolsGame={
                     toolsGame.mainElements.player.numberMainLifes = parseInt(getCookies('main-Lifes'));
                 }
 
-			},
+            },
             countCoins:function(){ // toolsGame.mainElements.player.countCoints.f()
                 //\\//
                 if(!getCookies('coins')) {
@@ -1452,22 +1541,25 @@ const toolsGame={
                 //toolsGame.mainElements.player.numberCoins = parseInt(getCookies('coins'));
             },
             lostLife: function(player,amount) {
-				if(!player.holdLostLife) {
-					player.holdLostLife = true;
-					// player.gun
-					//console.log(toolsGame.mainElements.player.gun.obj);
+                if(!player.holdLostLife) {
+                    player.holdLostLife = true;
+                    // player.gun
+                    //console.log(toolsGame.mainElements.player.gun.obj);
 
-					// if(toolsGame.mainElements.player.gun.obj) {
-                     //    toolsGame.mainElements.player.gun.obj.alpha=0.1;
+                    // if(toolsGame.mainElements.player.gun.obj) {
+                    //    toolsGame.mainElements.player.gun.obj.alpha=0.1;
                     // }
 
                     //toolsGame.mainElements.player.gun.obj.alpha = 0;
-					if (!levelFile.blockedKeys && toolsGame.mainElements.player.numberLifes > 0) {
-						toolsGame.mainElements.player.numberLifes -= amount?amount:1;
-						toolsGame.audio.scream();
-                        player.scale.setTo(1,1);
-                        this.scale(); // same === toolsGame.mainElements.player.scale();
-					}
+                    if (!levelFile.blockedKeys && toolsGame.mainElements.player.numberLifes > 0) {
+                        toolsGame.mainElements.player.numberLifes -= amount?amount:1;
+                        toolsGame.audio.scream();
+                        if(player.scale.y > 1) {
+                            this.scale('restart');// same === toolsGame.mainElements.player.scale();
+                        }
+                        //player.scale.setTo(1,1);
+                        //this.scale(); // same === toolsGame.mainElements.player.scale();
+                    }
                     if (toolsGame.mainElements.player.numberLifes < 1) {
 
 
@@ -1526,7 +1618,7 @@ const toolsGame={
                             //     },1000);
                             // },1200);
                         }
-					}
+                    }
 
                     game.time.events.remove(player.timeoutKill);
                     player.timeoutKill = game.time.events.add(800, function(){
@@ -1536,25 +1628,25 @@ const toolsGame={
                         game.time.events.remove(player.fltTime);
                     }, this);
 
-					// clearTimeout(player.timeoutKill);
-					// player.timeoutKill = setTimeout(function () {
-					// 	player.holdLostLife = false;
-					// 	player.alpha = 1;
-					// 	//if(levelFile.blockedKeys) player.alpha = 0;
-					// 	clearInterval(player.fltTime);
-					// }, 800);
+                    // clearTimeout(player.timeoutKill);
+                    // player.timeoutKill = setTimeout(function () {
+                    // 	player.holdLostLife = false;
+                    // 	player.alpha = 1;
+                    // 	//if(levelFile.blockedKeys) player.alpha = 0;
+                    // 	clearInterval(player.fltTime);
+                    // }, 800);
 
-					// postac miga podczas kolizji z imtruzem/layerem z duzej wysokosci ubytek zycia
+                    // postac miga podczas kolizji z imtruzem/layerem z duzej wysokosci ubytek zycia
 
                     //game.time.events.loop
                     player.fltTime = game.time.events.loop(50,function () {
                         player.alpha = (player.alpha === 0.4) ?  1 : 0.4;
                     }, this);
 
-					// player.fltTime = setInterval(function () {
-					// 	player.alpha = (player.alpha === 0.4) ?  1 : 0.4;
-					// },50);
-				}
+                    // player.fltTime = setInterval(function () {
+                    // 	player.alpha = (player.alpha === 0.4) ?  1 : 0.4;
+                    // },50);
+                }
                 toolsGame.windows.boxTopMenu.f=false;
             },
             checkIfWasKilledAndOther: function(player,type){
@@ -1589,7 +1681,8 @@ const toolsGame={
                             game.camera.shake(0.02, 250, true, Phaser.Camera.SHAKE_VERTICAL);
                             toolsGame.audio.quake(1);
                         }
-                        if(toolsGame.mainElements.player.obj.body.y-jumpKillY > 400) {
+
+                        if(type !== 'water' && toolsGame.mainElements.player.obj.body.y-jumpKillY > 400) {
                             //alert("kill");
                             toolsGame.mainElements.player.lostLife(player,3);
                         }
@@ -1599,49 +1692,62 @@ const toolsGame={
                 }
 
             },
-			gun:{
-				obj: false, //toolsGame.mainElements.player.gun.obj
-				startGun: false, //toolsGame.mainElements.player.gun.startGun
-				bullets:{
-					obj: false, // toolsGame.mainElements.player.gun.bullets.obj
-					restartBullets:function(){ // toolsGame.mainElements.player.gun.bullets.restartBullets()
-						if(this.obj === true) 
-						{
-							this.obj.z=0;
-							this.obj.destroy(true);
-						}
-					    this.obj = game.add.group();
-					    this.obj.enableBody = true;
-					    this.obj.createMultiple(9, 'bullet');
-					    this.obj.setAll('anchor.x', 0.5);
-					    this.obj.setAll('anchor.y', 1);
-					}
-				},
-				visualGun:function(player){ // toolsGame.mainElements.player.gun.visualGun()
-					if(this.obj)
-					{
-				    	if ((player.obj.frame>=6 && player.obj.frame<=11) || cursors.left.isDown)
-						{
-						    this.obj.scale.x = -1;
-						    this.obj.reset(player.obj.x + 18, player.obj.y + 38);
-				    	}
-				    	else if ((player.obj.frame>=0 && player.obj.frame<=5) || cursors.right.isDown)
-						{
-						    this.obj.scale.x = 1;
-								this.obj.reset(player.obj.x + 18, player.obj.y + 38);
-				    	}
-				    }
-				},
-				shot:function(player){ // toolsGame.mainElements.player.gun.shot()
-			        if (fireButton.isDown && toolsGame.mainElements.player.numberLifes && !levelFile.blockedKeys)
-			        {
-					    if (player.countBullets > 0 && game.time.now > player.bulletTime)
-					    {
-					        //  Grab the first bullet we can from the pool
-					        player.bullet = player.gun.bullets.obj.getFirstExists(false);
+            gun:{
+                obj: false, //toolsGame.mainElements.player.gun.obj
+                startGun: false, //toolsGame.mainElements.player.gun.startGun
+                bullets:{
+                    obj: false, // toolsGame.mainElements.player.gun.bullets.obj
+                    restartBullets:function(){ // toolsGame.mainElements.player.gun.bullets.restartBullets()
+                        if(this.obj === true)
+                        {
+                            this.obj.z=0;
+                            this.obj.destroy(true);
+                        }
+                        this.obj = game.add.group();
+                        this.obj.enableBody = true;
+                        this.obj.createMultiple(9, 'bullet');
+                        this.obj.setAll('anchor.x', 0.5);
+                        this.obj.setAll('anchor.y', 1);
+                    }
+                },
+                visualGun:function(player){ // toolsGame.mainElements.player.gun.visualGun()
+                    if(this.obj)
+                    {
+                        //console.log(player.obj.scale.y);
+                        if(player.obj.scale.y!==1){
+                            this.obj.scale.y = 1.2;
+                            this.obj.tint =  16776960; //  * 0xFFFFFF; //200324
+                        }
+                        else {
+                            this.obj.scale.y = 1;
+                            this.obj.tint = 0xFFFFFF;
+                        }
 
-					        if (player.bullet)
-					        {
+                        if ((player.obj.frame>=6 && player.obj.frame<=11)) {
+                            this.obj.scale.x = -1;
+                            this.obj.reset(player.obj.x + 37, player.obj.y + 33);
+                        } else if(cursors.left.isDown) {
+                            this.obj.scale.x = -1;
+                            this.obj.reset(player.obj.x + 33, player.obj.y + 33);
+                        } else if ((player.obj.frame>=0 && player.obj.frame<=5)) {
+                            this.obj.scale.x = 1;
+                            this.obj.reset(player.obj.x + 11, player.obj.y + 33);
+                        } else if(cursors.right.isDown) {
+                            this.obj.scale.x = 1;
+                            this.obj.reset(player.obj.x + 15, player.obj.y + 33);
+                        }
+                    }
+                },
+                shot:function(player){ // toolsGame.mainElements.player.gun.shot()
+                    if (fireButton.isDown && toolsGame.mainElements.player.numberLifes && !levelFile.blockedKeys)
+                    {
+                        if (player.countBullets > 0 && game.time.now > player.bulletTime)
+                        {
+                            //  Grab the first bullet we can from the pool
+                            player.bullet = player.gun.bullets.obj.getFirstExists(false);
+
+                            if (player.bullet)
+                            {
 
                                 player.countBulletsF = true;
                                 player.countBullets--;
@@ -1654,6 +1760,7 @@ const toolsGame={
                                 {
                                     player.gun.obj = game.add.image(player.obj.x, player.obj.y, "gun");
                                 }
+                                player.bullet.body.gravity.y = -700;
 
                                 player.gun.startGun=game.time.events.add(1000, function(){
                                     if(player.gun.obj)
@@ -1666,45 +1773,48 @@ const toolsGame={
 
 
 
-						    	if ((player.obj.frame>=6 && player.obj.frame<=11) || cursors.left.isDown)
-								{
-									player.bullet.reset(player.obj.x + 10, player.obj.y + 42);
-						    		player.bullet.body.velocity.x = -1400;
+                                if ((player.obj.frame>=6 && player.obj.frame<=11) || cursors.left.isDown)
+                                {
+                                    player.bullet.reset(player.obj.x + 10, player.obj.y + 42);
+                                    player.bullet.body.velocity.x = -1400;
                                     player.bullet.direction = 'left';
-						    	}
-						    	else if ((player.obj.frame>=0 && player.obj.frame<=5) || cursors.right.isDown)
-								{
-									player.bullet.reset(player.obj.x + 30, player.obj.y + 42);
-						    		player.bullet.body.velocity.x = 1400;
+                                }
+                                else if ((player.obj.frame>=0 && player.obj.frame<=5) || cursors.right.isDown)
+                                {
+                                    player.bullet.reset(player.obj.x + 30, player.obj.y + 42);
+                                    player.bullet.body.velocity.x = 1400;
                                     player.bullet.direction = 'right';
-						    	}
-						    	//bullet.body.allowGravity = false;
-					            player.bulletTime = game.time.now + 200;
-					            //console.log(bullet.z);
-					        }
-					        else
-					        {
-					        	player.bullet=0;
-					        	player.gun.bullets.restartBullets();
-					        }
-					    }
-			        }
-				}
-			},
-			bullet: false,//toolsGame.mainElements.player.bullet
-			bulletTime: 0,//toolsGame.mainElements.player.bulletTime
+                                }
+                                //player.body.allowGravity = false;
+                                player.bulletTime = game.time.now + 200;
+                                //console.log(bullet.z);
+                            }
+                            else
+                            {
+                                player.bullet=0;
+                                player.gun.bullets.restartBullets();
+                            }
+                        }
+                    }
+                }
+            },
+            bullet: false,//toolsGame.mainElements.player.bullet
+            bulletTime: 0,//toolsGame.mainElements.player.bulletTime
             countBulletsF: false,
-			countBullets: 6, //toolsGame.mainElements.player.countBullets
-			jumpTimer: 0, //toolsGame.mainElements.player.jumpTimer
-			obj: false,
-			add:function(x,y){ //add visual player
-				if(this.obj==false)
-				{
-					//toolsGame.mainElements.player.obj =  player
-				    this.obj = game.add.sprite((x*tileSize), ((y*tileSize)-(4*tileSize)), 'dude');
-				    game.physics.enable(this.obj, Phaser.Physics.ARCADE);
-				    this.obj.body.bounce.y = 0.3;
-				    this.obj.body.collideWorldBounds = true;
+            countBullets: 6, //toolsGame.mainElements.player.countBullets
+            jumpTimer: 0, //toolsGame.mainElements.player.jumpTimer
+            obj: false,
+            add:function(x,y){ //add visual player
+                if(this.obj==false)
+                {
+                    //toolsGame.mainElements.player.obj =  player
+                    this.obj = game.add.sprite((x*tileSize), ((y*tileSize)-(4*tileSize)), 'dude');
+                    game.physics.enable(this.obj, Phaser.Physics.ARCADE);
+                    this.obj.body.bounce.y = 0.3;
+                    this.obj.body.collideWorldBounds = true;
+
+                    this.obj.animations.add('idle-right', [0, 1, 2, 3, 4, 5,0, 1, 2, 3, 4, 5,0, 1, 33, 3, 4, 5], 6, true);
+
                     this.obj.animations.add('idle-right', [0, 1, 2, 3, 4, 5,0, 1, 2, 3, 4, 5,0, 1, 33, 3, 4, 5], 6, true);
                     this.obj.animations.add('idle-left', [6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7, 34, 9, 10, 11], 6, true);
 
@@ -1714,69 +1824,74 @@ const toolsGame={
                     this.obj.animations.add('jump-left', [26], 20, true);
 
                     this.obj.animations.add('kill-right', [28,29,30,31,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32], 16, false).onComplete.add(function(){
-                    	toolsGame.mainElements.player.generateAgain = true;
-                    	}, this);
+                        toolsGame.mainElements.player.generateAgain = true;
+                    }, this);
 
-				    this.obj.animations.add('left', [18, 19, 20, 21, 22, 23], 20, true);
-				    this.obj.animations.add('right', [12, 13, 14, 15, 16, 17], 20, true);
-				    //this.obj.body.allowGravity = false;
-				    //game.camera.follow(this.obj);
-				    game.camera.follow(this.obj, Phaser.Camera.FOLLOW_LOCKON, 0.1,0.1);
-				    //console.log(game.camera.lerp);
+                    this.obj.animations.add('left', [18, 19, 20, 21, 22, 23], 20, true);
+                    this.obj.animations.add('right', [12, 13, 14, 15, 16, 17], 20, true);
+                    //this.obj.body.allowGravity = false;
+                    //game.camera.follow(this.obj);
+                    game.camera.follow(this.obj, Phaser.Camera.FOLLOW_LOCKON, 0.1,0.1);
+                    //console.log(game.camera.lerp);
 
-				    this.gun.bullets.restartBullets();
-				    if(!getCookies('bullets')) {
+                    this.gun.bullets.restartBullets();
+                    if(!getCookies('bullets')) {
                         this.countBullets=amountBullet;
-					} else {
+                    } else {
                         this.countBullets=parseInt(getCookies('bullets'));
                     }
-				    this.gun.obj=false;
+                    this.gun.obj=false;
                     saveX = x*tileSize;
                     saveY = y*tileSize;
                     //console.log(x + " x " + y);
-				}
-			},
+                }
+            },
             velocityNormal: playerJumpVelocityNormalSmall,
             velocityWater: playerJumpVelocityWaterSmall,
-            scale: function(){ // toolsGame.mainElements.player.scale();
-                var playerScale = toolsGame.mainElements.player.obj.scale.y !== 1;
+            scale: function(type){ // toolsGame.mainElements.player.scale();
+                //console.log("tint:");
+                //console.log(this.obj.tint);
+                if(type==='increase') {
+                    this.obj.scale.setTo(1,playerScaleBig);
+                    playerSpeedLeftRight = 300;
+                    //this.obj.tint = 0x000000;
+                    this.obj.tint = 16776960; // 200324 * 0xFFFFFF; //   0xFF7E1C; // 200324 * 0xFFFFFF; //Math.random()
+                } else {
+                    if(type === 'restart') toolsGame.audio.scaleDown();
+                    playerSpeedLeftRight = 200;
+                    this.obj.scale.setTo(1,1);
+                    this.obj.tint = 0xFFFFFF;
+                }
+                const playerScale = toolsGame.mainElements.player.obj.scale.y !== 1;
                 this.velocityNormal = (playerScale)?playerJumpVelocityNormalBig:playerJumpVelocityNormalSmall; // 530:430
                 this.velocityWater = (playerScale)?playerJumpVelocityWaterBig:playerJumpVelocityWaterSmall; // 300:200
             }
-		},
-		intruzi:{ // toolsGame.mainElements.intruzi
-			obj: true,
+        },
+        intruders:{ // toolsGame.mainElements.intruders
+            obj: true,
             id: 0,
-			add: function(x,y,type) {
-				//toolsGame.mainElements.intruzi.obj =  intruzi
-
-                // po co to?
-                // if(!this.typeIntruder || this.typeIntruder===3) {
-                 //    this.typeIntruder=1;
-                // } else if(this.typeIntruder===1) {
-                 //    this.typeIntruder=2;
-                // } else if(this.typeIntruder===2) {
-                 //    this.typeIntruder=3;
-                // }
-
-                //var typeIntruder = Math.floor(Math.random() * 3)+1; // 3 typy intruzów
-                //console.log(this.typeIntruder);
-				var intruz = this.obj.create((x*tileSize), ((y*tileSize)-(2*tileSize)), 'intruder'+type);
+            add: function(x,y,type) {
+                //toolsGame.mainElements.intruders.obj =  intruders
+                const intruz = this.obj.create((x*tileSize), ((y*tileSize)-(2*tileSize)), 'intruder'+type);
                 intruz.scale.setTo(0, 0);
                 //console.log(intruz.scale);
                 //intruz.scale.setTo(1, 1);
-                game.add.tween(intruz.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Linear.None, true);
+                if(type===6){
+                    game.add.tween(intruz.scale).to({x: 1.18, y: 1.23}, 400, Phaser.Easing.Linear.None, true);
+                } else {
+                    game.add.tween(intruz.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Linear.None, true);
+                }
 
                 intruz.type = type;
                 intruz.wspStartX = x;
                 intruz.wspStartY = y;
 
-				game.physics.enable(intruz, Phaser.Physics.ARCADE);
-				intruz.body.bounce.y = 0.4;
-				intruz.body.collideWorldBounds = true;
-				// intruz.animations.add('left', [6, 7, 8, 9, 10, 11], 10, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
-				// intruz.animations.add('right', [0, 1, 2, 3, 4, 5], 10, true);
-                intruz.randomSpeed=fispeed[Math.floor(Math.random() * fispeed.length)];
+                game.physics.enable(intruz, Phaser.Physics.ARCADE);
+                intruz.body.bounce.y = 0.4;
+                intruz.body.collideWorldBounds = true;
+                // intruz.animations.add('left', [6, 7, 8, 9, 10, 11], 10, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
+                // intruz.animations.add('right', [0, 1, 2, 3, 4, 5], 10, true);
+                intruz.randomSpeed=randomArray([90,110,130]);
                 if(type===4) {
                     intruz.animations.add('left', [14,15,16,17,18,19,20,21,22,23,24,25,26,27], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
                     intruz.animations.add('right', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], intruz.randomSpeed/8, true);
@@ -1786,25 +1901,30 @@ const toolsGame={
                     intruz.animations.add('turn-left', [40,37], 5, false);
                     intruz.animations.add('turn-right', [41,37], 5, false);
                 } else if (type===5) {
-                    intruz.animations.add('left', [14,15,16,17,18,21,22,23,24,25], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
-                    intruz.animations.add('right', [0,1,2,3,4,7,8,9,10,11], intruz.randomSpeed/8, true);
+                    //intruz.animations.add('left', [14,15,16,17,18,21,22,23,24], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
+                    intruz.animations.add('left', [14,15,16,17,18,21,22,23,24,25], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 // old condor
+                    //intruz.animations.add('right', [0,1,2,3,4,7,8,9,10], intruz.randomSpeed/8, true);
+                    intruz.animations.add('right', [0,1,2,3,4,7,8,9,10,11], intruz.randomSpeed/8, true); // old condor
                     intruz.animations.add('idle-right', [6], 6, true);
                     intruz.animations.add('idle-left', [20], 6, true);
-                    intruz.animations.add('kill', [28,29,30,31,32,33,34,35], 15, false);
+                    intruz.animations.add('kill', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47,47,47,47], 15, false);
+                    //intruz.animations.add('kill', [0,1,2,3,4,7,8,9,10,11], intruz.randomSpeed/8, true); // old condor
+                    //intruz.animations.add('kill', [28,29,30,31,32,33,34,35], 15, false);
+                    //intruz.animations.add('kill', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                     intruz.animations.add('turn-left', [40,37], 5, false);
                     intruz.animations.add('turn-right', [41,37], 5, false);
-                }else {
+                } else {
                     intruz.animations.add('left', [18, 19, 20, 21, 22, 23], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
                     intruz.animations.add('right', [12, 13, 14, 15, 16, 17], intruz.randomSpeed/8, true);
                     intruz.animations.add('idle-right', [0, 1, 2, 3, 4, 5,0, 1, 2, 3, 4, 5,0, 1, 33, 3, 4, 5], 6, true);
                     intruz.animations.add('idle-left', [6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7, 34, 9, 10, 11], 6, true);
                     intruz.animations.add('kill', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                 }
-				intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
-				//console.log("c i");
-			},
+                intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
+                //console.log("c i");
+            },
             jump: function(intruz,yVelocity) {
-                var jumpTimerIntruz = 0;
+                let jumpTimerIntruz = 0;
                 if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
                     intruz.body.velocity.y = -yVelocity;
                     jumpTimerIntruz = game.time.now + yVelocity;
@@ -1816,7 +1936,7 @@ const toolsGame={
                     }
                 }
             },
-            collisionIntruz: function(intruz,destiny){ // toolsGame.mainElements.intruzi.collisionIntruz
+            collisionIntruz: function(intruz,destiny){ // toolsGame.mainElements.intruders.collisionIntruz
 
                 if(intruz.randomMove==='intruzRight' || intruz.randomMove==='intruzLeft') {
                     intruz.saveRandom = intruz.randomMove;
@@ -1824,7 +1944,7 @@ const toolsGame={
                     intruz.saveRandom = 'intruzRight';
                 }
 
-			    var ftf=game.time.events.loop(1000/60,function(){
+                const ftf=game.time.events.loop(1000/60,function(){
                     if(isEven(Math.ceil(game.time.now/100)))
                     {
                         //if(destiny=="total-kill") intruz.alpha=0.2;
@@ -1849,7 +1969,7 @@ const toolsGame={
                         if(intruz.randomMove=='intruzRight' || intruz.randomMove=='intruzLeft')
                         {
                             intruz.randomMove='intruzStop';
-                            toolsGame.mainElements.player.obj.body.velocity.y = -350;
+                            toolsGame.mainElements.player.obj.body.velocity.y = -playerJumpVelocityIntruder;
                         }
                     }
 
@@ -1864,8 +1984,10 @@ const toolsGame={
                         intruz.animations.add('right', [28,29,30,31,32,33,34,35], 15, false);
                     } else if(intruz.type === 5) {
                         //alert("x");
-                        intruz.animations.add('left', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
-                        intruz.animations.add('right', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
+                        //intruz.animations.stop();
+                        //intruz.animations.play('kill');
+                        intruz.animations.add('left', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47,47,47,47], 15, false);
+                        intruz.animations.add('right', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47,47,47,47], 15, false);
                     } else {
                         intruz.animations.add('left', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
                         intruz.animations.add('right', [28, 29, 30, 31, 32,39,40,41,42,43,44,45,46,47], 20, false);
@@ -1874,19 +1996,6 @@ const toolsGame={
                     game.time.events.add(500, function(){
                         intruz.killed = false;
                         game.time.events.remove(ftf);
-
-                        // to ponizej nie potrzebne
-                        // intruz.randomSpeed=fispeed[Math.floor(Math.random() * fispeed.length)];
-                        // if(intruz.type === 4) {
-                        //     intruz.animations.add('left', [14,15,16,17,18,19,20,21,22,23,24,25,26,27], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
-                        //     intruz.animations.add('right', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], intruz.randomSpeed/8, true);
-                        // } else if(intruz.type === 5) {
-                        //     intruz.animations.add('left', [14,15,16,17,18,21,22,23,24,25], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
-                        //     intruz.animations.add('right', [0,1,2,3,4,7,8,9,10,11], intruz.randomSpeed/8, true);
-                        // }else {
-                        //     intruz.animations.add('left', [18, 19, 20, 21, 22, 23], intruz.randomSpeed / 8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
-                        //     intruz.animations.add('right', [12, 13, 14, 15, 16, 17], intruz.randomSpeed / 8, true);
-                        // }
                         intruz.randomMove='intruzDelete';
                     }, this);
                 }
@@ -1927,225 +2036,447 @@ const toolsGame={
 
                 }
             }
-		},
-		coins:{
-			//obj: true,
-			add: function(x,y) {
-				//toolsGame.mainElements.coins.obj = coins
-		        var coin = this.obj.create(x*tileSize, y*tileSize, 'coin');
-				coin.animations.add('run',[0,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,0]);
-				coin.animations.play('run', 18, true);
+        },
+        coins:{
+            add: function(x,y) {
+                //toolsGame.mainElements.coins.obj = coins
+                const coin = this.obj.create(x*tileSize, y*tileSize, 'coin');
+                coin.animations.add('run',[0,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,0]);
+                coin.animations.play('run', 18, true);
+                coin.body.allowGravity = false;
+            }
+        },
 
+        invisibleLogs: {
+            add: function(x,y) {
+                const log = this.obj.create(x*tileSize, y*tileSize, 'log');
+                //log.animations.add('run',[11]);
+                //log.animations.play('run');
+                log.frame=11;
 
-                // var fun = function () {
-                //     var tween = game.add.tween(coin).to({y: (y*tileSize-16)}, 900, Phaser.Easing.Linear.None, true);
-                //     //console.log(tween);
-                //     tween.onComplete.add(function(){
-                //         tween = game.add.tween(coin).to({y: (y*tileSize)}, 900, Phaser.Easing.Linear.None, true);
-                //         tween.onComplete.add(fun, this);
-                //     }, this);
-                // };
-                // fun();
+                game.physics.enable(log, Phaser.Physics.ARCADE);
 
-
-				coin.body.allowGravity = false;
-			}
-		},
+                log.scale.setTo(3, 1);
+                log.body.allowGravity = false;
+                log.body.collideWorldBounds = true;
+                log.body.immovable = true;
+            }
+        },
 
         logs:{
-            //obj: true,
             lengthBonusCoins: 0,
-            add: function(x,y,type) {
+            add: function(x,y,type,name,lotterySuprise) {
                 //toolsGame.mainElements.log.obj = logs
-                var log = this.obj.create(x*tileSize, y*tileSize, 'log');
-                log.animations.add('run');
+                const log = this.obj.create(x*tileSize, y*tileSize, name);
+                log.frame=0;
+
+                //log.animations.add('run');
+
                 game.physics.enable(log, Phaser.Physics.ARCADE);
                 //log.animations.play('run', 15, true);
                 log.body.allowGravity = false;
                 log.body.collideWorldBounds = true;
                 log.body.immovable = true;
+                if(type) {
+                    toolsGame.audio.bingo();
+                }
                 if(type==='coin') {
                     log.coin = true;
                 } else if(type==='surprise'){
-                    var lotterySuprise = randomBetween(1,5);
-                    // console.log(lotterySuprise);
-                    switch (lotterySuprise) {
-                        case 1:
-                            log.surprise = 1;
-                            break;
-                        case 2:
-                            log.surprise = 2;
-                            break;
-                        case 3:
-                            log.surprise = 3;
-                            break;
-                        case 4:
-                            log.surprise = 4;
-                            toolsGame.mainElements.logs.lengthBonusCoins++;
-                            break;
-                        case 5:
-                            log.surprise = 5;
-                            break;
+                    if(name==='log') {
+                        const lotterySuprise = randomBetween(1,4);
+                        //console.log(lotterySuprise);
+                        switch (lotterySuprise) {
+                            case 1:
+                                log.surprise = 1; // bulletsgun
+                                break;
+                            case 2:
+                                log.surprise = 2;  // life
+                                break;
+                            case 3:
+                                log.surprise = 3; // intruz type 3
+                                break;
+                            case 4:
+                                log.surprise = 5; //  intruz type 5 (bird)
+
+                                break;
+                        }
+                    } else if(name==='stone') {
+                        const lotterySuprise = randomBetween(1,2);
+                        //console.log(lotterySuprise);
+                        switch (lotterySuprise) {
+                            case 1:
+                                log.surprise = 1; // bulletsgun
+                                break;
+                            case 2:
+                                log.surprise = 2; // life
+                                break;
+                        }
                     }
+                }
+            },
+            destruction:function(p) {
+                if(!p.onlynOne) {
+                    const savePX=p.x/tileSize, savePY=p.y/tileSize-3;
+                    //p.body.allowGravity = true;
+                    p.body.velocity.y = -330;
+                    if(facing === 'left') {
+                        p.body.velocity.x = -130;
+                    } else if(facing === 'right') {
+                        p.body.velocity.x = 130;
+                    }
+
+                    toolsGame.audio.breakGround();
+
+                    p.body.checkCollision.up=false;
+                    p.body.checkCollision.down=false;
+                    p.body.checkCollision.left=false;
+                    p.body.checkCollision.right=false;
+
+                    game.time.events.add(50, function(){
+                        p.body.allowGravity = true;
+                        //p.body.checkCollision.down=false;
+                    },this);
+                    p.animations.add('run');
+                    game.time.events.add(300, function(){
+                        p.animations.play('run', 20, false);
+                    },this);
+
+                    // jesli id = 514 to dostajemy bonusowe zloto
+                    if(p.coin) {
+                        game.time.events.add(200, function(){
+                            toolsGame.mainElements.coins.add(savePX, savePY);
+
+                        },this);
+                    } else if(p.surprise) {
+                        game.time.events.add(200, function(){
+                            //console.log(p.surprise);
+                            switch (p.surprise) {
+                                case 1:
+                                    toolsGame.mainElements.bulletsGuns.add(savePX, savePY);
+                                    break;
+                                case 2:
+                                    toolsGame.mainElements.LifeSingleS.add(savePX, savePY);
+                                    break;
+                                case 3:
+                                    toolsGame.mainElements.intruders.add(savePX, savePY, 3);
+                                    break;
+                                case 4:
+                                    toolsGame.mainElements.coins.add(savePX, savePY);
+                                    break;
+                                case 5:
+                                    toolsGame.mainElements.intruders.add(savePX, savePY, 5);
+                                    break;
+                            }
+                        },this);
+                    }
+
+                    game.time.events.add(900, function(){
+                        // toolsGame.mainElements.coins.add(p.saveX/tileSize, p.saveY/tileSize);
+                        p.kill();
+                    }, this);
+                    p.onlynOne= true;
                 }
             }
         },
 
         Lifes:{ //toolsGame.mainElements.Lifes.obj = Lifes
-            //obj: true,
             add: function(x,y) {
                 //toolsGame.mainElements.Lifes.obj = Lifes
-                var Life = this.obj.create(x*tileSize, y*tileSize, 'Life');
+                const Life = this.obj.create(x*tileSize, y*tileSize, 'Life');
+                //Life.scale.setTo(1.2, 1.2);
                 Life.animations.add('run',[2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,0,0,1]);
                 Life.animations.play('run', 18, true);
                 Life.body.allowGravity = false;
             }
         },
         LifeSingleS:{ //toolsGame.mainElements.Lifes.obj = Lifes
-            //obj: true,
             add: function(x,y) {
-                var Life = this.obj.create(x*tileSize, y*tileSize, 'Life2');
+                const Life = this.obj.create(x*tileSize, y*tileSize, 'Life2');
                 Life.animations.add('run',[4,5,6,7,8,8,7,6,5,4,3,2,1,0,0,1,2,3]);
                 Life.animations.play('run', 18, true);
                 Life.body.allowGravity = false;
             }
         },
-		bulletsGuns:{
-			//obj: true,
-			add: function(x,y) {
-				//toolsGame.mainElements.bulletsGuns.obj = bullets_guns
-		        var bullets_gun = this.obj.create((x*tileSize)-5, (y*tileSize)-5, 'bullets_gun');
-				bullets_gun.animations.add('run',[8,7,6,5,4,3,2,1,0,0,1,2,3,4,5,6,7,8]);
-				bullets_gun.animations.play('run', 18, true);
-				bullets_gun.body.allowGravity = false;
-			}
-		},
-        keys: {
-            //obj: true,
+        bulletsGuns:{
             add: function(x,y) {
-                var key = this.obj.create((x*tileSize), (y*tileSize), 'key');
+                //toolsGame.mainElements.bulletsGuns.obj = bullets_guns
+                const bullets_gun = this.obj.create((x*tileSize)-5, (y*tileSize)-5, 'bullets_gun');
+                bullets_gun.animations.add('run',[8,7,6,5,4,3,2,1,0,0,1,2,3,4,5,6,7,8]);
+                bullets_gun.animations.play('run', 18, true);
+                bullets_gun.body.allowGravity = false;
+            }
+        },
+        keys: {
+            add: function(x,y) {
+                const key = this.obj.create((x*tileSize), (y*tileSize), 'key');
                 key.animations.add('run',[7,8,8,7,6,5,4,3,2,1,0,0,1,2,3,4,5,6]);
                 key.animations.play('run', 18, true);
                 key.body.allowGravity = false;
             }
         },
         locks: {
-            //obj: true,
             add: function(x,y,reverse) {
-                var lock = this.obj.create((x*tileSize)+(reverse?tileSize:0), (y*tileSize), 'lock');
+                const lock = this.obj.create((x*tileSize)+(reverse?tileSize:0), (y*tileSize), 'lock');
                 if(reverse) lock.scale.x *= -1;
                 lock.body.allowGravity = false;
             }
         },
         doors: {
-            //obj: true,
-            add: function(x,y) {
-                var door = toolsGame.createCenterObject(this.obj,x,y,"door");
-                door.animations.add('run');
-                //door.animations.play('run', 15, true);
-
+            add: function(x,y, none) {
+                const door = toolsGame.createCenterObject(this.obj,x,y,"door");
                 game.physics.enable(door, Phaser.Physics.ARCADE);
-                //log.animations.play('run', 15, true);
+                door.body.allowGravity = false;
+                door.body.collideWorldBounds = true;
+                door.body.immovable = true; // blokowanie objektu
+                //console.log(door);
+                if(none) {
+                    door.zero = true;
+                    door.body.checkCollision.none=true;
+                    door.scale.setTo(0, 0);
+                }
+            }
+        },
+        doorsHorizontal: {
+            //obj: true,
+            add: function(x,y, none) {
+                const door = toolsGame.createCenterObject(this.obj,x,y,"door-horizontal");
+                game.physics.enable(door, Phaser.Physics.ARCADE);
                 door.body.allowGravity = false;
                 door.body.collideWorldBounds = true;
                 door.body.immovable = true;
+                if(none) {
+                    door.zero = true;
+                    door.body.checkCollision.none=true;
+                    door.scale.setTo(0, 0);
+                }
             }
         },
-		cacti:{
-			//obj: true,
-			add: function(x,y) {
-                var cactus = toolsGame.createCenterObject(this.obj,x,y,"cactus");
-				cactus.body.allowGravity = false;
-			}
-		},
-		grassLeft: {
-            //obj: true,
+        openDoor:function(l) {
+            let ind1 = 0;
+            toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+                doorH.index = ind1;
+                ind1++;
+            },this);
+            let ind2 = 0;
+            toolsGame.mainElements.doors.obj.forEach(function(door){
+                door.index = ind2;
+                ind2++;
+            },this);
+
+            const distanceArray = [];
+            toolsGame.mainElements.doors.obj.forEach(function(door){
+                distanceArray.push(game.physics.arcade.distanceBetween(l,door));
+                //console.log(game.physics.arcade.distanceBetween(l,door));
+            },this);
+            const minDistnaceArray = Math.min.apply(null, distanceArray);
+
+            const distanceArrayH = [];
+            toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+                distanceArrayH.push(game.physics.arcade.distanceBetween(l,doorH));
+                //console.log(game.physics.arcade.distanceBetween(l,door));
+            },this);
+            const minDistnaceArrayH = Math.min.apply(null, distanceArrayH);
+
+
+            toolsGame.mainElements.doors.obj.forEach(function(door){
+
+                if(isExists(door) && !door.deactive) {
+                    if (minDistnaceArray === game.physics.arcade.distanceBetween(l, door)) {
+                        //console.log(door.index);
+                        if(isExists(door) && !door.deactive) {
+                            if(!door.zero) {
+                                door.deactive = true;
+                                door.body.velocity.y = -50;
+                                toolsGame.audio.doorLift();
+                                const doorYSave = Math.ceil(door.y/tileSize);
+                                const timeDoorLoop = game.time.events.loop(100, function(){
+                                    //console.log("------------");
+                                    //console.log(Math.ceil(door.y/tileSize));
+                                    //console.log(door.y);
+                                    //console.log(door.body.y);
+                                    //console.log(door);
+                                    if(Math.ceil(door.y/tileSize) <= doorYSave - 10 ){
+                                        door.body.velocity.y = 0;
+                                        game.time.events.remove(timeDoorLoop);
+                                    }
+                                }, this);
+                                // game.time.events.add(3000, function(){
+                                //     door.body.velocity.y = 0;
+                                // }, this);
+                            }
+                        }
+                    }
+                }
+            },this);
+
+            toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+
+                if (minDistnaceArrayH === game.physics.arcade.distanceBetween(l, doorH)) {
+                    if (isExists(doorH) && !doorH.deactive) {
+                        if(!doorH.zero) {
+                            doorH.deactive = true;
+                            toolsGame.mainElements.explosion.add(doorH.x / tileSize, doorH.y / tileSize);
+                            doorH.kill();
+                        }
+                    }
+                }
+            },this);
+        },
+        cacti:{
             add: function(x,y) {
-                var grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
+                const cactus = toolsGame.createCenterObject(this.obj,x,y,"cactus");
+                cactus.body.allowGravity = false;
+            }
+        },
+        grassLeft: {
+            add: function(x,y) {
+                const grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
                 grass.body.allowGravity = false;
             }
-		},
+        },
         grassAnim: {
-            //obj: true,
             add: function(x,y,type) {
-                var grass = toolsGame.createCenterObject(this.obj,x,y,"grass-lr-anim","sprite");
+                const grass = toolsGame.createCenterObject(this.obj,x,y,"grass-lr-anim","sprite");
                 grass.animations.add('run',[0,1,2,3,4,5,5,4,3,2,1,0]);
                 grass.animations.play('run', 8, true);
                 if(type==='right') {
                     grass.scale.x *= -1;
                     grass.anchor.setTo(1,0);﻿
                 }
-
-
                 grass.body.allowGravity = false;
             }
         },
-        grassRight: {
-            //obj: true,
+
+        trees: {
             add: function(x,y) {
-                var grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
+                const tree = toolsGame.createCenterObject(this.obj,x,y,"tree","sprite");
+                tree.animations.add('run');
+                tree.animations.play('run', 8, true);
+                tree.body.allowGravity = false;
+            }
+        },
+        cactusAnimateS: {
+            add: function(x,y) {
+                const c = toolsGame.createCenterObject(this.obj,x,y,"cactus-animate","sprite");
+                c.animations.add('run',[0,1,2,3,4,3,2,1,0]);
+                c.animations.play('run', 10, true);
+                c.body.allowGravity = false;
+                c.body.width = 39;  // 61,94
+                c.body.height = 70;
+                c.body.offset.y=11;
+                c.body.offset.x=11;
+            }
+        },
+        grassRight: {
+            add: function(x,y) {
+                const grass = toolsGame.createLeftObject(this.obj,x,y,"grassLr");
                 grass.body.allowGravity = false;
                 grass.scale.x *= -1;
             }
         },
-		caves:{
-			//obj: true,
-			add: function(x,y) {
-		        var cave = this.obj.create((x*tileSize)+(2*tileSize), (y*tileSize)-240, 'cave');
-				cave.body.allowGravity = false;
-			}
-		},
-        // blankTileS:{
-        //     obj: true,
-        //     add: function(x,y) {
-        //         var blankTile = this.obj.create((x*tileSize), (y*tileSize), 'blank-tile');
-        //
-        //         game.physics.enable(blankTile, Phaser.Physics.ARCADE);
-        //         blankTile.body.collideWorldBounds = true;
-        //         blankTile.body.immovable = true;
-        //
-        //         blankTile.body.allowGravity = false;
-        //     }
-        // },
-        building1s:{
-            //obj: true,
+
+        explosion:{
             add: function(x,y) {
-                var building = toolsGame.createCenterObject(this.obj,x,y,"building1"); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building1").width﻿/2), (y*tileSize)-(game.cache.getImage("building1").height-tileSize), 'building1');
+                const e = toolsGame.createCenterObject(this.obj,x,y-1,"explosion","sprite");
+                e.animations.add('run').onComplete.add(function(o){
+                    o.kill();
+                }, this);
+                e.animations.play('run', 16, false);
+                e.body.allowGravity = false;
+                toolsGame.audio.explosion(0.5);
+            }
+        },
+
+        stoneBigExplosion:{
+            add: function (x,y) {
+                const e = toolsGame.createCenterObject(this.obj,x,y+1,"stone-big-explosion","sprite");
+                e.animations.add('run').onComplete.add(function(o){
+                    o.kill();
+                }, this);
+                e.animations.play('run', 40, false);
+                e.body.allowGravity = false;
+            }
+        },
+
+        stoneBigS: {
+            add: function(x,y) {
+                const s = toolsGame.createLeftObject(this.obj,x,y,"stone-big");
+                game.physics.enable(s, Phaser.Physics.ARCADE);
+                s.body.collideWorldBounds = true;
+                s.allowGravity = true;
+                s.body.height = 40;
+                s.body.width = 40;
+                //s.body.offset.x=10;
+                s.anchor.setTo(0.5, 0.5);
+                s.angle = randomBetween(0,180);
+            }
+        },
+
+        caves:{
+            add: function(x,y) {
+                const cave = this.obj.create((x*tileSize)+(2*tileSize), (y*tileSize)-240, 'cave');
+                cave.body.allowGravity = false;
+            }
+        },
+        fogSingleS:{
+            add: function(x,y) {
+                const f = toolsGame.createCenterObject(this.obj,x,y,'fog-single',"sprite");
+                f.animations.add('run');
+                f.animations.play('run', 9, true);
+                f.alpha = .65;
+                f.body.allowGravity = false;
+            }
+        },
+        buildings:{
+            //obj: true,
+            add: function(x,y,name) {
+                const building = toolsGame.createCenterObject(this.obj,x,y,name); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building1").width﻿/2), (y*tileSize)-(game.cache.getImage("building1").height-tileSize), 'building1');
                 building.body.allowGravity = false;
             }
         },
-        building2s:{
+        blackboards:{
             //obj: true,
-            add: function(x,y) {
-                var building = toolsGame.createCenterObject(this.obj,x,y,"building2"); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building2").width﻿/2), (y*tileSize)-(game.cache.getImage("building2").height-tileSize), 'building2');
-                building.body.allowGravity = false;
+            add: function(x,y,name) {
+                const blackboard = toolsGame.createCenterObject(this.obj,x,y,name); //this.obj.create((x*tileSize)+(2*tileSize)-(game.cache.getImage("building1").width﻿/2), (y*tileSize)-(game.cache.getImage("building1").height-tileSize), 'building1');
+                blackboard.body.allowGravity = false;
             }
         },
-        building3s:{
-            //obj: true,
-            add: function(x,y) {
-                var building = toolsGame.createCenterObject(this.obj,x,y,"building3");
-                building.body.allowGravity = false;
-            }
-        },
+
         mines:{
             //obj: true,
             add: function(x,y) {
-                var building2 = toolsGame.createCenterObject(this.obj,x+6.5,y,"mine-part-2","sprite");
+                const building2 = toolsGame.createCenterObject(this.obj,x+6.5,y,"mine-part-2","sprite");
                 building2.animations.add('run',[0,1,2,3,4,5,4,3,2,1,0,6,7,8,9,10,9,8,7,6]);
                 building2.animations.play('run', 12, true);
 
                 building2.body.allowGravity = false;
-                var building1 = toolsGame.createCenterObject(this.obj,x-0.2,y,"mine-part-1");
+                const building1 = toolsGame.createCenterObject(this.obj,x-0.2,y,"mine-part-1");
                 building1.body.allowGravity = false;
             }
         },
         waters:{
             //obj: true,
             add: function(x,y,type) {
-                var water = toolsGame.createLeftObject(this.obj,x,y,type?type:"water","sprite");
+                const water = toolsGame.createLeftObject(this.obj,x,y,type?type:"water","sprite");
                 water.animations.add('run');
                 water.animations.play('run', 16, true);
+                water.body.allowGravity = false;
+                water.alpha = type?.7:.7;
+                if(type==='water-red') {
+                    water.type='water-red';
+                }
+            }
+        },
+        waterStaticS:{
+            //obj: true,
+            add: function(x,y,type,align) {
+                let water;
+                if(align==="center") {
+                    water = toolsGame.createCenterObject(this.obj,x,y,type?type:"water","sprite");
+                } else {
+                    water = toolsGame.createLeftObject(this.obj,x,y,type?type:"water","sprite");
+                }
                 water.body.allowGravity = false;
                 water.alpha = type?.7:.7;
                 if(type==='water-red') {
@@ -2156,7 +2487,7 @@ const toolsGame={
         firebs:{
             //obj: true,
             add: function(x,y,randomStart,typeFire) {
-                var fireb = toolsGame.createLeftObject(this.obj,x,y,typeFire?"fireb2":"fireb","sprite");
+                const fireb = toolsGame.createLeftObject(this.obj,x,y,typeFire?"fireb2":"fireb","sprite");
                 if(!typeFire) {
                     fireb.animations.add('run1',[0,1,2,1]);
                     fireb.animations.add('run2',[3,4,5,4]);
@@ -2172,7 +2503,7 @@ const toolsGame={
             //obj: true,
             add: function(x,y,typeColor,typeName) {
 
-                var splash = toolsGame.createCenterObject(this.obj,x,y,typeColor?typeColor:"splash","sprite");
+                const splash = toolsGame.createCenterObject(this.obj,x,y,typeColor?typeColor:"splash","sprite");
                 splash.animations.add('run').onComplete.add(function(s){
                     //toolsGame.mainElements.player.obj.gForceWaterOnlyeOne = false;
                     s.kill();
@@ -2192,12 +2523,11 @@ const toolsGame={
                 }
             }
         },
-		endLevelS:{ //end_level_s
+        endLevelS:{ //end_level_s
             //obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
             add: function(x,y) {
 
-                var end_level = toolsGame.createCenterObject(this.obj,x,y,"end_level","sprite");
-                //var end_level = this.obj.create((x*tileSize)-42, (y*tileSize)-110, 'end_level');
+                const end_level = toolsGame.createCenterObject(this.obj,x,y,"end_level","sprite");
                 end_level.animations.add('run');
                 end_level.animations.play('run', 17, true);
                 end_level.body.allowGravity = false;
@@ -2207,9 +2537,8 @@ const toolsGame={
             //obj: true, // toolsGame.mainElements.endLevelS.obj = end_level_s
             add: function(x,y,type) {
 
-                var save_level = toolsGame.createCenterObject(this.obj,x,y,"save_level","sprite"),
-                    frames1, frames2;
-                //var save_level = this.obj.create((x*tileSize)-42, (y*tileSize)-110, 'save_level');
+                const save_level = toolsGame.createCenterObject(this.obj,x,y,"save_level","sprite");
+                let frames1, frames2;
                 if(type==='<-') {
                     frames1=[26,25,24,23,22,22,23,24,25,26,26,21,20,19,18,18,19,20,21,26]; // 18-26
                     frames2=[35,34,33,32,31,31,32,33,34,35,35,30,29,28,27,27,28,29,30,35]; // 27-35
@@ -2223,11 +2552,11 @@ const toolsGame={
                 save_level.body.allowGravity = false;
             }
         },
-		fire: {
+        fire: {
             fireAnimation: function(that,x,y,type) {
-                var fire = that.obj.create(x, y, type);
+                const fire = that.obj.create(x, y, type);
                 fire.animations.add('run');
-                fire.animations.play('run', randomBetween(24,30), true);
+                fire.animations.play('run', randomBetween(16,20), true);
                 fire.alpha = .8;
                 fire.body.allowGravity = false;
             },
@@ -2255,14 +2584,14 @@ const toolsGame={
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize),(y*tileSize)-4,'fire_right');
                 }
             },
-		},
+        },
         windmills:{
             //obj: true,
             add: function(x,y) {
-            	//alert(game.cache._cache.image["windmill"].frameWidth);
-            	// console.log(game.cache);
-            	// alert(game.cache.getImage("windmill"));
-                var windmill = toolsGame.createCenterObject(this.obj,x,y,"windmill","sprite"); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
+                //alert(game.cache._cache.image["windmill"].frameWidth);
+                //console.log(game.cache);
+                // alert(game.cache.getImage("windmill"));
+                const windmill = toolsGame.createCenterObject(this.obj,x,y,"windmill","sprite"); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
                 windmill.animations.add('run');
                 windmill.animations.play('run', 20, true);
                 windmill.body.allowGravity = false;
@@ -2272,29 +2601,29 @@ const toolsGame={
             //obj1: true,
             //obj2: true,
             add: function(x,y) {
-                var w2 = toolsGame.createCenterObject(this.obj2,x,y,"windmill_2_new"); //this.obj2.create((x*tileSize), (y*tileSize)-200, 'windmill_2_new');
+                const w2 = toolsGame.createCenterObject(this.obj2,x,y,"windmill_2_new"); //this.obj2.create((x*tileSize), (y*tileSize)-200, 'windmill_2_new');
                 w2.body.allowGravity = false;
 
-                var w1 =  this.obj1.create((x*tileSize)+9, (y*tileSize)-240, 'windmill_1_new'); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
+                const  w1 =  this.obj1.create((x*tileSize)+9, (y*tileSize)-240, 'windmill_1_new'); //  this.obj.create((x*tileSize)-52, (y*tileSize)-306, 'windmill');
                 w1.anchor.setTo(0.5, 0.5);
                 w1.body.allowGravity = false;
             },
         },
-		kladki:{
-			kladkaPlayerBounceReset: true, // toolsGame.mainElements.kladki.kladkaPlayerBounceReset
-			poziom: {
-				//obj: true, // toolsGame.mainElements.kladki.poziom.obj = kladki
-				add: function(x,y){
-			        var kladkaPoz = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
-			        game.physics.enable(kladkaPoz, Phaser.Physics.ARCADE);
-			        kladkaPoz.body.collideWorldBounds = true;
-					kladkaPoz.body.allowGravity = false;
-					kladkaPoz.body.immovable = true;
-				}
-			},
-			//\\
+        kladki:{
+            kladkaPlayerBounceReset: true, // toolsGame.mainElements.kladki.kladkaPlayerBounceReset
+            poziom: {
+                //obj: true, // toolsGame.mainElements.kladki.poziom.obj = kladki
+                add: function(x,y){
+                    const kladkaPoz = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    game.physics.enable(kladkaPoz, Phaser.Physics.ARCADE);
+                    kladkaPoz.body.collideWorldBounds = true;
+                    kladkaPoz.body.allowGravity = false;
+                    kladkaPoz.body.immovable = true;
+                }
+            },
+            //\\
             run: { // for vertical only
-				startCollision: function (player,type) { // toolsGame.mainElements.kladki.run.startCollision(player,type)
+                startCollision: function (player,type) { // toolsGame.mainElements.kladki.run.startCollision(player,type)
                     if(!player.lock) {
                         if(!player.back) {
                             if(type === 'pionTopBack' || type === 'pionTop') player.body.velocity.y = 150;
@@ -2315,36 +2644,36 @@ const toolsGame={
                     //     player.isUp=false;
                     // },300);
                 },
-				endCollision: function (player,type) { // toolsGame.mainElements.kladki.run.endCollision(kladka,type)
+                endCollision: function (player,type) { // toolsGame.mainElements.kladki.run.endCollision(kladka,type)
                     player.lock = true;
                     //console.log("kladka uderza w layer");
                     game.time.events.remove(player.resetart1);
                     player.resetart1=game.time.events.add(2500,function(){
                         if(type === 'pionTopBack') {
                             if(!player.back) player.body.velocity.y = -150;
-						} else if(type === 'pionBottomBack') {
+                        } else if(type === 'pionBottomBack') {
                             if(!player.back) player.body.velocity.y = 150;
                         }
                         player.back = player.back?false:true;
                         player.lock = false;
                     }, this);
                 }
-			},
-			pionTopBack: {
-				//obj: true, // toolsGame.mainElements.kladki.pionTopBack.obj = pionTopBack
-				add: function(x,y){
-			        var kladkapionTopBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
-			        game.physics.enable(kladkapionTopBack, Phaser.Physics.ARCADE);
+            },
+            pionTopBack: {
+                //obj: true, // toolsGame.mainElements.kladki.pionTopBack.obj = pionTopBack
+                add: function(x,y){
+                    const kladkapionTopBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    game.physics.enable(kladkapionTopBack, Phaser.Physics.ARCADE);
                     kladkapionTopBack.body.collideWorldBounds = true;
                     kladkapionTopBack.body.allowGravity = false;
                     kladkapionTopBack.body.immovable = true;
                     kladkapionTopBack.body.orginalY=y;
-				}
-			},
+                }
+            },
             pionBottomBack: {
                 //obj: true, // toolsGame.mainElements.kladki.pionBottomBack.obj = pionBottomBack
                 add: function(x,y){
-                    var kladkapionBottomBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    const kladkapionBottomBack = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkapionBottomBack, Phaser.Physics.ARCADE);
                     kladkapionBottomBack.body.collideWorldBounds = true;
                     kladkapionBottomBack.body.allowGravity = false;
@@ -2352,10 +2681,10 @@ const toolsGame={
                     kladkapionBottomBack.body.orginalY=y;
                 }
             },
-			pionTop: {
+            pionTop: {
                 //obj: true, // toolsGame.mainElements.kladki.pionTop.obj = kladkipionTop
                 add: function(x,y){
-                    var kladkaPionTop = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    const kladkaPionTop = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkaPionTop, Phaser.Physics.ARCADE);
                     kladkaPionTop.body.collideWorldBounds = true;
                     kladkaPionTop.body.allowGravity = false;
@@ -2366,7 +2695,7 @@ const toolsGame={
             pionBottom: {
                 //obj: true, // toolsGame.mainElements.kladki.pionBottom.obj = kladkipionBottom
                 add: function(x,y){
-                    var kladkaPionBottom = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
+                    const kladkaPionBottom = this.obj.create(x*tileSize, y*tileSize, 'kladka-short');
                     game.physics.enable(kladkaPionBottom, Phaser.Physics.ARCADE);
                     kladkaPionBottom.body.collideWorldBounds = true;
                     kladkaPionBottom.body.allowGravity = false;
@@ -2374,10 +2703,10 @@ const toolsGame={
                     kladkaPionBottom.body.orginalY=y;
                 }
             }
-		}
-	},
-	intruzCollisonBack: function (intruz) {  // toolsGame.intruzCollisonBack(intruz);
-        var jumpTimerIntruz=0;
+        }
+    },
+    intruzCollisonBack: function (intruz) {  // toolsGame.intruzCollisonBack(intruz);
+        let jumpTimerIntruz=0;
         if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz)
         {
             intruz.body.velocity.y = -350;
@@ -2390,7 +2719,7 @@ const toolsGame={
         }
     },
     intruzCollisonNoBack: function (intruz) {  // toolsGame.intruzCollisonBack(intruz);
-        var jumpTimerIntruz=0;
+        let jumpTimerIntruz=0;
         if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz)
         {
             intruz.body.velocity.y = -350;
@@ -2399,12 +2728,8 @@ const toolsGame={
     },
     addPoint: function (x,y,idName,text) {
         toolsGame.text.show('add-point',
-           x,y,1,text, '700 15px Arial' ,'#ded4b8',false,idName,true
+            x,y,1,text, '700 15px Arial' ,'#ded4b8',false,idName,true
         );
-        // to jest zbedne usuwanie jest zalatwiane po przez onComplete w show
-        // setTimeout(function(idN){
-        //     toolsGame.text.hide(idN);
-        // },900,idName);
     }
 }
 
@@ -2412,13 +2737,12 @@ const startGame = (type,lastMap,percentLevel) => {
     levelFile.readyLoad=false;
     levelFile.blockedKeys=false;
 
-	if(type==="continuation") {
+    if(type==="continuation") {
         levelFile.name='level'+unlockLevels;
         levelFile.activeIdLevel = parseInt(unlockLevels);
-	}
+    }
 
-
-	game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // wykrywanie otatniego levelu dla Credits
     theEndCredits = false;
@@ -2428,49 +2752,50 @@ const startGame = (type,lastMap,percentLevel) => {
 
     toolsGame.preloader.add(13,14,lastMap,percentLevel);
 
-	//odmierzanie czasu co 1s
-	timer = game.time.create(false);
-	timerTotal=0;
-	timer.loop(1000, function(){
-	    if(!levelFile.blockedKeys) {
+    //odmierzanie czasu co 1s
+    timer = game.time.create(false);
+    timerTotal=0;
+    timer.loop(1000, function(){
+        if(!levelFile.blockedKeys) {
             timerTotal++;
         }
     }, this);
-	timer.start();
+    timer.start();
 
-	game.time.advancedTiming = true;
+    game.time.advancedTiming = true;
 
     game.time.desiredFps = (window.innerWidth<800)?40:50;
 
     //game.time.desiredFps = 60;
 
-	//reset inkubatorow
+    //reset inkubatorow
     wspInkub=[];
 
     //reset klucza/y
     keys=0;
 
-	//usuwanie przyciskow leveli
-	toolsGame.buttons.levels.hide();
+    //usuwanie przyciskow leveli
+    toolsGame.buttons.levels.hide();
 
-	//usuwanie logo text
-	toolsGame.text.hide('logoText');
+    //usuwanie logo text
+    toolsGame.text.hide('logoText');
 
-	// usuwanie tla menu
-	bgMenu.destroy();
+    // usuwanie tla menu
+    bgMenu.destroy();
 
-	//usuwanie przycisku menu
-	toolsGame.buttons.openBoxMenu.hide();
+    //usuwanie przycisku menu
+    toolsGame.buttons.openBoxMenu.hide();
 
     //game.time.slowMotion = 1.0;
 
-	//cookies Lifes
+    //cookies Lifes
     toolsGame.mainElements.player.countLifes();
 
     //cookies coins
     toolsGame.mainElements.player.countCoins();
 
-    var loaderSpeed = 300;
+
+    let loaderSpeed = 300;
     if(theEndCredits) {
         if(lastMap) {
             loaderSpeed = 2000;
@@ -2481,24 +2806,24 @@ const startGame = (type,lastMap,percentLevel) => {
 
     game.time.events.add(loaderSpeed, function(){
 
-	    map = game.add.tilemap(levelFile.name);
-	    map.addTilesetImage('tiles-1');
+        map = game.add.tilemap(levelFile.name);
+        map.addTilesetImage('tiles-1');
         levelFile.blockedKeys=false;
-        
-	    //console.log(proportiesMap[levelFile.activeIdLevel]);
+
+        //console.log(proportiesMap[levelFile.activeIdLevel]);
 
 
-	    // map.setTileIndexCallback(9, function(objectCollision,mapElement){
-	    // 	if(objectCollision.key=="dude")
-	    // 	{
-	    // 		//objectCollision.alpha=0.5; // to jest player
-	    // 		//console.log(objectCollision.key);
-	    // 		//console.log(map);
-	    // 		//console.log(map + " | " + map.getTile(65, 75, layer, true).index);
-	    // 	}
-	    // }, this);
+        // map.setTileIndexCallback(9, function(objectCollision,mapElement){
+        // 	if(objectCollision.key=="dude")
+        // 	{
+        // 		//objectCollision.alpha=0.5; // to jest player
+        // 		//console.log(objectCollision.key);
+        // 		//console.log(map);
+        // 		//console.log(map + " | " + map.getTile(65, 75, layer, true).index);
+        // 	}
+        // }, this);
 
-		// ta funkcja dziala tak ze player calkowicie pozbawiany jest blkowania przy tej kolizji
+        // ta funkcja dziala tak ze player calkowicie pozbawiany jest blkowania przy tej kolizji
         // map.setTileIndexCallback([109,110,111,112], function(objectCollision,mapElement){
         //     if(objectCollision.key==="dude")
         //     {
@@ -2507,10 +2832,10 @@ const startGame = (type,lastMap,percentLevel) => {
         //     return false;
         // }, this);
 
-	    map.setCollisionByExclusion(
-	        [101, 102, 205, 206, 207, 201, 202, 203,
+        map.setCollisionByExclusion(
+            [102, 155, 205, 206, 207, 201, 202, 203,
                 301, 302, 303, 304, 305, 306,
-                401, 402, 403, 404, 405, 406, 407, 451, 452, 453, 454, 455, 456, 457, 459,
+                401, 402, 403, 404, 405, 406, 407, 416, 417, 451, 452, 453, 454, 455, 456, 457, 459,
                 552,
                 651,652,653,654,655,656,657,658,659,660,661,662,
                 701,702,703,704,705,706,707,708,
@@ -2522,111 +2847,142 @@ const startGame = (type,lastMap,percentLevel) => {
                 901,902,903,904,905,906,
                 209,210,211,212,259,260,261,262,
                 309,310,311,312,
-                1013,1014,1015]);
+                1013,1014,1015,
+                1668,1619,1601, 1651, 1712, 1762, 1812, 1813, 1863, 1915, 1957,
+                1965, 2016, 2067, 2018, 2169, 2220, 2221, 2271, 2322, 2323,
+                2373, 2374, 2375, 2376]);
 
-		//ladowanie background tla dla daenj mapy z jsona
-		if(proportiesMap[levelFile.activeIdLevel].backgroundColor)
-		{
-			levelFile.backgroundColor=proportiesMap[levelFile.activeIdLevel].backgroundColor;
-		}
-		else
-		{
-			levelFile.backgroundColor='#4488AA';
-		}
+        //ladowanie background tla dla daenj mapy z jsona
+        if(proportiesMap[levelFile.activeIdLevel].backgroundColor)
+        {
+            levelFile.backgroundColor=proportiesMap[levelFile.activeIdLevel].backgroundColor;
+        }
+        else
+        {
+            levelFile.backgroundColor='#4488AA';
+        }
         toolsGame.bgSet(levelFile.backgroundColor);
 
 
-	    if(!proportiesMap[levelFile.activeIdLevel].background)
-	    {
-	    	levelFile.backgroundLevel='none';
-	    }
-	    else // jesli jest to laduje obrazek
-	    {
-	        var credits=false;
+        if(!proportiesMap[levelFile.activeIdLevel].background)
+        {
+            levelFile.backgroundLevel='none';
+        }
+        else // jesli jest to laduje obrazek
+        {
+            let credits=false;
 
             if(Object.keys(game.cache._cacheMap[7]).length === levelFile.activeIdLevel) {
                 credits=true;
             }
 
-	    	levelFile.backgroundLevel=proportiesMap[levelFile.activeIdLevel].background;
-		    // obrazek o rozmiarze 1600px specjalnie pod parallaxe...
-		    bg = game.add.sprite(0, credits?0:(game.height-game.cache.getImage(levelFile.backgroundLevel).height), levelFile.backgroundLevel);
-		    bg.width=game.cache.getImage(levelFile.backgroundLevel).width﻿; //100*tileSize;
-		    bg.height=game.cache.getImage(levelFile.backgroundLevel).height﻿; //28.125*tileSize;
-		    bg.fixedToCamera = credits?false:true;
+            levelFile.backgroundLevel=proportiesMap[levelFile.activeIdLevel].background;
+            // obrazek o rozmiarze 1600px specjalnie pod parallaxe...
+            //bg = game.add.sprite(0, credits?0:(game.height-game.cache.getImage(levelFile.backgroundLevel).height), levelFile.backgroundLevel);
+
+            //console.log(map.widthInPixels);
+            if(proportiesMap[levelFile.activeIdLevel].backgroundRepeatX) {
+                bg = game.add.tileSprite(0, credits?0:(game.height-game.cache.getImage(levelFile.backgroundLevel).height), map.widthInPixels*2, game.cache.getImage(levelFile.backgroundLevel).height,  levelFile.backgroundLevel);
+            }
+            else {
+                bg = game.add.sprite(0, credits?0:(game.height-game.cache.getImage(levelFile.backgroundLevel).height), levelFile.backgroundLevel);
+            }
+            //his.obj = game.add.tileSprite(tileSize*2, tileSize*2, 736, 377, 'boxMenu');
+            //bg.width=game.cache.getImage(levelFile.backgroundLevel).width﻿; //100*tileSize;
+            //bg.height=game.cache.getImage(levelFile.backgroundLevel).height﻿; //28.125*tileSize;
+            bg.fixedToCamera = credits?false:true;
 
             if(proportiesMap[levelFile.activeIdLevel].backgroundSecond) {
                 bg2 = game.add.sprite(0, (game.height-game.cache.getImage(proportiesMap[levelFile.activeIdLevel].backgroundSecond).height), proportiesMap[levelFile.activeIdLevel].backgroundSecond);
                 bg2.width=game.cache.getImage(proportiesMap[levelFile.activeIdLevel].backgroundSecond).width﻿;
                 bg2.height=game.cache.getImage(proportiesMap[levelFile.activeIdLevel].backgroundSecond).height﻿;
                 bg2.fixedToCamera = true;
-			}
+            }
 
-			if(proportiesMap[levelFile.activeIdLevel].parallax)
-			{
-				levelFile.backgroundParallax=true;
-			}
-			else
-			{
-				levelFile.backgroundParallax=false;
-			}
+            if(proportiesMap[levelFile.activeIdLevel].parallax)
+            {
+                levelFile.backgroundParallax=true;
+            }
+            else
+            {
+                levelFile.backgroundParallax=false;
+            }
 
-	    }
-		
-	    //alert(map.width + ' x ' + map.height);
-	    if(proportiesMap[levelFile.activeIdLevel].fog)
-	    {
-	    	var heightLessForGround=tileSize*4; // default
-	    	var algoPosit=25/(tileSize/10);
-	    	var moveY = proportiesMap[levelFile.activeIdLevel].fogPositionY?proportiesMap[levelFile.activeIdLevel].fogPositionY:0; // default 0
+        }
 
-			oFog = game.add.tileSprite(-(map.width*tileSize), ((map.height-algoPosit)*tileSize)-heightLessForGround-moveY, ((2*map.width)*tileSize), (algoPosit*tileSize), proportiesMap[levelFile.activeIdLevel].fog);
+        //alert(map.width + ' x ' + map.height);
+        if(proportiesMap[levelFile.activeIdLevel].fog)
+        {
+            const heightLessForGround=tileSize*4; // default
+            const algoPosit=25/(tileSize/10);
+            const moveYfog = proportiesMap[levelFile.activeIdLevel].fogPositionY?proportiesMap[levelFile.activeIdLevel].fogPositionY:0; // default 0
+
+            oFog = game.add.tileSprite(-(map.width*tileSize), ((map.height-algoPosit)*tileSize)-heightLessForGround-moveYfog, ((2*map.width)*tileSize), (algoPosit*tileSize), proportiesMap[levelFile.activeIdLevel].fog);
             //oFog.fixedToCamera = true;
-	    }
+        }
 
-	    if(proportiesMap[levelFile.activeIdLevel].positionGround) {
-            var positionGround = 6*tileSize; // default
+        if(proportiesMap[levelFile.activeIdLevel].positionGround) {
+            let positionGround = 6*tileSize; // default
             if(Number.isInteger(proportiesMap[levelFile.activeIdLevel].positionGround)) {
                 positionGround = proportiesMap[levelFile.activeIdLevel].positionGround;
             }
             ground = game.add.tileSprite(-(map.width*tileSize), (map.height*tileSize)-positionGround-1, ((2*map.width)*tileSize), map.height*tileSize, 'ground');
         }
 
-	    //layer = map.createLayer('Tile Layer 1');
-	    //console.log(map + " | " + map.getTile(65, 75, layer, true).index);
-	    //  Un-comment this on to see the collision tiles
-	    // layer.debug = true;
-	    //layer.resizeWorld();
+        //layer = map.createLayer('Tile Layer 1');
+        //console.log(map + " | " + map.getTile(65, 75, layer, true).index);
+        //  Un-comment this on to see the collision tiles
+        // layer.debug = true;
+        //layer.resizeWorld();
 
-		//console.log(game.world.width + "x" + game.world.height);
+        //console.log(game.world.width + "x" + game.world.height);
 
-	    game.physics.arcade.gravity.y = 750;
+        game.physics.arcade.gravity.y = 750;
 
-	    cursors = game.input.keyboard.createCursorKeys();
-	    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-	    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
+        cursors = game.input.keyboard.createCursorKeys();
+        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        //console.log(Phaser.Keyboard);
 
 
-	    //ustawianie obiektow wg indexow mapy
-	    //kolejnosc wyznacza z-index warstwy
+        //ustawianie obiektow wg indexow mapy
+        //kolejnosc wyznacza z-index warstwy
 
-		toolsGame.mainElements.caves.obj = game.add.group();
-		toolsGame.mainElements.caves.obj.enableBody = true;
+        // toolsGame.mainElements.fogSingleS.obj = game.add.group();
+        // toolsGame.mainElements.fogSingleS.obj.enableBody = true;
 
-        toolsGame.mainElements.building1s.obj = game.add.group();
-        toolsGame.mainElements.building1s.obj.enableBody = true;
+        layerDeep = map.createLayer('levels-deep');
+        layerDeep.resizeWorld();
 
-        toolsGame.mainElements.building2s.obj = game.add.group();
-        toolsGame.mainElements.building2s.obj.enableBody = true;
+        toolsGame.mainElements.caves.obj = game.add.group();
+        toolsGame.mainElements.caves.obj.enableBody = true;
 
-        toolsGame.mainElements.building3s.obj = game.add.group();
-        toolsGame.mainElements.building3s.obj.enableBody = true;
+        toolsGame.mainElements.buildings.obj = game.add.group();
+        toolsGame.mainElements.buildings.obj.enableBody = true;
+
+        toolsGame.mainElements.blackboards.obj = game.add.group();
+        toolsGame.mainElements.blackboards.obj.enableBody = true;
+
+        // toolsGame.mainElements.building1s.obj = game.add.group();
+        // toolsGame.mainElements.building1s.obj.enableBody = true;
+        //
+        // toolsGame.mainElements.building2s.obj = game.add.group();
+        // toolsGame.mainElements.building2s.obj.enableBody = true;
+        //
+        // toolsGame.mainElements.building3s.obj = game.add.group();
+        // toolsGame.mainElements.building3s.obj.enableBody = true;
+        //
+        // toolsGame.mainElements.building4s.obj = game.add.group();
+        // toolsGame.mainElements.building4s.obj.enableBody = true;
+        //
+        // toolsGame.mainElements.building5s.obj = game.add.group();
+        // toolsGame.mainElements.building5s.obj.enableBody = true;
 
         toolsGame.mainElements.mines.obj = game.add.group();
         toolsGame.mainElements.mines.obj.enableBody = true;
 
-		toolsGame.mainElements.cacti.obj = game.add.group();
-		toolsGame.mainElements.cacti.obj.enableBody = true;
+        toolsGame.mainElements.cactusAnimateS.obj = game.add.group();
+        toolsGame.mainElements.cactusAnimateS.obj.enableBody = true;
 
         toolsGame.mainElements.grassLeft.obj = game.add.group();
         toolsGame.mainElements.grassLeft.obj.enableBody = true;
@@ -2637,6 +2993,9 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.grassAnim.obj = game.add.group();
         toolsGame.mainElements.grassAnim.obj.enableBody = true;
 
+        toolsGame.mainElements.trees.obj = game.add.group();
+        toolsGame.mainElements.trees.obj.enableBody = true;
+
         toolsGame.mainElements.keys.obj = game.add.group();
         toolsGame.mainElements.keys.obj.enableBody = true;
 
@@ -2645,6 +3004,9 @@ const startGame = (type,lastMap,percentLevel) => {
 
         toolsGame.mainElements.doors.obj = game.add.group();
         toolsGame.mainElements.doors.obj.enableBody = true;
+
+        toolsGame.mainElements.doorsHorizontal.obj = game.add.group();
+        toolsGame.mainElements.doorsHorizontal.obj.enableBody = true;
 
         toolsGame.mainElements.fire.fireUpS.obj = game.add.group();
         toolsGame.mainElements.fire.fireUpS.obj.enableBody = true;
@@ -2667,24 +3029,30 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.windmillNewS.obj1 = game.add.group();
         toolsGame.mainElements.windmillNewS.obj1.enableBody = true;
 
-		toolsGame.mainElements.bulletsGuns.obj = game.add.group();
-		toolsGame.mainElements.bulletsGuns.obj.enableBody = true;
+        toolsGame.mainElements.bulletsGuns.obj = game.add.group();
+        toolsGame.mainElements.bulletsGuns.obj.enableBody = true;
 
 
         toolsGame.mainElements.player.obj=false;
 
-        //kolejnosc ladowania warstw
-
-        layerDeep = map.createLayer('levels-deep');
-        layerDeep.resizeWorld();
 
         layerObject = map.createLayer('levels-objects');
         layerObject.resizeWorld();
 
+        toolsGame.mainElements.stoneBigS.obj = game.add.group();
+        toolsGame.mainElements.stoneBigS.obj.enableBody = true;
+
         layer = map.createLayer('levels-main');
         layer.resizeWorld();
 
+        toolsGame.mainElements.explosion.obj = game.add.group();
+        toolsGame.mainElements.explosion.obj.enableBody = true;
 
+
+        toolsGame.mainElements.stoneBigExplosion.obj = game.add.group();
+        toolsGame.mainElements.stoneBigExplosion.obj.enableBody = true;
+
+        //console.log("objects:");
         //console.log(map.objects['just-objects']);
         if(map.objects['just-objects']) {
             map.objects['just-objects'].forEach(function (o) {
@@ -2692,39 +3060,139 @@ const startGame = (type,lastMap,percentLevel) => {
                 if (o.gid === 461) {
                     toolsGame.mainElements.grassAnim.add(o.x/tileSize, o.y/tileSize);
                 }
+
                 // generowanie animowanej trawy z prawej
                 if (o.gid === 462) {
                     toolsGame.mainElements.grassAnim.add(o.x/tileSize, o.y/tileSize, 'right');
                 }
+
+                if (o.gid === 13) {
+                    toolsGame.mainElements.stoneBigS.add(o.x/tileSize, o.y/tileSize);
+                }
+
+                //generowanie ognia up
+                if (o.gid === 111) {
+                    toolsGame.mainElements.fire.fireUpS.add(o.x/tileSize, o.y/tileSize);
+                }
+
+                //generowanie ognia down
+                if (o.gid === 110) {
+                    toolsGame.mainElements.fire.fireDownS.add(o.x/tileSize, o.y/tileSize);
+                }
+
+                //generowanie ognia left
+                if (o.gid === 109) {
+                    toolsGame.mainElements.fire.fireLeftS.add(o.x/tileSize, o.y/tileSize);
+                }
+
+                //generowanie ognia right
+                if (o.gid === 112) {
+                    toolsGame.mainElements.fire.fireRightS.add(o.x/tileSize, o.y/tileSize);
+                }
+
             });
 
         }
 
-	    for(var x=0; x<map.width; x++) {
-            for (var y = 0; y < map.height; y++) {
+        for(let x=0; x < map.width; x++) {
+            for (let y = 0; y < map.height; y++) {
+
+                if (map.getTile(x, y, layer, true).index == 51) {
+                    // toolsGame.mainElements.logs.add(x, y, 'surprise', 'log');
+                    // map.removeTile(x, y, layerObject);
+
+                    map.removeTile(x, y, layer);
+                    map.putTile(101,x,y,layer);
+                }
+
+                // //generate single fog
+                // if (map.getTile(x, y, layerObject, true).index === 62) {
+                //     toolsGame.mainElements.fogSingleS.add(x, y);
+                //     map.removeTile(x, y, layerObject);
+                // }
+
                 //generowanie jaskini
                 if (map.getTile(x, y, layerObject, true).index == 1) {
                     toolsGame.mainElements.caves.add(x, y);
                     map.removeTile(x, y, layerObject);
                 }
 
+
+                if (map.getTile(x, y, layerObject, true).index == 522) {
+                    toolsGame.mainElements.trees.add(x, y);
+                    map.removeTile(x, y, layerObject);
+                }
+
+
+                //generate balckboard SHERIFF
+                if (map.getTile(x, y, layerObject, true).index == 52) {
+                    toolsGame.mainElements.blackboards.add(x, y, 'b-sheriff');
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generate balckboard SALOON
+                if (map.getTile(x, y, layerObject, true).index == 53) {
+                    toolsGame.mainElements.blackboards.add(x, y, 'b-saloon');
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generate balckboard STORE
+                if (map.getTile(x, y, layerObject, true).index == 54) {
+                    toolsGame.mainElements.blackboards.add(x, y, 'b-store');
+                    map.removeTile(x, y, layerObject);
+                }
+
                 //generowanie building1
                 if (map.getTile(x, y, layerObject, true).index == 2) {
-                    toolsGame.mainElements.building1s.add(x, y);
+                    toolsGame.mainElements.buildings.add(x, y, 'building1');
                     map.removeTile(x, y, layerObject);
                 }
 
                 //generowanie building2
                 if (map.getTile(x, y, layerObject, true).index == 4) {
-                    toolsGame.mainElements.building2s.add(x, y);
+                    toolsGame.mainElements.buildings.add(x, y, 'building2');
                     map.removeTile(x, y, layerObject);
                 }
 
                 //generowanie building3
-                if (map.getTile(x, y, layerObject, true).index == 5) {
-                    toolsGame.mainElements.building3s.add(x, y);
+                if (map.getTile(x, y, layerObject, true).index == 7) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building3');
                     map.removeTile(x, y, layerObject);
                 }
+
+                //generowanie building4
+                if (map.getTile(x, y, layerObject, true).index == 8) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building4');
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generowanie building5
+                if (map.getTile(x, y, layerObject, true).index == 5) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building5');
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generowanie building6
+                if (map.getTile(x, y, layerObject, true).index == 9) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building6');
+                    map.removeTile(x, y, layerObject);
+                }
+                //generowanie building7
+                if (map.getTile(x, y, layerObject, true).index == 10) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building7');
+                    map.removeTile(x, y, layerObject);
+                }
+                //generowanie building8
+                if (map.getTile(x, y, layerObject, true).index == 11) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building8');
+                    map.removeTile(x, y, layerObject);
+                }
+                //generowanie building9
+                if (map.getTile(x, y, layerObject, true).index == 12) {
+                    toolsGame.mainElements.buildings.add(x, y, 'building9');
+                    map.removeTile(x, y, layerObject);
+                }
+
 
                 //generowanie mine
                 if (map.getTile(x, y, layerObject, true).index == 6) {
@@ -2734,7 +3202,7 @@ const startGame = (type,lastMap,percentLevel) => {
 
                 //generowanie kaktusow
                 if (map.getTile(x, y, layerObject, true).index == 504) {
-                    toolsGame.mainElements.cacti.add(x, y);
+                    toolsGame.mainElements.cactusAnimateS.add(x, y);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -2768,9 +3236,18 @@ const startGame = (type,lastMap,percentLevel) => {
                     map.removeTile(x, y, layerObject);
                 }
 
-                //generowanie drzwi
+                //generowanie drzwi pionowych
                 if (map.getTile(x, y, layerObject, true).index == 516) {
-                    toolsGame.mainElements.doors.add(x, y);
+                    //console.log(x + "x" + y);
+                    toolsGame.mainElements.doors.add(x, y, (map.getTile(x+1, y, layerObject, true).index === 466));
+                    map.removeTile(x, y, layerObject);
+                }
+                //generowanie drzwi poziomych
+                if (map.getTile(x, y, layerObject, true).index == 466) {
+                    // if(map.getTile(x+1, y, layerObject, true).index == 516) {
+                    //     console.log("jest");
+                    // }
+                    toolsGame.mainElements.doorsHorizontal.add(x, y, (map.getTile(x+1, y, layerObject, true).index === 516));
                     map.removeTile(x, y, layerObject);
                 }
                 //generowanie zamków/locks
@@ -2835,6 +3312,9 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.logs.obj = game.add.group();
         toolsGame.mainElements.logs.obj.enableBody = true;
 
+        toolsGame.mainElements.invisibleLogs.obj = game.add.group();
+        toolsGame.mainElements.invisibleLogs.obj.enableBody = true;
+
         toolsGame.mainElements.Lifes.obj = game.add.group();
         toolsGame.mainElements.Lifes.obj.enableBody = true;
 
@@ -2844,8 +3324,8 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.coins.obj = game.add.group();
         toolsGame.mainElements.coins.obj.enableBody = true;
 
-        toolsGame.mainElements.intruzi.obj = game.add.group();
-        toolsGame.mainElements.intruzi.obj.enableBody = true;
+        toolsGame.mainElements.intruders.obj = game.add.group();
+        toolsGame.mainElements.intruders.obj.enableBody = true;
 
         toolsGame.mainElements.kladki.poziom.obj = game.add.group();
         toolsGame.mainElements.kladki.poziom.obj.enableBody = true;
@@ -2863,8 +3343,8 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.kladki.pionBottom.obj.enableBody = true;
 
         // next z-inedx
-        for(var x=0; x<map.width; x++) {
-            for (var y = 0; y < map.height; y++) {
+        for(let x=0; x<map.width; x++) {
+            for (let y = 0; y < map.height; y++) {
 
                 //generowanie zapisywania levelu
                 if (map.getTile(x, y, layerObject, true).index == 602) {
@@ -2902,18 +3382,63 @@ const startGame = (type,lastMap,percentLevel) => {
 
                 //generowanie animowanych klod
                 if (map.getTile(x, y, layerObject, true).index == 513) {
-                    toolsGame.mainElements.logs.add(x, y);
+                    //toolsGame.mainElements.logs.add(x, y);
+                    // zamiana objektu na tile - szybcie działa
+                    map.removeTile(x, y, layerObject);
+                    map.putTile(463,x,y,layer);
+                }
+
+                //generowanie animowanych stone
+                if (map.getTile(x, y, layerObject, true).index == 267) {
+                    //toolsGame.mainElements.logs.add(x, y);
+                    // zamiana objektu na tile - szybcie działa
+                    map.removeTile(x, y, layerObject);
+                    map.putTile(217,x,y,layer);
+                }
+
+                //generowanie niewidocznych animowanych blockow z kloda (wyskakuja kladka))
+                if (map.getTile(x, y, layerObject, true).index == 414) {
+                    toolsGame.mainElements.invisibleLogs.add(x, y);
                     map.removeTile(x, y, layerObject);
                 }
 
-                //generowanie animowanych klod z niespodzianka
+                //generowanie animowanych klod ze zlotem
                 if (map.getTile(x, y, layerObject, true).index == 514) {
-                    toolsGame.mainElements.logs.add(x, y, 'coin');
                     toolsGame.mainElements.logs.lengthBonusCoins++;
+
                     map.removeTile(x, y, layerObject);
+                    map.putTile(564,x,y,layer);
                 }
+
+                //generowanie animowanych klod z niespodzianka
                 if (map.getTile(x, y, layerObject, true).index == 464) {
-                    toolsGame.mainElements.logs.add(x, y, 'surprise');
+                    // toolsGame.mainElements.logs.add(x, y, 'surprise', 'log');
+                    // map.removeTile(x, y, layerObject);
+
+                    map.removeTile(x, y, layerObject);
+                    map.putTile(465,x,y,layer);
+                }
+
+                //generowanie animowanych stone ze zlotem
+                if (map.getTile(x, y, layerObject, true).index == 268) {
+                    toolsGame.mainElements.logs.lengthBonusCoins++;
+
+                    map.removeTile(x, y, layerObject);
+                    map.putTile(218,x,y,layer);
+                }
+
+                //generowanie animowanych stone z niespodzianka
+                if (map.getTile(x, y, layerObject, true).index == 269) {
+                    // toolsGame.mainElements.logs.add(x, y, 'surprise', 'log');
+                    // map.removeTile(x, y, layerObject);
+
+                    map.removeTile(x, y, layerObject);
+                    map.putTile(219,x,y,layer);
+                }
+
+                //generowanie stone big
+                if (map.getTile(x, y, layerObject, true).index == 13) {
+                    toolsGame.mainElements.stoneBigS.add(x, y);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -2925,27 +3450,33 @@ const startGame = (type,lastMap,percentLevel) => {
 
                 //generowanie intruzow typ 1
                 if (map.getTile(x, y, layerObject, true).index == 551) {
-                    toolsGame.mainElements.intruzi.add(x, y, 1);
+                    toolsGame.mainElements.intruders.add(x, y, 1);
                     map.removeTile(x, y, layerObject);
                 }
                 //generowanie intruzow typ 2
                 if (map.getTile(x, y, layerObject, true).index == 553) {
-                    toolsGame.mainElements.intruzi.add(x, y, 2);
+                    toolsGame.mainElements.intruders.add(x, y, 2);
                     map.removeTile(x, y, layerObject);
                 }
                 //generowanie intruzow typ 3
                 if (map.getTile(x, y, layerObject, true).index == 554) {
-                    toolsGame.mainElements.intruzi.add(x, y, 3);
+                    toolsGame.mainElements.intruders.add(x, y, 3);
                     map.removeTile(x, y, layerObject);
                 }
                 //generowanie intruzow typ 4 snake
                 if (map.getTile(x, y, layerObject, true).index == 555) {
-                    toolsGame.mainElements.intruzi.add(x, y, 4);
+                    toolsGame.mainElements.intruders.add(x, y, 4);
                     map.removeTile(x, y, layerObject);
                 }
                 //generowanie intruzow typ 5 bird
                 if (map.getTile(x, y, layerObject, true).index == 556) {
-                    toolsGame.mainElements.intruzi.add(x, y, 5);
+                    toolsGame.mainElements.intruders.add(x, y, 5);
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generowanie intruzow typ 6 - main enemy
+                if (map.getTile(x, y, layerObject, true).index == 557) {
+                    toolsGame.mainElements.intruders.add(x, y, 6);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -2986,7 +3517,7 @@ const startGame = (type,lastMap,percentLevel) => {
                     map.removeTile(x, y, layerObject);
                 }
             }
-	    }
+        }
 
         // next z-index
 
@@ -2997,13 +3528,21 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.waters.obj = game.add.group();
         toolsGame.mainElements.waters.obj.enableBody = true;
 
+        // generowanie wody statycznej
+        toolsGame.mainElements.waterStaticS.obj = game.add.group();
+        toolsGame.mainElements.waterStaticS.obj.enableBody = true;
+
         // dodanie spashy wody
         toolsGame.mainElements.splashs.obj = game.add.group();
         toolsGame.mainElements.splashs.obj.enableBody = true;
 
-        for(var x=0; x<map.width; x++)
+        // fog single
+        toolsGame.mainElements.fogSingleS.obj = game.add.group();
+        toolsGame.mainElements.fogSingleS.obj.enableBody = true;
+
+        for(let x=0; x<map.width; x++)
         {
-            for(var y=0; y<map.height; y++)
+            for(let y=0; y<map.height; y++)
             {
 
                 // generowanie ryb
@@ -3031,27 +3570,48 @@ const startGame = (type,lastMap,percentLevel) => {
                     toolsGame.mainElements.waters.add(x,y,'water-red');
                     map.removeTile(x, y, layerObject);
                 }
+                if (map.getTile(x, y, layerObject, true).index===468)
+                {
+                    toolsGame.mainElements.waterStaticS.add(x,y,false,'left');
+                    map.removeTile(x, y, layerObject);
+                }
+                if (map.getTile(x, y, layerObject, true).index===418)
+                {
+                    toolsGame.mainElements.waterStaticS.add(x,y,false,'center');
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generate single fog
+                if (map.getTile(x, y, layerObject, true).index === 62) {
+                    toolsGame.mainElements.fogSingleS.add(x, y);
+                    map.removeTile(x, y, layerObject);
+                }
             }
         }
 
         if(!toolsGame.mainElements.logs.lengthBonusCoins) toolsGame.mainElements.logs.lengthBonusCoins = 0;
         oneHP = toolsGame.mainElements.coins.obj.children.length + toolsGame.mainElements.logs.lengthBonusCoins;
 
-		playGame.main=true;
-		//console.log(game.world.width + "x" + game.world.height);
+        playGame.main=true;
+        //console.log(game.world.width + "x" + game.world.height);
         toolsGame.audio.bg.play(0.05,proportiesMap[levelFile.activeIdLevel].bgAudio);
-		game.load.start();
-	}, this);
+        game.load.start();
+    }, this);
 
-	toolsGame.buttons.play.hide();
+    toolsGame.buttons.play.hide();
     toolsGame.buttons.quit.hide();
     toolsGame.buttons.mute.hide();
 };
 
 // n* else next time
 const create = () => {
+
+    // Disable clearing the canvas on each tick (usually not needed).
+    // sprwadzic czy tu potrzeba!!!
+    game.clearBeforeRender = false;
+
     //console.log("test-create");
-	// ladowanie tla dla menu i domyslnego dla mapy gry
+    // ladowanie tla dla menu i domyslnego dla mapy gry
     unlockLevels=(parseInt(getCookies("unlock-levels"))>1)?getCookies("unlock-levels"):1;
     toolsGame.bgSet('#dfe4ff');
     //toolsGame.bgSet('#000000');
@@ -3061,12 +3621,12 @@ const create = () => {
     toolsGame.buttons.play.show();
     toolsGame.buttons.quit.show();
     toolsGame.buttons.mute.show(getCookies('mute')?10:9);
-	
-	toolsGame.text.show(false,game.width-165,game.height-25,.9,'semDesign Game (' + (detectionDevice ? 'Android' : 'Browser') + ')', '400 12px Arial' ,'#000000',true,'logoText');
 
-	toolsGame.buttons.openBoxMenu.show();
+    toolsGame.text.show(false,game.width-165,game.height-25,.9,'semDesign Game (' + (detectionDevice() ? 'Android' : 'Browser') + ')', '400 12px Arial' ,'#000000',true,'logoText');
 
-	toolsGame.buttons.levels.show();
+    toolsGame.buttons.openBoxMenu.show();
+
+    toolsGame.buttons.levels.show();
     //console.log('mute: ' + (getCookies('mute')?true:false));
     game.sound.mute = getCookies('mute')?true:false;
 
@@ -3074,6 +3634,9 @@ const create = () => {
     let onlyOneLoad=true;
     game.load.onLoadComplete.add(function() {
         if(onlyOneLoad) {
+            //restart ewentualnych mocy playera
+            toolsGame.mainElements.player.scale();
+
             toolsGame.preloader.hide();
             // theEndCredits = false;
             // if(Object.keys(game.cache._cacheMap[7]).length === levelFile.activeIdLevel) {
@@ -3082,7 +3645,7 @@ const create = () => {
 
             toolsGame.windows.boxTopMenu.f=false;
             if(!theEndCredits) {
-                console.log("test load create");
+                //console.log("test load create");
                 // x,y,nameSpriteOrImage,idName,opacitySpec,cameraFixed,scaleW,scaleH,frame,fade
                 toolsGame.image.show(
                     (toolsGame.windows.boxMenu.obj)?0:0,
@@ -3109,44 +3672,21 @@ const create = () => {
         }
     }, this);
 
-	//fullscreen...
-	//game.input.onDown.add(gofull, this);
+    //fullscreen...
+    //game.input.onDown.add(gofull, this);
 
     //window.graphics = graphics;
 };
 
 // main loop the game
 const update = () => {
-	
-	if(playGame.main)
-	{
-        // spowolnia gre
-        // for(var x=0; x<map.width; x++) {
-        //     for (var y = 0; y < map.height; y++) {
-        //         if (map.getTile(x, y, layer, true).index==514)
-        //         {
-        //             if(toolsGame.mainElements.player.detectionHoldOnTile(x,y,1)){
-        //                 //console.log("wykrywa id 514");
-        //                 //console.log(x + "x" + y);
-        //                 toolsGame.mainElements.logs.add(x,y,true);
-        //                 //toolsGame.mainElements.logs.lengthBonusCoins ++;
-        //                 map.removeTile(x, y, layer);
-        //             }
-        //         }
-        //     }
-        // }
 
-        // toolsGame.mainElements.logs.obj.forEach(function(log){
-        //     //console.log(log.x/tileSize + "x" + log.y/tileSize);
-        //     if(!toolsGame.mainElements.player.detectionHoldOnObject(log,1)){
-        //         map.getTile(log.x/tileSize, log.y/tileSize, layer, true).index=514;
-        //         log.destroy();
-        //     }
-        // }, this, true);
+    if(playGame.main)
+    {
 
         toolsGame.mainElements.windmillNewS.obj1.forEach(function(windmill){
             windmill.angle += 1;
-		}, this, true);
+        }, this, true);
 
         // dopracowac kolizje playera
         //console.log('player: ');
@@ -3155,18 +3695,26 @@ const update = () => {
         toolsGame.mainElements.player.obj.body.width = 32;
         //console.log(toolsGame.mainElements.player.obj.body);
 
+        // toolsGame.mainElements.cactusAnimateS.obj.forEach(function(c){
+        //     c.body.width = 39;  // 61,94
+        //     c.body.height = 70;
+        //     c.body.offset.y=11;
+        //     c.body.offset.x=11;
+        // }, this, true);
+
+
         if((cursors.left.isDown || cursors.right.isDown || cursors.up.isDown) && !jumpKillF) {
-        	jumpKillY=toolsGame.mainElements.player.obj.body.y;
+            jumpKillY=toolsGame.mainElements.player.obj.body.y;
             jumpKillF=true;
             toolsGame.mainElements.player.obj.body.bounce.y = 0.3;
         }
 
         //console.log(map);
 
-	 	// position player
+        // position player
 
-		//console.log(toolsGame.mainElements.player.obj.body.y + ' + ' + toolsGame.mainElements.player.obj.height + ' = ' + map.height*map.tileHeight);
-	    //console.log("x: " + toolsGame.mainElements.player.obj.body.x + " / " + "y: " + toolsGame.mainElements.player.obj.body.y);
+        //console.log(toolsGame.mainElements.player.obj.body.y + ' + ' + toolsGame.mainElements.player.obj.height + ' = ' + map.height*map.tileHeight);
+        //console.log("x: " + toolsGame.mainElements.player.obj.body.x + " / " + "y: " + toolsGame.mainElements.player.obj.body.y);
 
 
 
@@ -3182,55 +3730,218 @@ const update = () => {
         // }, this, true);
 
 
+
+
+
         //console.log(map);
 
-		// player vs lay
-        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, layer, function(player, layer){
-            if(layer.index === 51) {
+        // player vs lay
+
+        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet,lay){
+            if(
+                lay.index === 463 || lay.index === 564 || lay.index === 465 ||
+                lay.index === 217 || lay.index === 218 || lay.index === 219
+            ) {
+                //console.log("destruction");
+
+                // dopracować - ddoatkowy waruek dla konca mapy
+                // jesli osoba uzyje shotguna to moze utracic niespodzianki o zloto -musi sie z tym liczyc, mozna dodac do instrukcji gry
+                if (
+                    lay.x-1> 0 && lay.y-1>0 &&
+                    (
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 463 ||
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 564 ||
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 465 ||
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 217 ||
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 218 ||
+                        map.getTile(lay.x-1, lay.y-1, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x-1, lay.y-1);
+                if (
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 463 ||
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 564 ||
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 465 ||
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 217 ||
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 218 ||
+                    map.getTile(lay.x+1, lay.y+1, layer, true).index === 219
+                )  map.removeTile(lay.x+1, lay.y+1);
+                if (
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 463 ||
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 564 ||
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 465 ||
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 217 ||
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 218 ||
+                    map.getTile(lay.x+1, lay.y, layer, true).index === 219
+                )  map.removeTile(lay.x+1, lay.y);
+                if (
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 463 ||
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 564 ||
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 465 ||
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 217 ||
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 218 ||
+                    map.getTile(lay.x, lay.y+1, layer, true).index === 219
+                )  map.removeTile(lay.x, lay.y+1);
+                if (
+                    lay.x-1>0 &&
+                    (
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 463 ||
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 564 ||
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 465 ||
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 217 ||
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 218 ||
+                        map.getTile(lay.x-1, lay.y, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x-1, lay.y);
+                if (
+                    lay.y-1>0 &&
+                    (
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 463 ||
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 564 ||
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 465 ||
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 217 ||
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 218 ||
+                        map.getTile(lay.x, lay.y-1, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x, lay.y-1);
+                if (
+                    lay.x-1>0 &&
+                    (
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 463 ||
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 564 ||
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 465 ||
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 217 ||
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 218 ||
+                        map.getTile(lay.x-1, lay.y+1, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x-1, lay.y+1);
+                if (
+                    lay.y-1>0 &&
+                    (
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 463 ||
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 564 ||
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 465 ||
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 217 ||
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 218 ||
+                        map.getTile(lay.x+1, lay.y-1, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x+1, lay.y-1);
+                if (
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 463 ||
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 564 ||
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 465 ||
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 217 ||
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 218 ||
+                    map.getTile(lay.x+2, lay.y, layer, true).index === 219
+                )  map.removeTile(lay.x+2, lay.y);
+                if (
+                    lay.x-2>0 && (
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 463 ||
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 564 ||
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 465 ||
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 217 ||
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 218 ||
+                        map.getTile(lay.x-2, lay.y, layer, true).index === 219
+                    )
+                )  map.removeTile(lay.x-2, lay.y);
+
+                toolsGame.mainElements.explosion.add(lay.x, lay.y);
+                map.removeTile(lay.x, lay.y);
+                if(lay.index === 463)  toolsGame.mainElements.logs.add(lay.x, lay.y,false,'log');
+                if(lay.index === 564)  toolsGame.mainElements.logs.add(lay.x, lay.y, 'coin', 'log');
+                if(lay.index === 465)  toolsGame.mainElements.logs.add(lay.x, lay.y, 'surprise', 'log');
+                if(lay.index === 217)  toolsGame.mainElements.logs.add(lay.x, lay.y,false,'stone');
+                if(lay.index === 218)  toolsGame.mainElements.logs.add(lay.x, lay.y,'coin','stone');
+                if(lay.index === 219)  toolsGame.mainElements.logs.add(lay.x, lay.y,'surprise','stone');
+
+                // if(lay.index === 564 || lay.index === 465 || lay.index === 218 || lay.index === 219) {
+                //     toolsGame.audio.bingo();
+                // }
+
+
+            }
+            else if(lay.index>0 && bullet) {
+                bullet.kill();
+                toolsGame.mainElements.explosion.add(lay.x, lay.y);
+            }
+        }, null, this);
+
+        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, layer, function(player, lay){
+            if(lay.index === 101) {
                 //console.log(layer);
-                layer.collideDown=false;
-                layer.collideUp=false;
-                layer.collideLeft=false;
-                layer.collideRight=false;
+                lay.collideDown=false;
+                lay.collideUp=false;
+                lay.collideLeft=false;
+                lay.collideRight=false;
                 game.time.events.add(1, function(){
-                    layer.collideDown=true;
-                    layer.collideUp=true;
-                    layer.collideLeft=true;
-                    layer.collideRight=true;
+                    lay.collideDown=true;
+                    lay.collideUp=true;
+                    lay.collideLeft=true;
+                    lay.collideRight=true;
+                },this);
+            }
+            else if(lay.index === 417) {
+                // let rotation = false, flippedVal = false;
+                // if(lay.rotation) {
+                //     rotation = lay.rotation;
+                //     flippedVal = lay.flippedVal;
+                // }
+                // //console.log(lay);
+                //console.log(lay);
+                map.removeTile(lay.x, lay.y, layer);
+                map.putTile(416,lay.x, lay.y, layer);
+                //console.log(rotation);
+                // lay.rotation = rotation;
+                // lay.flippedVal = flippedVal;
+                //console.log(lay.x + "x" + lay.y);
+                //game.time.events.add(1000,function(){
+                //    map.replace(417, 416, lay.x, lay.y, tileSize, tileSize, layer);
+                //},this);
+                // map.replace(417, 416, lay.x, lay.y, tileSize, tileSize, layer);
+                toolsGame.mainElements.openDoor(player);
+            }
+            else if(
+                lay.index === 463 || lay.index === 564 || lay.index === 465 ||
+                lay.index === 217 || lay.index === 218 || lay.index === 219
+            ) {
+                //console.log("log collide;");
+                map.removeTile(lay.x, lay.y);
+                if(lay.index === 463)  toolsGame.mainElements.logs.add(lay.x, lay.y,false,'log');
+                if(lay.index === 564)  toolsGame.mainElements.logs.add(lay.x, lay.y, 'coin', 'log');
+                if(lay.index === 465)  toolsGame.mainElements.logs.add(lay.x, lay.y, 'surprise', 'log');
+                if(lay.index === 217)  toolsGame.mainElements.logs.add(lay.x, lay.y,false,'stone');
+                if(lay.index === 218)  toolsGame.mainElements.logs.add(lay.x, lay.y,'coin','stone');
+                if(lay.index === 219)  toolsGame.mainElements.logs.add(lay.x, lay.y,'surprise','stone');
+
+                // if(lay.index === 564 || lay.index === 465 || lay.index === 218 || lay.index === 219) {
+                //     toolsGame.audio.bingo();
+                // }
+            }
+        }, null, this);
+
+        // usuwanie kolizji miedzy bullet a niewidzialnym blockiem dla intruzow
+        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet, lay){
+            //console.log(lay.index);
+            if(lay.index === 101) {
+                //console.log(layer);
+                //console.log("shot");
+                lay.collideDown=false;
+                lay.collideUp=false;
+                lay.collideLeft=false;
+                lay.collideRight=false;
+                game.time.events.add(1, function(){
+                    lay.collideDown=true;
+                    lay.collideUp=true;
+                    lay.collideLeft=true;
+                    lay.collideRight=true;
                 },this);
             }
         }, null, this);
 
-        // ewentualnie usunavc jakby przyspieszylo gre, ale chyba to nci nie pomoze
-        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet, layer){
-            if(layer.index === 51) {
-                //console.log(layer);
-                layer.collideDown=false;
-                layer.collideUp=false;
-                layer.collideLeft=false;
-                layer.collideRight=false;
-                game.time.events.add(1, function(){
-                    layer.collideDown=true;
-                    layer.collideUp=true;
-                    layer.collideLeft=true;
-                    layer.collideRight=true;
-                },this);
-            }
-        }, null, this);
-
-        // game.physics.arcade.overlap(toolsGame.mainElements.kladki.pionTopBack.obj, layer, function(player, layer){
-        //     if(layer.index === 51) {
-        //         layer.collideDown=true;
-        //         layer.collideUp=true;
-        //         layer.collideLeft=true;
-        //         layer.collideRight=true;
-        //     }
-        // }, null, this);
 
         toolsGame.mainElements.player.obj.t1=false;
-		game.physics.arcade.collide(toolsGame.mainElements.player.obj, layer, function(player, layer){
-			//console.log(player.body.checkCollision.down);
-			//console.log(player.body.blocked.right);
+        game.physics.arcade.collide(toolsGame.mainElements.player.obj, layer, function(player, layer){
+            //console.log(player.body.checkCollision.down);
+            //console.log(player.body.blocked.right);
 
             // player.t1=true;
             // if(!player.onGround) {
@@ -3244,26 +3955,28 @@ const update = () => {
 
             toolsGame.mainElements.player.checkIfWasKilledAndOther(player);
 
-			if(player.killHitIntruder) {
+            if(player.killHitIntruder) {
                 player.killHitIntruder=false;
-			}
+            }
 
-			// wchodzenie pod gorke
-			if((cursors.right.isDown || cursors.left.isDown) && (player.body.blocked.right || player.body.blocked.left) && !jumpButton.isDown && player.body.onFloor())
-			{
-				//console.log("up");
-		        player.body.velocity.y = -12*tileSize;
-			}
-			//console.log("x: " + player.body.x + " / " + "y: " + player.body.y);
-		},null, this);
+            // wchodzenie pod gorke
+            if((cursors.right.isDown || cursors.left.isDown) && (player.body.blocked.right || player.body.blocked.left) && !jumpButton.isDown && player.body.onFloor())
+            {
+                //console.log("up");
+                player.body.velocity.y = -12*tileSize;
+            }
+            //console.log("x: " + player.body.x + " / " + "y: " + player.body.y);
+        },null, this);
 
-		game.physics.arcade.collide(toolsGame.mainElements.coins.obj, layer);
+        game.physics.arcade.collide(toolsGame.mainElements.coins.obj, layer);
 
         game.physics.arcade.collide(toolsGame.mainElements.logs.obj, layer);
 
-        // game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruzi.obj, function(bullet, intruz){
+        //game.physics.arcade.collide(toolsGame.mainElements.invisibleLogs.obj, layer);
+
+        // game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruders.obj, function(bullet, intruz){
         //     //jden strzal wywoluje jedna funkcje...
-        //     if(!intruz.killing) toolsGame.mainElements.intruzi.collisionIntruz(intruz,"total-kill");
+        //     if(!intruz.killing) toolsGame.mainElements.intruders.collisionIntruz(intruz,"total-kill");
         //     intruz.killing=true;
         //     bullet.kill();
         // }, null, this);
@@ -3274,19 +3987,19 @@ const update = () => {
         // },null, this);
 
 
-        // dopracowac - to musi byc aby intruzi mogli przemieszcac sie p ktych kladkach
-        game.physics.arcade.collide(toolsGame.mainElements.logs.obj,toolsGame.mainElements.intruzi.obj,function(l,i){
+        // dopracowac - to musi byc aby intruders mogli przemieszcac sie p ktych kladkach
+        game.physics.arcade.collide(toolsGame.mainElements.logs.obj,toolsGame.mainElements.intruders.obj,function(l,i){
             // nie wykrywa blokowania dla intruza
-            // console.log("intruz:");
-            // console.log(i.body);
-            // console.log("log:");
-            // console.log(l.body);
+            //console.log("intruz:");
+            //console.log(i.body);
+            //console.log("log:");
             //console.log(l.body);
-            toolsGame.mainElements.intruzi.collisionBack(i);
+            //console.log(l.body);
+            toolsGame.mainElements.intruders.collisionBack(i);
         }, null, this);
 
         //
-        // game.physics.arcade.overlap(toolsGame.mainElements.logs.obj,toolsGame.mainElements.intruzi.obj,function(l,i){
+        // game.physics.arcade.overlap(toolsGame.mainElements.logs.obj,toolsGame.mainElements.intruders.obj,function(l,i){
         //     //console.log(i.body.blocked);
         // }, null, this);
 
@@ -3295,98 +4008,321 @@ const update = () => {
             //toolsGame.intruzCollisonBack(log);
         });
 
+        game.physics.arcade.overlap(toolsGame.mainElements.invisibleLogs.obj, toolsGame.mainElements.player.obj, function(log,p){
+
+            if(!p.onlynOne && !(toolsGame.mainElements.player.obj.body.overlapY>0)) {
+                //p.body.allowGravity = true;
+                p.body.velocity.y = -330;
+                if(facing === 'left') {
+                    p.body.velocity.x = -30;
+                } else if(facing === 'right') {
+                    p.body.velocity.x = 30;
+                }
+
+                toolsGame.audio.breakGround();
+
+                game.time.events.add(50, function(){
+                    p.body.allowGravity = true;
+                    p.body.checkCollision.down=false;
+                },this);
+                //console.log(p.x);
+                //console.log(p.y);
+                //p.originX = p.x;
+                p.originY = p.y;
+
+                p.scale.setTo(1, 1);
+                p.animations.add('run',[11,10,9,8,7,6,5,4,3,2,1,0,0,0]).onComplete.add(function(){
+                    //console.log(Math.ceil(p.x/tileSize));
+                    //console.log(Math.ceil(p.y/tileSize));
+                    p.originX = p.x;
+                    toolsGame.audio.magic();
+                    map.putTile(104, Math.ceil(p.originX/tileSize), Math.ceil(p.originY/tileSize)+1, layer);
+                    map.putTile(104, Math.ceil(p.originX/tileSize)+1, Math.ceil(p.originY/tileSize)+1, layer);
+                    map.putTile(104, Math.ceil(p.originX/tileSize)+2, Math.ceil(p.originY/tileSize)+1, layer);
+                    map.putTile(104, Math.ceil(p.originX/tileSize)-1, Math.ceil(p.originY/tileSize)+1, layer);
+                    map.putTile(104, Math.ceil(p.originX/tileSize)-2, Math.ceil(p.originY/tileSize)+1, layer);
+                    p.kill();
+                }, this);
+                p.animations.play('run', 15, false);
+                p.onlynOne= true;
+            }
+
+
+        }, null, this);
+
+        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.logs.obj, function(bullet,log){
+            toolsGame.mainElements.logs.destruction(log);
+            //console.log(log);
+            // if(!p.onlynOne) {
+            //     //p.body.allowGravity = true;
+            //     p.body.velocity.y = -330;
+            //     if (facing === 'left') {
+            //         p.body.velocity.x = -130;
+            //     } else if (facing === 'right') {
+            //         p.body.velocity.x = 130;
+            //     }
+            //
+            //     toolsGame.audio.breakGround();
+            //
+            //     game.time.events.add(50, function () {
+            //         p.body.allowGravity = true;
+            //         p.body.checkCollision.down = false;
+            //     }, this);
+            //     p.animations.add('run');
+            //     game.time.events.add(300, function () {
+            //         p.animations.play('run', 20, false);
+            //     }, this);
+            //
+            //     // jesli id = 514 to dostajemy bonusowe zloto
+            //     if (p.coin) {
+            //         game.time.events.add(200, function () {
+            //             toolsGame.mainElements.coins.add(p.x / tileSize, p.y / tileSize);
+            //         }, this);
+            //     } else if (p.surprise) {
+            //         game.time.events.add(200, function () {
+            //             //console.log(p.surprise);
+            //             switch (p.surprise) {
+            //                 case 1:
+            //                     toolsGame.mainElements.bulletsGuns.add(p.x / tileSize, p.y / tileSize);
+            //                     break;
+            //                 case 2:
+            //                     toolsGame.mainElements.LifeSingleS.add(p.x / tileSize, p.y / tileSize);
+            //                     break;
+            //                 case 3:
+            //                     toolsGame.mainElements.intruders.add(p.x / tileSize, p.y / tileSize, 3);
+            //                     break;
+            //                 case 4:
+            //                     toolsGame.mainElements.coins.add(p.x / tileSize, p.y / tileSize);
+            //                     break;
+            //                 case 5:
+            //                     toolsGame.mainElements.intruders.add(p.x / tileSize, p.y / tileSize, 5);
+            //                     break;
+            //             }
+            //         }, this);
+            //     }
+            //
+            //     game.time.events.add(900, function () {
+            //         // toolsGame.mainElements.coins.add(p.saveX/tileSize, p.saveY/tileSize);
+            //         p.kill();
+            //     }, this);
+            //     p.onlynOne = true;
+            // }
+            bullet.kill();
+        }, null, this);
+
         game.physics.arcade.collide(toolsGame.mainElements.logs.obj, toolsGame.mainElements.player.obj, function(log,p){
-           // p.body.allowGravity = true;
-
-
-            //console.log(p);
             if(toolsGame.mainElements.player.obj.body.overlapY>0)
             {
                 toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj);
                 p.isUp=true;
-                toolsGame.mainElements.player.obj.body.allowGravity = true;
-                //toolsGame.mainElements.player.obj.body.bounce.y = 0;
                 toolsGame.mainElements.player.obj.body.allowGravity = false;
                 game.time.events.add(300, function(){
                     p.isUp=false;
                 },this);
             } else {
-                if(!p.onlynOne) {
-                    //p.body.allowGravity = true;
-                    p.body.velocity.y = -330;
-                    if(facing === 'left') {
-                        p.body.velocity.x = -130;
-                    } else if(facing === 'right') {
-                        p.body.velocity.x = 130;
+                toolsGame.mainElements.logs.destruction(p);
+            }
+        }, null, this);
+
+
+        /* big stone */
+
+        toolsGame.mainElements.stoneBigS.obj.forEach(function(s){
+            // przyrost odleglosci w spadaniu
+            if(Math.ceil(s.body._dy)>4){
+                s.quake=true;
+            }
+            if(s.body.gravity.x!==0) {
+                s.body.gravity.x=0;
+            }
+        }, this, true);
+        game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, layer, function(s,lay){
+            if(s.quake) {
+                toolsGame.audio.quake();
+                game.camera.shake(0.005, 200, true, Phaser.Camera.SHAKE_VERTICAL);
+                s.quake=false;
+            }
+        }, null, this);
+
+        game.physics.arcade.collide(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.stoneBigS.obj,function(i,s){
+
+            if(s.quake) {
+                s.quake=false;
+                // pomimo height 0 ciagle pojawia sie male opznienie
+                if(i.body.overlapY<0 && i.body.height) {
+                    i.body.height=0;
+                    //console.log(i.body);
+                    // i.body.y=100;
+                    // i.body.x=100;
+                    if(!i.killing) {
+                        toolsGame.mainElements.intruders.collisionIntruz(i, "total-kill");
                     }
+                    i.killing=true;
+                }
+                toolsGame.audio.quake();
+                game.camera.shake(0.005, 200, true, Phaser.Camera.SHAKE_VERTICAL);
+            } else {
+                toolsGame.mainElements.intruders.collisionBack(i);
+                s.body.moves = false;
+                s.body.immovable = true;
 
-                    toolsGame.audio.breakGround();
+                game.time.events.remove(s.fOnlyOne);
+                s.fOnlyOne=game.time.events.add(300, function(){
+                    s.body.moves = true;
+                    s.body.immovable = false;
+                    s.body.velocity.x = 0;
+                    s.body.velocity.y = 0;
+                }, this);
+            }
+        }, null, this);
+        game.physics.arcade.collide(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.stoneBigS.obj,function(b,s){
+            toolsGame.mainElements.explosion.add(b.body.position.x/tileSize, b.body.position.y/tileSize);
+            toolsGame.mainElements.stoneBigExplosion.add(s.body.position.x/tileSize, s.body.position.y/tileSize);
+            s.kill();
+            b.kill();
+        }, null, this);
 
-                    game.time.events.add(50, function(){
-                        p.body.allowGravity = true;
-                        p.body.checkCollision.down=false;
-                    },this);
-                    game.time.events.add(300, function(){
-                        p.animations.play('run', 20, false);
-                    },this);
+        //game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, layer);
 
-                    // jesli id = 514 to dostajemy bonusowe zloto
-                    if(p.coin) {
-                        game.time.events.add(200, function(){
-                            toolsGame.mainElements.coins.add(p.x/tileSize, p.y/tileSize);
-                        },this);
-                    } else if(p.surprise) {
-                        game.time.events.add(200, function(){
-                            //console.log(p.surprise);
-                            switch (p.surprise) {
-                                case 1:
-                                    toolsGame.mainElements.bulletsGuns.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                                case 2:
-                                    toolsGame.mainElements.LifeSingleS.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                                case 3:
-                                    toolsGame.mainElements.intruzi.add(p.x/tileSize, p.y/tileSize, 3);
-                                    break;
-                                case 4:
-                                    toolsGame.mainElements.coins.add(p.x/tileSize, p.y/tileSize);
-                                    break;
-                                case 5:
-                                    toolsGame.mainElements.intruzi.add(p.x/tileSize, p.y/tileSize, 5);
-                                    break;
-                            }
-                        },this);
+
+        toolsGame.mainElements.player.colisinStoneCollision=0;
+        game.physics.arcade.collide(toolsGame.mainElements.player.obj, toolsGame.mainElements.stoneBigS.obj, function(p,s){
+            toolsGame.mainElements.player.colisinStoneCollision++;
+
+            // console.log(p.body.blocked);
+            // console.log(s.body);
+            // if(s.body.blocked.left) {
+            //     console.log("blokuje z lewej");
+            // }
+            // if(s.body.blocked.right) {
+            //     console.log("blokuje z prawej");
+            // }
+            //console.log("p:");
+            //console.log(p);
+            //console.log("s:");
+            //console.log(s.body);
+            if(p.body.overlapY===0) {
+                s.body.gravity.x=0;
+                //s.body.immovable = true;
+                if(!levelFile.blockedKeys) {
+                    if(cursors.right.isDown) {
+                        s.body.gravity.x = -8000;
+                    } else if(cursors.left.isDown) {
+                        s.body.gravity.x = 8000; 
                     }
+                    if(cursors.up.isDown) {
+                        //s.body.immovable = true;
+                        //s.body.gravity.x = 0;
+                    }
+                } else {
+                    s.body.gravity.x = 0;
+                    // s.body.immovable = true;
+                }
 
-                    game.time.events.add(900, function(){
-                        // toolsGame.mainElements.coins.add(p.saveX/tileSize, p.saveY/tileSize);
-                        p.kill();
-                    }, this);
-                    p.onlynOne= true;
+                game.time.events.remove(p.timeStoneHeavy);
+                p.timeStoneHeavy=game.time.events.add(30,function(){
+                    s.body.gravity.x=0;
+                    s.body.immovable = false;
+                },this);
+                if(toolsGame.mainElements.player.colisinStoneCollision>1){
+                    s.body.gravity.x = 0;
+                    //s.body.immovable = true;
+                    //s.body.moves = false;
                 }
             }
 
+            // game.time.events.remove(p.timeStoneHeavy);
+            // p.timeStoneHeavy=game.time.events.add(15,function(){
+            //     s.body.gravity.x=0;
+            // },this);
+
+            if(s.quake) {
+                toolsGame.audio.quake();
+                game.camera.shake(0.005, 200, true, Phaser.Camera.SHAKE_VERTICAL);
+                s.quake=false;
+
+                //console.log(p.body.overlapY);
+                if(p.body.overlapY<0 && p.body.height) {
+                    const saveBodyHeight = p.body.height;
+                    p.body.height=0;
+                    game.time.events.add(300,function(){p.body.height=saveBodyHeight;},this);
+                    toolsGame.mainElements.player.lostLife(p,10);
+                }
+                //toolsGame.mainElements.player.obj.body.x=saveX;
+                //toolsGame.mainElements.player.obj.body.y=saveY;
+                //p.kill();
+                //toolsGame.mainElements.player.add(saveX/tileSize, saveY/tileSize);
+            }
+
+            //playerSpeedLeftRight=100;
+            //s.body.moves = false;
+            //s.body.immovable = true;
+            p.youCanJump = true;
+            game.time.events.add(300, function(){
+                p.youCanJump = false;
+            },this);
+            //toolsGame.mainElements.player.obj.body.bounce.y = 1;
+            s.quake=false;
+
+            if(!s.onlyOne || facing !== 'idle') {
+                //toolsGame.mainElements.player.obj.body.bounce.y = 2;
+                toolsGame.mainElements.player.checkIfWasKilledAndOther(p);
+                s.onlyOne = true;
+            }
+            game.time.events.remove(s.fOnlyOne);
+            s.fOnlyOne=game.time.events.add(100, function(){
+                s.onlyOne = false;
+
+                s.body.moves = true;
+                s.body.immovable = false;
+                s.body.velocity.x = 0;
+                s.body.velocity.y = 0;
+
+            }, this);
+
         }, null, this);
+        //console.log(toolsGame.mainElements.player.colisinStoneCollision);
+
+        game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, toolsGame.mainElements.stoneBigS.obj, function(s1,s2){
+            //po 50ms kamien sie zatrzyma
+            game.time.events.remove(s1.timeCheck1);
+            s1.timeCheck1 = game.time.events.add(50,function(){
+                s1.body.velocity.x = 0;
+            },this);
+            game.time.events.remove(s2.timeCheck1);
+            s2.timeCheck1 = game.time.events.add(50,function(){
+                s2.body.velocity.x = 0;
+            },this);
+        });
+
+        /* end big stone */
+
 
         game.physics.arcade.collide(toolsGame.mainElements.Lifes.obj, layer);
 
-		game.physics.arcade.collide(toolsGame.mainElements.player.gun.bullets.obj, layer);
+        game.physics.arcade.collide(toolsGame.mainElements.player.gun.bullets.obj, layer);
 
-		game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruzi.obj, function(bullet, intruz){
-			//jden strzal wywoluje jedna funkcje...
+        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruders.obj, function(bullet, intruz){
+            //jden strzal wywoluje jedna funkcje...
             if(intruz.type === 4 || intruz.type === 5) {
                 if(!intruz.killing) {
-                    toolsGame.mainElements.intruzi.collisionIntruz(intruz, "total-kill");
+                    toolsGame.mainElements.intruders.collisionIntruz(intruz, "total-kill");
                 }
                 intruz.killing=true;
             } else {
-                toolsGame.audio.scream();
+                toolsGame.audio.screamIntruder(.05);
                 //console.log(intruz.body.velocity.x);
 
                 // evry shot makes intruz jump
                 intruz.deactiveVelocity = bullet.direction;
                 if(!intruz.firstShoot) {
-                    intruz.firstShoot=1;
+                    if(intruz.type === 6) {
+                        intruz.firstShoot=0;
+                    }
+                    else {
+                        intruz.firstShoot=1;
+                        intruz.randomSpeed = intruz.randomSpeed/2;
+                    }
 
                     // blood
                     game.time.events.add(50, function(){
@@ -3398,17 +4334,15 @@ const update = () => {
                         );
                     }, this);
 
-                    intruz.randomSpeed = intruz.randomSpeed/2;
-
                     game.time.events.add(50, function(){
                         if(intruz.randomMove === 'intruzRight') {
-                            intruz.randomMove = 'intruzIdleLeft';
+                            intruz.randomMove = 'intrudersdleLeft';
                         } else {
-                            intruz.randomMove = 'intruzIdleRight';
+                            intruz.randomMove = 'intrudersdleRight';
                         }
                     },this);
                     game.time.events.add(600, function(){
-                        if(intruz.randomMove === 'intruzIdleLeft') {
+                        if(intruz.randomMove === 'intrudersdleLeft') {
                             intruz.randomMove = 'intruzRight';
                         } else {
                             intruz.randomMove = 'intruzLeft';
@@ -3418,23 +4352,24 @@ const update = () => {
                 } else {
                     intruz.randomMove = 'intruzLeft';
                     if(!intruz.killing) {
-                        toolsGame.mainElements.intruzi.collisionIntruz(intruz, "total-kill");
+                        toolsGame.mainElements.intruders.collisionIntruz(intruz, "total-kill");
                         intruz.killing=true;
                     }
                 }
             }
 
+            toolsGame.mainElements.explosion.add(bullet.body.position.x/tileSize, bullet.body.position.y/tileSize);
             bullet.kill();
-		}, null, this);
+        }, null, this);
 
-		game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet, layer){
-			if(bullet.body.blocked.right || bullet.body.blocked.left)
-			{
-				bullet.kill();
-			}
-		}, null, this);
+        game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, layer, function(bullet, layer){
+            if(bullet.body.blocked.right || bullet.body.blocked.left)
+            {
+                bullet.kill();
+            }
+        }, null, this);
 
-		if(toolsGame.mainElements.player.obj.gForceWater) {
+        if(toolsGame.mainElements.player.obj.gForceWater) {
             toolsGame.mainElements.player.obj.body.gravity.y = 0;
             toolsGame.mainElements.player.obj.gForceWater = false;
         }
@@ -3555,6 +4490,18 @@ const update = () => {
             }
         }, null, this);
 
+
+        game.physics.arcade.overlap(toolsGame.mainElements.stoneBigS.obj, toolsGame.mainElements.waters.obj, function(s,w){
+            game.time.events.remove(s.gForceWaterTimer);
+            s.gForceWaterTimer = game.time.events.add(100, function(){
+                s.gForceWaterOnlyeOne = false;
+            }, this);
+            if(!s.gForceWaterOnlyeOne) {
+                toolsGame.mainElements.splashs.add((s.body.position.x+(s.body.width/2))/tileSize,((s.body.position.y+(s.typeFire?(-16):8))/tileSize),(w.type==='water-red')?'splash-water-red':false);
+                s.gForceWaterOnlyeOne = true;
+            }
+        }, null, this);
+
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.firebs.obj, function(p,f){
             if(f.alpha===1) {
                 //console.log("collision with player");
@@ -3565,6 +4512,16 @@ const update = () => {
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.waters.obj, function(p,w){
             p.body.gravity.y = -525;
 
+            toolsGame.mainElements.player.checkIfWasKilledAndOther(p,'water');
+            // if(jumpKillF) {
+            //     game.camera.shake(0.02, 250, true, Phaser.Camera.SHAKE_VERTICAL);
+            //     jumpKillF = false;
+            //     game.time.events.add(300,function(){
+            //         jumpKillF = true;
+            //     },this);
+            // }
+            //p.t1=true;
+            //p.onGround = false;
             // clearTimeout(p.gForceWaterTimer);
             // p.gForceWaterTimer = setTimeout(function(){
             //     p.gForceWaterOnlyeOne = false;
@@ -3620,7 +4577,7 @@ const update = () => {
                 //console.log(p.body.position.x + " - " + p.body.position.y);
                 //console.log(p.body);
                 //console.log(p.animations.currentAnim.name);
-                var typeSplash=false;
+                let typeSplash=false;
                 // toolsGame.audio.splash();
 
                 if(w.type==='water-red') {
@@ -3663,7 +4620,13 @@ const update = () => {
             }
         }, this, true);
 
-        toolsGame.mainElements.intruzi.obj.forEach(function(intruz){
+        toolsGame.mainElements.intruders.obj.forEach(function(intruz){
+            if(intruz.type < 4) {
+                intruz.body.offset.x = 8;
+                intruz.body.width = 32;
+                //console.log("test");
+            }
+
             if(intruz.gForceWater) {
                 intruz.body.gravity.y = 0;
                 intruz.gForceWater = false;
@@ -3697,12 +4660,40 @@ const update = () => {
 
             // warunek jesli intruz dotyka dna mapy
             if(intruz.body.y+intruz.height === map.height*map.tileHeight) {
-                if(!intruz.killing) toolsGame.mainElements.intruzi.collisionIntruz(intruz,"total-kill");
+                if(!intruz.killing) toolsGame.mainElements.intruders.collisionIntruz(intruz,"total-kill");
                 intruz.killing=true;
+            }
+
+            if(intruz.type === 6) {
+                if(intruz.randomMove === 'intrudersdleRight' || intruz.randomMove === 'intrudersdleLeft') {
+                    //console.log("player position:");
+                    //console.log(toolsGame.mainElements.player.obj.position.x);
+                    //console.log("intruder position");
+                    //console.log(intruz.position.x);
+                    //console.log(intruz.area);
+                    if(intruz.position.x > toolsGame.mainElements.player.obj.position.x-128 &&
+                        intruz.position.x < toolsGame.mainElements.player.obj.position.x+64) {
+
+                        //console.log("xxxx");
+
+                        if(intruz.randomMove === 'intrudersdleRight') intruz.randomMove = 'intruzRight';
+                        else if(intruz.randomMove === 'intrudersdleLeft') intruz.randomMove = 'intruzLeft';
+
+                        // intruz.area = true;
+                        // game.time.events.remove(intruz.timeArea);
+                        // intruz.timeArea = game.time.events.add(600,function(){
+                        //     intruz.area = false;
+                        // },this);
+
+                    } else {
+                        //intruz.area = false;
+                    }
+                }
+
             }
         }, this, true);
 
-        game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.waters.obj, function(i,w){
+        game.physics.arcade.overlap(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.waters.obj, function(i,w){
             if(i.active) {
                 i.body.gravity.y = -525;
 
@@ -3724,10 +4715,10 @@ const update = () => {
                     } else {
                         i.move_y = 0;
                     }
-                    var typeSplash=false;
+                    let typeSplash=false;
                     if(w.type==='water-red') {
                         if(!i.killed) {
-                            toolsGame.mainElements.intruzi.collisionIntruz(i, "total-kill");
+                            toolsGame.mainElements.intruders.collisionIntruz(i, "total-kill");
                             i.killed = true;
                         }
                         typeSplash='splash-water-red';
@@ -3758,14 +4749,14 @@ const update = () => {
             }
         }, null, this);
 
-		game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.coins.obj, function(player, coin){
+        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.coins.obj, function(player, coin){
             toolsGame.audio.coin();
             toolsGame.mainElements.player.numberCoins++;
             toolsGame.mainElements.player.numberCoinsLevel++;
 
             toolsGame.mainElements.player.numberCoinsLevelProcent = Math.ceil(100*toolsGame.mainElements.player.numberCoinsLevel/oneHP);
             //console.log("100*" + toolsGame.mainElements.player.numberCoinsLevel + " / " + oneHP);
-		    coin.kill();
+            coin.kill();
             toolsGame.windows.boxTopMenu.f=false;
 
             //console.log(player.x);
@@ -3775,9 +4766,9 @@ const update = () => {
             // only animation text
             toolsGame.addPoint(coin.x,player.y,'addPointGold'+toolsGame.mainElements.player.numberCoins,'+1 gold');
 
-		}, null, this);
+        }, null, this);
 
-        // game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.coins.obj, function(player, coin){
+        // game.physics.arcade.overlap(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.coins.obj, function(player, coin){
         //     coin.kill();
         // }, null, this);
 
@@ -3785,8 +4776,15 @@ const update = () => {
             toolsGame.mainElements.player.numberMainLifes++;
             toolsGame.audio.life();
             player.body.velocity.y = -300;
-            player.scale.setTo(1,playerScaleBig);
-            toolsGame.mainElements.player.scale();
+            game.time.events.remove(toolsGame.mainElements.player.timeLife);
+            if(player.scale.y === 1) {
+                toolsGame.mainElements.player.scale('increase');
+                toolsGame.mainElements.player.timeLife = game.time.events.add(30000, function(){
+                    if(player.scale.y > 1) {
+                        toolsGame.mainElements.player.scale('restart');
+                    }
+                }, this);
+            }
 
             //player.moreJump = true;
 
@@ -3822,24 +4820,24 @@ const update = () => {
         }, null, this);
 
 
-		/////
-		game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.bulletsGuns.obj, function(player, bullets_gun){
-		    var numberAddBullets = 6;
+        /////
+        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.bulletsGuns.obj, function(player, bullets_gun){
+            const numberAddBullets = 6;
             toolsGame.audio.bullets();
-			toolsGame.mainElements.player.countBullets += numberAddBullets;
+            toolsGame.mainElements.player.countBullets += numberAddBullets;
             toolsGame.mainElements.player.countBulletsF = true;
-		    bullets_gun.kill();
+            bullets_gun.kill();
             toolsGame.windows.boxTopMenu.f=false;
             toolsGame.addPoint(bullets_gun.x,player.y,'addPointBullet'+toolsGame.mainElements.player.countBullets,'+' + numberAddBullets + ' bullets');
-		}, null, this);
+        }, null, this);
 
-		//// Finishing the level
-		game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.endLevelS.obj, function(player, end_level){
-			if(!levelFile.readyLoad)
-			{
+        //// Finishing the level
+        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.endLevelS.obj, function(player, end_level){
+            if(!levelFile.readyLoad)
+            {
 
                 toolsGame.audio.nextLevel();
-			    // saving to cookies
+                // saving to cookies
 
                 setCookies('id-level-last-memory',levelFile.activeIdLevel);
 
@@ -3857,19 +4855,19 @@ const update = () => {
                 setCookies('bullets',toolsGame.mainElements.player.countBullets);
 
                 // poprawic
-				//alert("x");
-				//clearTimeout(toolsGame.mainElements.player.obj.touchGroundTime);
+                //alert("x");
+                //clearTimeout(toolsGame.mainElements.player.obj.touchGroundTime);
                 //toolsGame.mainElements.player.obj.animations.stop();
 
-				levelFile.readyLoad=true;
+                levelFile.readyLoad=true;
 
-				levelFile.blockedKeys=true;
-				//console.log(toolsGame.mainElements.player.obj.position.y);
-				//toolsGame.mainElements.player.obj.position.y = toolsGame.mainElements.player.obj.position.y - 50;
+                levelFile.blockedKeys=true;
+                //console.log(toolsGame.mainElements.player.obj.position.y);
+                //toolsGame.mainElements.player.obj.position.y = toolsGame.mainElements.player.obj.position.y - 50;
 
                 //console.log(amountLevels + " - " + levelFile.activeIdLevel);
 
-                var finishLevel = function(){
+                const finishLevel = function(){
                     toolsGame.text.hide('score');
                     toolsGame.text.hide('scoreTotal');
                     correctCookiesProcent();
@@ -3911,11 +4909,11 @@ const update = () => {
                     toolsGame.mainElements.player.jumpTimer = game.time.now + 330;
 
                     // Percent presentation
-                    var scorePercent = 0,
-                        theBestScorePrecent = toolsGame.mainElements.player.numberCoinsLevelProcentLastMemory,
-                        showTheBestScore='';
+                    const theBestScorePrecent = toolsGame.mainElements.player.numberCoinsLevelProcentLastMemory;
+                    let showTheBestScore='';
+                    scorePercent = 0;
 
-                    var scoreInterval = function () {
+                    const scoreInterval = function () {
                         toolsGame.text.show('center',0,0,0.9,'Score: '+scorePercent+'%','bold 20px Arial','#dad9d5',true,'score',true);
                         toolsGame.audio.ticScore();
                         if(scorePercent < toolsGame.mainElements.player.numberCoinsLevelProcent) {
@@ -3936,8 +4934,8 @@ const update = () => {
                             if(amountLevels === levelFile.activeIdLevel+1){
                                 game.time.events.add(1000, function(){
                                     //console.log(amountLevels);
-                                    var globalPercent = 0;
-                                    for(var i=1; i<amountLevels; i++){
+                                    let globalPercent = 0;
+                                    for(let i=1; i<amountLevels; i++){
                                         if(getCookies('coins-procent-' + i)) {
                                             globalPercent +=  parseInt(getCookies('coins-procent-' + i));
                                             //console.log(i + ' istnieje i wynosci: ' + getCookies('coins-procent-' + i) + '%');
@@ -3945,8 +4943,8 @@ const update = () => {
                                     }
                                     globalPercent = Math.ceil(globalPercent / (amountLevels-1));
 
-                                    var scoreTotalPercent = 0;
-                                    var scoreTotalIntreval = function() {
+                                    let scoreTotalPercent = 0;
+                                    const scoreTotalIntreval = function() {
                                         if(scoreTotalPercent < globalPercent) {
                                             scoreTotalPercent ++;
                                             game.time.events.add(100, scoreTotalIntreval, this);
@@ -3977,8 +4975,8 @@ const update = () => {
                 }
 
                 // animation jump left/right for finish level
-                var start = null;
-                var step = function(timestamp) {
+                let start = null;
+                const step = function(timestamp) {
                     if (!start) start = timestamp;
 
                     if (facing === 'right') {
@@ -3988,7 +4986,7 @@ const update = () => {
                         toolsGame.mainElements.player.obj.body.velocity.x = -100;
                     }
 
-                    var progress = timestamp - start;
+                    const progress = timestamp - start;
                     if (progress < 500) {
                         window.requestAnimationFrame(step);
                     }
@@ -3996,13 +4994,13 @@ const update = () => {
 
                 window.requestAnimationFrame(step);
 
-			}
+            }
             toolsGame.windows.boxTopMenu.f=false;
-		}, null, this);
+        }, null, this);
 
         //// Save the place
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.saveLevelS.obj, function(player, save_level){
-        	//console.log(player);
+            //console.log(player);
             if(!(saveX === save_level.body.x && saveY === save_level.body.y) && !save_level.block) {
                 //console.log("Save place: " + save_level.body.x + " / " + save_level.body.y);
                 saveX = save_level.body.x;
@@ -4010,44 +5008,112 @@ const update = () => {
                 save_level.block = true;
                 save_level.animations.play('run2', 17, true);
                 toolsGame.audio.flash(1);
-			}
+            }
 
         }, null, this);
 
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.keys.obj, function(p,k){
             k.kill();
-            keys=1;
+            keys++;
             toolsGame.audio.key(.8);
             toolsGame.windows.boxTopMenu.f=false;
             toolsGame.addPoint(k.x,p.y,'addPointKey','You got the key!');
         }, null, this);
 
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.locks.obj, function(p,l){
-            if(keys === 1) {
-                //l.alpha = 0;
+
+            if(keys > 0) {
                 l.kill();
-                toolsGame.audio.doorLift();
-                toolsGame.mainElements.doors.obj.children[0].body.velocity.y = -50;
 
-                // setTimeout(function () {
-                //     toolsGame.mainElements.doors.obj.children[0].body.velocity.y = 0;
-                // },3000);
+                toolsGame.mainElements.openDoor(p);
 
-                game.time.events.add(3000, function(){
-                    toolsGame.mainElements.doors.obj.children[0].body.velocity.y = 0;
-                }, this);
-                toolsGame.windows.boxTopMenu.f=false;
-                keys = 0;
+                // let ind1 = 0;
+                // toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+                //     doorH.index = ind1;
+                //     ind1++;
+                // },this);
+                // let ind2 = 0;
+                // toolsGame.mainElements.doors.obj.forEach(function(door){
+                //     door.index = ind2;
+                //     ind2++;
+                // },this);
+                //
+                // const distanceArray = [];
+                // toolsGame.mainElements.doors.obj.forEach(function(door){
+                //     distanceArray.push(game.physics.arcade.distanceBetween(l,door));
+                //     //console.log(game.physics.arcade.distanceBetween(l,door));
+                // },this);
+                // const minDistnaceArray = Math.min.apply(null, distanceArray);
+                //
+                // const distanceArrayH = [];
+                // toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+                //     distanceArrayH.push(game.physics.arcade.distanceBetween(l,doorH));
+                //     //console.log(game.physics.arcade.distanceBetween(l,door));
+                // },this);
+                // const minDistnaceArrayH = Math.min.apply(null, distanceArrayH);
+                //
+                //
+                // toolsGame.mainElements.doors.obj.forEach(function(door){
+                //
+                //     if(isExists(door) && !door.deactive) {
+                //         if (minDistnaceArray === game.physics.arcade.distanceBetween(l, door)) {
+                //             //console.log(door.index);
+                //             if(isExists(door) && !door.deactive) {
+                //                 if(!door.zero) {
+                //                     door.deactive = true;
+                //                     door.body.velocity.y = -50;
+                //                     toolsGame.audio.doorLift();
+                //                     game.time.events.add(3000, function(){
+                //                         door.body.velocity.y = 0;
+                //                     }, this);
+                //                 }
+                //             }
+                //         }
+                //     }
+                // },this);
+                //
+                // toolsGame.mainElements.doorsHorizontal.obj.forEach(function(doorH){
+                //
+                //     if (minDistnaceArrayH === game.physics.arcade.distanceBetween(l, doorH)) {
+                //         if (isExists(doorH) && !doorH.deactive) {
+                //             if(!doorH.zero) {
+                //                 doorH.deactive = true;
+                //                 toolsGame.mainElements.explosion.add(doorH.x / tileSize, doorH.y / tileSize);
+                //                 doorH.kill();
+                //             }
+                //         }
+                //     }
+                // },this);
+
+
+                toolsGame.windows.boxTopMenu.f=false; // refresh
+                keys--;
             }
         }, null, this);
 
-        game.physics.arcade.collide(toolsGame.mainElements.player.obj, toolsGame.mainElements.doors.obj, function(p,k){
+        game.physics.arcade.collide(toolsGame.mainElements.player.obj, toolsGame.mainElements.doors.obj);
+        game.physics.arcade.collide(toolsGame.mainElements.player.obj, toolsGame.mainElements.doorsHorizontal.obj,function(p,d){
+            // ten sposob sprawdza sie najlepiej - sprobowac wdrozyc go wszedzie jako standard
+            p.youCanJump = true;
+            game.time.events.add(300, function(){
+                p.youCanJump = false;
+            },this);
+            toolsGame.mainElements.player.checkIfWasKilledAndOther(p);
+        },null,this);
 
+        game.physics.arcade.collide(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.doors.obj, function(i,d){
+            toolsGame.mainElements.intruders.collisionBack(i);
         });
 
-        game.physics.arcade.collide(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.doors.obj, function(i,d){
-            toolsGame.mainElements.intruzi.collisionBack(i);
-        });
+        game.physics.arcade.collide(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.doorsHorizontal.obj);
+
+        game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, toolsGame.mainElements.doors.obj);
+        game.physics.arcade.collide(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.doors.obj,function(b,d){
+            toolsGame.mainElements.explosion.add(d.x/tileSize, b.y/tileSize);
+            b.kill();;
+        },null,this);
+        game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, toolsGame.mainElements.doorsHorizontal.obj);
+
 
         // dotatkowy warunek jesli player dotyka dna mapy
         if(toolsGame.mainElements.player.obj.body.y+toolsGame.mainElements.player.obj.height === map.height*map.tileHeight) {
@@ -4076,36 +5142,44 @@ const update = () => {
             toolsGame.mainElements.player.lostLife(player);
         }, null, this);
 
-		game.physics.arcade.collide(toolsGame.mainElements.intruzi.obj, layer);
+        game.physics.arcade.collide(toolsGame.mainElements.intruders.obj, layer);
 
 
 
-		// player vs intruder
-		if(!levelFile.blockedKeys) {
+        // player vs intruder
+        if(!levelFile.blockedKeys) {
 
-            game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.intruzi.obj, function(player, intruz){
+            game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.intruders.obj, function(player, intruz){
                 if(!intruz.killing) {
                     if(player.body.overlapY>0)
                     {
+
                         toolsGame.mainElements.player.checkIfWasKilledAndOther(player);
+
 
                         if(intruz.type === 4) {
                             toolsGame.audio.breakBones();
                         } else if(intruz.type === 5) {
                             toolsGame.audio.condor();
                         } else {
-                            toolsGame.audio.scream();
+                            toolsGame.audio.screamIntruder(.05);
                         }
-                        toolsGame.mainElements.intruzi.collisionIntruz(intruz);
-                        if(intruz.type !== 5) {
+                        toolsGame.mainElements.intruders.collisionIntruz(intruz);
+                        if(!(intruz.type === 5 || intruz.type === 6)) {
                             if(!intruz.hit || !player.killHitIntruder) {
                                 player.killHitIntruder=true;
                                 intruz.hit=1;
                             }
-                            if(intruz.hit > 4) {
-                                if(!intruz.killing) toolsGame.mainElements.intruzi.collisionIntruz(intruz,"total-kill");
+                            if(intruz.hit > 6) {
+                                if(!intruz.killing) toolsGame.mainElements.intruders.collisionIntruz(intruz,"total-kill");
                                 intruz.killing=true;
                                 intruz.hit=false;
+                                if(intruz.type<4) {
+                                    toolsGame.mainElements.bulletsGuns.add(intruz.x/tileSize-1, intruz.y/tileSize);
+                                }
+                                if(intruz.type<4 && intruz.giveBackLive) {
+                                    toolsGame.mainElements.LifeSingleS.add(intruz.x/tileSize, intruz.y/tileSize);
+                                }
                             } else {
                                 intruz.hit++;
                             }
@@ -4117,26 +5191,27 @@ const update = () => {
                     if(player.body.overlapY!==0)
                     {
                         toolsGame.mainElements.player.lostLife(player);
+                        intruz.giveBackLive = true;
                     }
                     //console.log(player.body.overlapY);
                 }
             }, null, this);
 
-            game.physics.arcade.collide(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.player.obj);
+            game.physics.arcade.collide(toolsGame.mainElements.intruders.obj, toolsGame.mainElements.player.obj);
 
-		}
+        }
 
         // przeniesiona do gory - dotatkowy warunek jesli intruz dotyka dna mapy
-        // toolsGame.mainElements.intruzi.obj.forEach(function(intruz){
+        // toolsGame.mainElements.intruders.obj.forEach(function(intruz){
         //     if(intruz.body.y+intruz.height === map.height*map.tileHeight) {
-        //         if(!intruz.killing) toolsGame.mainElements.intruzi.collisionIntruz(intruz,"total-kill");
+        //         if(!intruz.killing) toolsGame.mainElements.intruders.collisionIntruz(intruz,"total-kill");
         //         intruz.killing=true;
         //     }
         // }, this, true);
 
 
-		// Shooting
-		if(toolsGame.mainElements.player.countBulletsF){
+        // Shooting
+        if(toolsGame.mainElements.player.countBulletsF){
             if(toolsGame.mainElements.player.countBullets === 0) {
                 //console.log("end of ammunition");
                 toolsGame.buttons.navigations.shot.alpha = 0;
@@ -4147,7 +5222,7 @@ const update = () => {
                 toolsGame.buttons.navigations.shot.inputEnabled = true;
             }
             toolsGame.mainElements.player.countBulletsF = false;
-		}
+        }
 
 
 
@@ -4162,7 +5237,7 @@ const update = () => {
         //     console.log(game.physics.arcade.distanceBetween(toolsGame.mainElements.player.obj,k));
         // }, this, true);
 
-        game.physics.arcade.overlap(toolsGame.mainElements.intruzi.obj, layer, function(intruz,lay){
+        game.physics.arcade.overlap(toolsGame.mainElements.intruders.obj, layer, function(intruz,lay){
 
             //console.log(game.physics.arcade.distanceBetween(toolsGame.mainElements.player.obj,intruz));
 
@@ -4170,7 +5245,9 @@ const update = () => {
             //     toolsGame.mainElements.player.obj.position.x<intruz.position.x+game.width/1.5 &&
             //     toolsGame.mainElements.player.obj.position.y>intruz.position.y-game.height/1.5 &&
             //     toolsGame.mainElements.player.obj.position.y<intruz.position.y+game.height/1.5) {
-            if(toolsGame.mainElements.player.detectionHoldOnObject(intruz,1)) {
+
+
+            if(/* intruz.type===6 || */ toolsGame.mainElements.player.detectionHoldOnObject(intruz,.8)) { // im mniejsza wartosc tym wikeszy zasieg aktywacji intruza
                 intruz.active = true;
                 if(intruz.alpha===0) {
                     intruz.alpha=1;
@@ -4182,11 +5259,14 @@ const update = () => {
                 intruz.animations.stop();
             }
 
+
+
+
             if(intruz.active) {
                 if(!intruz.timeLoop) {
                     intruz.timeLoop = 1;
-                    toolsGame.mainElements.intruzi.id++;
-                    intruz.id = toolsGame.mainElements.intruzi.id;
+                    toolsGame.mainElements.intruders.id++;
+                    intruz.id = toolsGame.mainElements.intruders.id;
                     intruz.break = 4000 * intruz.id;
                     //console.log("intruz type: " + intruz.type + " loaded");
                 }
@@ -4263,22 +5343,15 @@ const update = () => {
 
                     if(intruz.type === 2 || intruz.type === 3) {
                         if(intruz.body.blocked.left || intruz.body.blocked.right) {
-                            toolsGame.mainElements.intruzi.jump(intruz,450);
-                            // var jumpTimerIntruz = 0;
-                            // if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
-                            //     intruz.body.velocity.y = -450;
-                            //     jumpTimerIntruz = game.time.now + 450;
-                            // }
-
+                            toolsGame.mainElements.intruders.jump(intruz,450);
                             if (timeLoop === 2) {
                                 if (intruz.body.blocked.left) intruz.randomMove = 'intruzLeft';
                                 else if (intruz.body.blocked.right) intruz.randomMove = 'intruzRight';
                             }
-
                         }
                     }
 
-                    if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4 || intruz.type === 5) {
+                    if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4 || intruz.type === 5 || intruz.type === 6) {
                         if (intruz.randomMove == 'intruzRight') {
                             if(intruz.type === 4) {
                                 intruz.body.velocity.x = -intruz.randomSpeed/2;
@@ -4291,7 +5364,7 @@ const update = () => {
                                     } else {
                                         intruz.body.velocity.x = 1000;
                                     }
-                                    toolsGame.mainElements.intruzi.jump(intruz,200);
+                                    toolsGame.mainElements.intruders.jump(intruz,200);
                                 } else {
                                     intruz.body.velocity.x = -intruz.randomSpeed;
                                 }
@@ -4311,7 +5384,7 @@ const update = () => {
                                     } else {
                                         intruz.body.velocity.x = 1000;
                                     }
-                                    toolsGame.mainElements.intruzi.jump(intruz,200);
+                                    toolsGame.mainElements.intruders.jump(intruz,200);
                                 } else {
                                     intruz.body.velocity.x = intruz.randomSpeed;
                                 }
@@ -4341,7 +5414,7 @@ const update = () => {
                                     } else {
                                         intruz.body.velocity.x = 1000;
                                     }
-                                    toolsGame.mainElements.intruzi.jump(intruz,200);
+                                    toolsGame.mainElements.intruders.jump(intruz,200);
                                 } else {
                                     intruz.body.velocity.x = -intruz.randomSpeed;
                                 }
@@ -4369,7 +5442,7 @@ const update = () => {
                                     } else {
                                         intruz.body.velocity.x = 1000;
                                     }
-                                    toolsGame.mainElements.intruzi.jump(intruz,200);
+                                    toolsGame.mainElements.intruders.jump(intruz,200);
                                 } else {
                                     intruz.body.velocity.x = intruz.randomSpeed;
                                 }
@@ -4379,18 +5452,58 @@ const update = () => {
                         }
                     }
 
+                    if(intruz.type === 6) {
+                        //console.log("player position:");
+                        //console.log(toolsGame.mainElements.player.obj.position.x);
+                        //console.log("intruder position");
+                        //console.log(intruz.position.x);
+                        if(!intruz.area) {
+
+                            //intruz.position.x > toolsGame.mainElements.player.obj.position.x-128 &&
+                            //intruz.position.x < toolsGame.mainElements.player.obj.position.x+64
+
+                            if(intruz.position.x < toolsGame.mainElements.player.obj.position.x) {
+                                intruz.randomMove = 'intruzLeft';
+                            } else {
+                                intruz.randomMove = 'intruzRight';
+                            }
+                            intruz.area = true;
+                            game.time.events.add(randomArray([600,900,1200]),function(){
+                                //console.log("goni cie intruz");
+                                //console.log(randomArray([600,900,1200]));
+                                intruz.area = false;
+                            },this);
+
+                            // if(intruz.body.blocked.left || intruz.body.blocked.right) {
+                            //     toolsGame.mainElements.intruders.jump(intruz,450);
+                            //     if (timeLoop === 2) {
+                            //         if (intruz.body.blocked.left) intruz.randomMove = 'intruzLeft';
+                            //         else if (intruz.body.blocked.right) intruz.randomMove = 'intruzRight';
+                            //     }
+                            // }
+                        }
+
+                        if(intruz.body.blocked.left || intruz.body.blocked.right) {
+                            toolsGame.mainElements.intruders.jump(intruz,450);
+                            if (timeLoop === 2) {
+                                if (intruz.body.blocked.left) intruz.randomMove = 'intrudersdleLeft';
+                                else if (intruz.body.blocked.right) intruz.randomMove = 'intrudersdleRight';
+                                // game.time.events.add(4000,function(){
+                                //     if(intruz.randomMove === 'intrudersdleLeft') intruz.randomMove = 'intruzLeft';
+                                //     else if (intruz.randomMove === 'intrudersdleRight') intruz.randomMove = 'intruzRight';
+                                // },this);
+                            }
+                        }
+
+                    }
+
                     if(intruz.type === 5) {
                         if(intruz.body.blocked.down) {
                             //console.log("touch bottom lay");
                             //console.log(intruz.body.blocked);
 
-                            toolsGame.mainElements.intruzi.jump(intruz,350);
+                            toolsGame.mainElements.intruders.jump(intruz,350);
                             toolsGame.audio.condor();
-                            // var jumpTimerIntruz = 0;
-                            // if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
-                            //     intruz.body.velocity.y = -450;
-                            //     jumpTimerIntruz = game.time.now + 450;
-                            // }
                         }
                     }
 
@@ -4399,24 +5512,23 @@ const update = () => {
                     }
 
 
-                } else if(intruz.randomMove==='intruzIdleRight') {
+                } else if(intruz.randomMove==='intrudersdleRight') {
                     intruz.animations.play('idle-right');
-                } else if(intruz.randomMove==='intruzIdleLeft') {
+                } else if(intruz.randomMove==='intrudersdleLeft') {
                     intruz.animations.play('idle-left');
                 }
                 else if(intruz.randomMove==='intruzDelete'){
                     intruz.randomMove=parseInt(Math.random() * 2) ?  'intruzRight' : 'intruzLeft';
-                    //var wsp=[], wspX=150, wspY=100;
-                    var wsp=[], wspX=intruz.wspStartX, wspY=intruz.wspStartY;
-                    // console.log(intruz.wspStartY);
-                    // console.log(intruz.wspStartX);
+                    let wsp=[], wspX=intruz.wspStartX, wspY=intruz.wspStartY;
+                    //console.log(intruz.wspStartY);
+                    //console.log(intruz.wspStartX);
                     if(wspInkub.length>0)
                     {
                         //console.log("wsp inkub istnieje");
-                        var losoweWspInk=randomBetween(0,wspInkub.length-1);
-                        //console.log("nr: " + losoweWspInk);
-                        //console.log(losoweWspInk);
-                        wsp=wspInkub[losoweWspInk].split(",");
+                        const randomWspInk=randomBetween(0,wspInkub.length-1);
+                        //console.log("nr: " + randomWspInk);
+                        //console.log(randomWspInk);
+                        wsp=wspInkub[randomWspInk].split(",");
                         wspX=parseInt(wsp[0]/tileSize);
                         wspY=parseInt(wsp[1]/tileSize);
                         //console.log(wsp[0]/tileSize + "x" + wsp[1]/tileSize);
@@ -4430,12 +5542,12 @@ const update = () => {
                     intruz.kill();
 
                     // setTimeout(function(){
-                    //     toolsGame.mainElements.intruzi.add(wspX,wspY,intruz.type);
+                    //     toolsGame.mainElements.intruders.add(wspX,wspY,intruz.type);
                     // }, randomBetween(3,6)*1000);
 
                     // if we want reactivate intruder:
-                    game.time.events.add(randomBetween(3,6)*1000, function(){
-                        toolsGame.mainElements.intruzi.add(wspX,wspY,intruz.type);
+                    game.time.events.add(randomBetween(8,16)*1000, function(){
+                        toolsGame.mainElements.intruders.add(wspX,wspY,intruz.type);
                     }, this);
 
 
@@ -4456,17 +5568,10 @@ const update = () => {
         },null, this);
 
 
-		// to uzyc przy dwoch roznych typach intruzow
-		// game.physics.arcade.collide(toolsGame.mainElements.intruzi.obj, toolsGame.mainElements.intruzi.obj, function(intruz){
-         //    toolsGame.intruzCollisonBack(intruz);
-		// 	//console.log(intruz.body.blocked.left);
-		// });
-		
-
-	    toolsGame.mainElements.player.obj.body.velocity.x = 0;
-	    //console.log(toolsGame.mainElements.player.obj.touchGround + " and " + levelFile.blockedKeys);
-		if(!levelFile.blockedKeys) // zmiana levelu - blokowanie klawiszy
-		{
+        toolsGame.mainElements.player.obj.body.velocity.x = 0;
+        //console.log(toolsGame.mainElements.player.obj.touchGround + " and " + levelFile.blockedKeys);
+        if(!levelFile.blockedKeys) // zmiana levelu - blokowanie klawiszy
+        {
 
             // if(toolsGame.mainElements.player.obj.gForceWaterOnlyeOne && (cursors.up.isDown || cursors.left.isDown || cursors.right.isDown)) {
             //     toolsGame.mainElements.player.obj.gForceWaterOnlyeOne = false;
@@ -4478,12 +5583,12 @@ const update = () => {
                 // }
                 if (facing === 'right') {
                     if(!toolsGame.mainElements.player.obj.touchGround) {
-                    	toolsGame.mainElements.player.obj.animations.play('jump-right');
+                        toolsGame.mainElements.player.obj.animations.play('jump-right');
                     }
                 }
                 else if (facing === 'left') {
                     if(!toolsGame.mainElements.player.obj.touchGround) {
-                    	toolsGame.mainElements.player.obj.animations.play('jump-left');
+                        toolsGame.mainElements.player.obj.animations.play('jump-left');
                     }
                 }
 
@@ -4496,7 +5601,7 @@ const update = () => {
                 //             toolsGame.mainElements.player.obj.animations.play('right');
                 //         }
                 //         toolsGame.mainElements.player.obj.touchGround=true;
-					// }
+                // }
                 // },300);
 
                 toolsGame.mainElements.player.obj.touchGroundTime = game.time.events.add(300, function(){
@@ -4511,37 +5616,37 @@ const update = () => {
                 }, this);
             }
 
-		    if (cursors.left.isDown)
-		    {
+            if (cursors.left.isDown)
+            {
 
-		        toolsGame.mainElements.player.obj.body.velocity.x = -200;
-		       // console.log(game.camera.x);
-		        //if() bg.cameraOffset.x+=1;
+                toolsGame.mainElements.player.obj.body.velocity.x = -playerSpeedLeftRight;
+                //console.log(game.camera.x);
+                //if() bg.cameraOffset.x+=1;
 
-		        if (facing != 'left')
-		        {
-		            toolsGame.mainElements.player.obj.animations.play('left');
-		            facing = 'left';
-		        }
+                if (facing !== 'left')
+                {
+                    toolsGame.mainElements.player.obj.animations.play('left');
+                    facing = 'left';
+                }
 
-		    }
-		    else if (cursors.right.isDown)
-		    {
-		        toolsGame.mainElements.player.obj.body.velocity.x = 200;
-		        //console.log(game.camera.x);
-		        //bg.cameraOffset.x-=1;
+            }
+            else if (cursors.right.isDown)
+            {
+                toolsGame.mainElements.player.obj.body.velocity.x = playerSpeedLeftRight;
+                //console.log(game.camera.x);
+                //bg.cameraOffset.x-=1;
 
-		        if (facing != 'right')
-		        {
-		            toolsGame.mainElements.player.obj.animations.play('right');
-		            facing = 'right';
-		        }
-		    }
-		    else {
-                if (facing != 'idle') {
+                if (facing !== 'right')
+                {
+                    toolsGame.mainElements.player.obj.animations.play('right');
+                    facing = 'right';
+                }
+            }
+            else {
+                if (facing !== 'idle') {
                     toolsGame.mainElements.player.obj.animations.stop();
 
-                    if (facing == 'left')
+                    if (facing === 'left')
                     {
                         //toolsGame.mainElements.player.obj.frame = 0;
                         toolsGame.mainElements.player.obj.animations.play('idle-left');
@@ -4554,109 +5659,84 @@ const update = () => {
 
                     facing = 'idle';
                 }
-		    }
+            }
 
-		}
+        }
 
-		// camera and backing to other part screen
-		//console.log(game.camera.x);
-		// game.camera.follow();
-		// game.camera.x+=10;
+        // camera and backing to other part screen
+        //console.log(game.camera.x);
+        // game.camera.follow();
+        // game.camera.x+=10;
 
-		/* aniamacja kladki itp */
+        /* aniamacja kladki itp */
 
-		/*
-		game.physics.arcade.collide(kladki, layer);
-		//console.log(kladki.children[0].body.blocked.right);
-
-		for (var i = 0, len = kladki.children.length; i < len; i++) {
-
-			if(kladki.children[i].body.blocked.right) {
-				kladki.children[i].direction="left";
-			}
-			else if(kladki.children[i].body.blocked.left) {
-				kladki.children[i].direction="right";
-			}
-
-			if(kladki.children[i].direction=="right")
-			{
-				kladki.children[i].body.velocity.x = 100;
-			}
-			else
-			{
-				kladki.children[i].body.velocity.x = -100;
-			}
-			kladki.children[i].isUp=false;
-		}
-		*/
-
-		game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, layer);
-		game.physics.arcade.overlap(toolsGame.mainElements.kladki.poziom.obj, layer, function(kladka,lay){
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, layer);
+        game.physics.arcade.overlap(toolsGame.mainElements.kladki.poziom.obj, layer, function(kladka,lay){
 
             toolsGame.checkSpecialBlankBlockElement(lay);
 
-			if(kladka.body.blocked.right) {
-				kladka.direction="left";
-			}
-			else if(kladka.body.blocked.left) {
-				kladka.direction="right";
-			}
+            if(kladka.body.blocked.right) {
+                kladka.direction="left";
+            }
+            else if(kladka.body.blocked.left) {
+                kladka.direction="right";
+            }
 
-			if(kladka.direction=="right")
-			{
-				kladka.body.velocity.x = 100;
-			}
-			else
-			{
-				kladka.body.velocity.x = -100;
-			}
-			kladka.isUp=false;
-		},null, this);
+            if(kladka.direction=="right")
+            {
+                kladka.body.velocity.x = 100;
+            }
+            else
+            {
+                kladka.body.velocity.x = -100;
+            }
+            kladka.isUp=false;
+        },null, this);
 
-		toolsGame.mainElements.player.obj.body.allowGravity = true;
-		game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, toolsGame.mainElements.player.obj, function(p,kladka){
-			//console.log(kladka);
-			if(kladka.body.overlapY>0)
-			{
+        toolsGame.mainElements.player.obj.body.allowGravity = true;
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, toolsGame.mainElements.player.obj, function(p,kladka){
+            //console.log(kladka);
+            if(kladka.body.overlapY>0)
+            {
                 toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj,'kladki-poziom');
 
-				toolsGame.mainElements.player.obj.body.allowGravity = true;
-				toolsGame.mainElements.player.obj.body.bounce.y = 0;
-				kladka.isUp=true;
-				toolsGame.mainElements.player.obj.body.velocity.x += kladka.body.velocity.x;
-				toolsGame.mainElements.player.obj.body.allowGravity = false;
-				//console.log(toolsGame.mainElements.player.obj.body.allowGravity);
+                toolsGame.mainElements.player.obj.body.allowGravity = true;
+                toolsGame.mainElements.player.obj.body.bounce.y = 0;
+                kladka.isUp=true;
+                toolsGame.mainElements.player.obj.body.velocity.x += kladka.body.velocity.x;
+                toolsGame.mainElements.player.obj.body.allowGravity = false;
+                //console.log(toolsGame.mainElements.player.obj.body.allowGravity);
 
                 game.time.events.remove(toolsGame.mainElements.kladki.kladkaPlayerBounceReset);
                 toolsGame.mainElements.kladki.kladkaPlayerBounceReset=game.time.events.add(200, function(){
                     toolsGame.mainElements.player.obj.body.bounce.y = 0.3;
                 }, this);
 
-				// clearTimeout(toolsGame.mainElements.kladki.kladkaPlayerBounceReset);
-				// toolsGame.mainElements.kladki.kladkaPlayerBounceReset=setTimeout(function(){
-				// 	toolsGame.mainElements.player.obj.body.bounce.y = 0.3;
-				// },200);
-				//console.log(toolsGame.mainElements.player.obj.body.bounce.y + " / " + toolsGame.mainElements.player.obj.body.overlapY);
-			}
+                // clearTimeout(toolsGame.mainElements.kladki.kladkaPlayerBounceReset);
+                // toolsGame.mainElements.kladki.kladkaPlayerBounceReset=setTimeout(function(){
+                // 	toolsGame.mainElements.player.obj.body.bounce.y = 0.3;
+                // },200);
+                //console.log(toolsGame.mainElements.player.obj.body.bounce.y + " / " + toolsGame.mainElements.player.obj.body.overlapY);
+            }
 
-		}, null, this);
+        }, null, this);
 
-		game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, toolsGame.mainElements.intruzi.obj, function(kladka,intruz){
-			//intruz.body.velocity.x += kladka.body.velocity.x;
-		}, null, this);
-		
-
-		//console.log(toolsGame.mainElements.player.obj.body.bounce.y + " / " + toolsGame.mainElements.player.obj.body.overlapY);
-		//console.log(toolsGame.mainElements.player.obj.body.blocked.down);
-		/* end aniamacja kladki itp */
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, toolsGame.mainElements.intruders.obj, function(kladka,intruz){
+            //intruz.body.velocity.x += kladka.body.velocity.x;
+        }, null, this);
 
 
-		//\\ start
+        //console.log(toolsGame.mainElements.player.obj.body.bounce.y + " / " + toolsGame.mainElements.player.obj.body.overlapY);
+        //console.log(toolsGame.mainElements.player.obj.body.blocked.down);
+        /* end aniamacja kladki itp */
+
+
+        //\\ start
         //game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, toolsGame.mainElements.blankTileS.obj);
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, toolsGame.mainElements.kladki.poziom.obj);
-        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, toolsGame.mainElements.intruzi.obj,function(k,intruz){
-        	//console.log("intruz vs kladka");
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
+            //console.log("intruz vs kladka");
             toolsGame.intruzCollisonNoBack(intruz);
         });
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, toolsGame.mainElements.player.obj, function(k,p){
@@ -4674,7 +5754,7 @@ const update = () => {
         }, null, this);
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, toolsGame.mainElements.kladki.poziom.obj);
-        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, toolsGame.mainElements.intruzi.obj,function(k,intruz){
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
             //console.log("intruz vs kladka");
             toolsGame.intruzCollisonNoBack(intruz);
         });
@@ -4696,7 +5776,7 @@ const update = () => {
         }, null, this);
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, toolsGame.mainElements.kladki.poziom.obj);
-        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, toolsGame.mainElements.intruzi.obj,function(k,intruz){
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
             //console.log("intruz vs kladka");
             toolsGame.intruzCollisonNoBack(intruz);
         });
@@ -4715,7 +5795,7 @@ const update = () => {
         }, null, this);
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottom.obj, toolsGame.mainElements.kladki.poziom.obj);
-        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottom.obj, toolsGame.mainElements.intruzi.obj,function(k,intruz){
+        game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottom.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
             //console.log("intruz vs kladka");
             toolsGame.intruzCollisonNoBack(intruz);
         });
@@ -4732,30 +5812,30 @@ const update = () => {
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottom.obj, layer, function(k,lay){
             toolsGame.mainElements.kladki.run.endCollision(k,"pionBottom");
         }, null, this);
-		//\\ end
+        //\\ end
 
 
-		/* teleporter postaci
-		console.log(toolsGame.mainElements.player.obj.body.x + " : " + toolsGame.mainElements.player.obj.body.y);
-		if(toolsGame.mainElements.player.obj.body.x>1200) {
-			//game.camera.follow(false);
-			//game.camera.follow(toolsGame.mainElements.intruzi.obj.children[0]);
-			toolsGame.mainElements.player.obj.body.x=100;
-			toolsGame.mainElements.player.obj.body.y=100;
-			//game.camera.follow(toolsGame.mainElements.player.obj);
-			//game.camera.follow(toolsGame.mainElements.player.obj, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05);
+        /* teleporter postaci
+        console.log(toolsGame.mainElements.player.obj.body.x + " : " + toolsGame.mainElements.player.obj.body.y);
+        if(toolsGame.mainElements.player.obj.body.x>1200) {
+            //game.camera.follow(false);
+            //game.camera.follow(toolsGame.mainElements.intruders.obj.children[0]);
+            toolsGame.mainElements.player.obj.body.x=100;
+            toolsGame.mainElements.player.obj.body.y=100;
+            //game.camera.follow(toolsGame.mainElements.player.obj);
+            //game.camera.follow(toolsGame.mainElements.player.obj, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05);
 
-		}
-		/* end teleporter postaci */
+        }
+        /* end teleporter postaci */
 
 
-		// shot bullet whit gun 
-		toolsGame.mainElements.player.gun.shot(toolsGame.mainElements.player);
+        // shot bullet whit gun
+        toolsGame.mainElements.player.gun.shot(toolsGame.mainElements.player);
 
-		// visual gun
-		toolsGame.mainElements.player.gun.visualGun(toolsGame.mainElements.player);
+        // visual gun
+        toolsGame.mainElements.player.gun.visualGun(toolsGame.mainElements.player);
 
-		// visual fog
+        // visual fog
         if(typeof proportiesMap[levelFile.activeIdLevel] === 'object') {
             if(proportiesMap[levelFile.activeIdLevel].fog && proportiesMap[levelFile.activeIdLevel].fogSpeed)
             {
@@ -4765,56 +5845,57 @@ const update = () => {
             }
         }
 
-		//console.log(bg.position.x);
+        //console.log(bg.position.x);
 
-		// parallaxa backgroundu
-		if(levelFile.backgroundParallax)
-		{
+        // parallaxa backgroundu
+        if(levelFile.backgroundParallax)
+        {
 
             if(proportiesMap[levelFile.activeIdLevel].background) {
-                var backgroundMoveX = 0;
+                let backgroundMoveX = 0;
                 if(proportiesMap[levelFile.activeIdLevel].backgroundMoveX) {
                     backgroundMoveX = -proportiesMap[levelFile.activeIdLevel].backgroundMoveX;
                 }
                 bg.cameraOffset.x = backgroundMoveX-200-game.camera.x / 15;
             }
-			if(proportiesMap[levelFile.activeIdLevel].backgroundSecond) {
+            if(proportiesMap[levelFile.activeIdLevel].backgroundSecond) {
                 bg2.cameraOffset.x=-game.camera.x/8;
             }
-		}
+        }
 
         // if (toolsGame.mainElements.player.numberLifes < 1) {
         //     toolsGame.mainElements.player.obj.animations.play('kill-right');
         // }
 
 
-		if(toolsGame.mainElements.player.generateAgain && !toolsGame.mainElements.player.gameOver) {
+        if(toolsGame.mainElements.player.generateAgain && !toolsGame.mainElements.player.gameOver) {
             toolsGame.mainElements.player.obj.body.x=saveX;
             toolsGame.mainElements.player.obj.body.y=saveY;
             toolsGame.mainElements.player.obj.alpha = 1;
 
             toolsGame.mainElements.player.obj.play("idle-right");
             toolsGame.mainElements.player.generateAgain = false;
-		}
+        }
 
-        //toolsGame.mainElements.intruzi.obj.children
-        //(toolsGame.mainElements.intruzi.obj.children[0].indexOf("intruzStop") !== -1)
+        //toolsGame.mainElements.intruders.obj.children
+        //(toolsGame.mainElements.intruders.obj.children[0].indexOf("intruzStop") !== -1)
         //console.log(toolsGame.mainElements.player.obj.body.onFloor());
         if (
             jumpButton.isDown &&
             (toolsGame.mainElements.player.obj.body.onFloor() ||
-                inArrayObject('intruzi',toolsGame.mainElements.intruzi.obj.children,'intruzStop') ||
                 inArrayObject('kladki', toolsGame.mainElements.logs.obj.children,true) ||
                 inArrayObject('kladki',toolsGame.mainElements.kladki.poziom.obj.children,true) ||
                 inArrayObject('kladki',toolsGame.mainElements.kladki.pionTopBack.obj.children,true) ||
                 inArrayObject('kladki',toolsGame.mainElements.kladki.pionBottomBack.obj.children,true) ||
                 inArrayObject('kladki',toolsGame.mainElements.kladki.pionTop.obj.children,true) ||
-                inArrayObject('kladki',toolsGame.mainElements.kladki.pionBottom.obj.children,true)
+                inArrayObject('kladki',toolsGame.mainElements.kladki.pionBottom.obj.children,true) ||
+                toolsGame.mainElements.player.obj.youCanJump
             ) && game.time.now > toolsGame.mainElements.player.jumpTimer
         )
         {
             if(!levelFile.blockedKeys)
             {
+                //console.log(toolsGame.mainElements.player.obj.body.onFloor());
                 if(!toolsGame.mainElements.player.obj.gForceWater) {
                     toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityNormal;
                     toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityNormal;
@@ -4832,6 +5913,15 @@ const update = () => {
         if(!toolsGame.mainElements.player.obj.t1) {
             toolsGame.mainElements.player.obj.onGround=false;
         }
+
+        game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.cactusAnimateS.obj, function(p, c){
+            //console.log(p);
+            if(!p.holdLostLife && !levelFile.blockedKeys) {
+                toolsGame.mainElements.player.lostLife(p);
+                toolsGame.jumpCollision(p,250);
+            }
+
+        }, null, this);
 
         if(!theEndCredits) {
             // game.time.advancedTiming = true;﻿
@@ -4862,11 +5952,11 @@ const update = () => {
 
         }
 
-		//+ timer.duration.toFixed(0)
+        //+ timer.duration.toFixed(0)
 
-	}
-	
- 
+    }
+
+
 };
 
 const correctCookiesProcent = () => {
@@ -4889,28 +5979,47 @@ const cookiesLastLevelMemory = () => {
 cookiesLastLevelMemory();
 
 const endGame = () => {
-	if(playGame.main) {
-	    console.log("########### end game #############");
-		game.world.removeAll();
-		timer.destroy();
+    if(playGame.main) {
+        console.log("########### end game #############");
+        game.world.removeAll();
+        timer.destroy();
         toolsGame.audio.bg.stop();
-		playGame.main=false;
+        playGame.main=false;
         // deactive Game Over flag;
         toolsGame.mainElements.player.gameOver = false;
-		create();
-	}
-	else
-	{
-		//navigator.app.exitApp();
-	}
+        create();
+    }
+    else
+    {
+        //navigator.app.exitApp();
+    }
 };
 
 const render = () => {
     //game.debug.text(game.time.physicsElapsed, 32, 32);
     //game.debug.bodyInfo(toolsGame.mainElements.player.obj, 16, 24);
-   	//if(toolsGame.mainElements.intruzi.obj.children[0]) game.debug.body(toolsGame.mainElements.intruzi.obj.children[0]);
-    //if(toolsGame.mainElements.intruzi.obj.children[0]) game.debug.bodyInfo(toolsGame.mainElements.intruzi.obj.children[0], 16, 24);
-	//console.log("x-game.load.onLoadStart");
+    //if(toolsGame.mainElements.intruders.obj.children[0]) game.debug.body(toolsGame.mainElements.intruders.obj.children[0]);
+    //if(toolsGame.mainElements.intruders.obj.children[0]) game.debug.bodyInfo(toolsGame.mainElements.intruders.obj.children[0], 16, 24);
+    //console.log("x-game.load.onLoadStart");
 };
 
-const game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });
+// new Game(width, height, renderer, parent, state, transparent, antialias, physicsConfig)
+const config = {
+    width: 800,
+    height: 450,
+    //renderer: Phaser.AUTO,
+    renderer: Phaser.CANVAS,
+    //renderer: Phaser.WEBGL_FILTER,
+    parent: 'game-content',
+    //antialias: true,
+    //multiTexture: true,
+    enableDebug: false,
+    state: {
+        preload: preload,
+        create: create,
+        update: update
+        //render: render
+    }
+};
+const game = new Phaser.Game(config);
+//const game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });
