@@ -6,6 +6,17 @@ export const detectionDevice = () => {
     }
 };
 
+export const detectionWEBGL = () => {
+    const canvas = document.createElement("canvas"),
+        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+    if(gl && gl instanceof WebGLRenderingContext) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 export const isEven = (n) => {
     return n == parseFloat(n)? !(n%2) : void 0;
 };

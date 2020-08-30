@@ -1,17 +1,27 @@
 import '../scss/index.scss';
 import {setCookies, removeCookies, getCookies} from './cookies';
-import {detectionDevice, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, randomArray, triggerKeyboardEvent} from './functions';
+import {detectionDevice, detectionWEBGL, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, randomArray, triggerKeyboardEvent} from './functions';
+
+
+// for IE11
+Number.isInteger = Number.isInteger || function(value) {
+    return typeof value === "number" &&
+        isFinite(value) &&
+        Math.floor(value) === value;
+};
 
 const tileSize=16,
     proportiesMap=[],
     amountMainLife=3,
     amountLife=3,
-    amountBullet=60,
+    amountBullet=6,
     playerScaleBig = 1.08,
     playerJumpVelocityNormalBig = 520,
     playerJumpVelocityNormalSmall = 440,
     playerJumpVelocityWaterBig = 290,
     playerJumpVelocityWaterSmall = 200,
+    playerJumpVelocityStoneBig = 350,
+    playerJumpVelocityStoneSmall = 260,
     playerJumpVelocityIntruder = 480;
 
 let map,
@@ -46,7 +56,8 @@ let map,
     theEndCredits=false,
     moveX,
     moveY,
-    playerSpeedLeftRight = 200;
+    playerSpeedLeftRight = 200,
+    cursorDirection;
 
 const preload = () => {
 
@@ -340,7 +351,7 @@ const preload = () => {
 
     game.load.spritesheet('buttonsIcons', 'images/icons.png', 48, 48);
     game.load.spritesheet('buttonLevel', 'images/button-level.png', 64, 64);
-    game.load.spritesheet('buttonNavigation', 'images/navigations1.png', 112, 112);
+    game.load.spritesheet('buttonNavigation', 'images/navigations.png', 112, 112);
     game.load.image('buttonPause', 'images/pause.png');
     game.load.spritesheet('lifes-single-bar', 'images/lifes-single-bar.png', 58, 16);
 
@@ -388,7 +399,8 @@ const preload = () => {
     game.load.image('stone-big', 'images/stone-big.png');
     game.load.spritesheet('stone-big-explosion', 'images/stone-big-explosion.png', 96, 96);
 
-    game.load.spritesheet('fog-single', 'images/fog-anim.png',800,206);
+    game.load.spritesheet('fog-single', 'images/fog-anim-half.png',800,206);
+    //game.load.spritesheet('fog-single-static', 'images/fog-static.png',800,206);
 
     game.load.image('building1', 'images/building-barn1.png');
     game.load.image('building2', 'images/building-home1.png');
@@ -448,6 +460,7 @@ const preload = () => {
     game.load.audio('scale-down', 'audio/down.mp3'); // licence ok
     game.load.audio('magic', 'audio/magic.mp3'); // licence no ok
     game.load.audio('bingo', 'audio/bingo.mp3'); // licence no ok
+    game.load.audio('elevator', 'audio/elevator.mp3'); // licence no ok
 
 
 
@@ -599,6 +612,16 @@ const toolsGame={
                 this.aSplash= true;
                 game.time.events.add(500, function(){
                     this.aSplash=false;
+                }, this);
+            }
+        },
+        elevator: function (volume) { // toolsGame.audio.footStep();
+            if(!this.aElevator) {
+                const elevator = game.add.audio('elevator');
+                elevator.play('',false,volume ? volume : 0.1);
+                this.aElevator= true;
+                game.time.events.add(500, function(){
+                    this.aElevator=false;
                 }, this);
             }
         },
@@ -936,11 +959,11 @@ const toolsGame={
                 //buttonPauseMenu
                 //console.log(toolsGame.buttons.openBoxMenu);
                 //console.log(this);
-
                 if(isExists(this.obj)) this.obj.destroy();
                 if(type==='play-game') {
                     this.obj = game.add.button(0, 0, 'buttonPause', function(){
                         toolsGame.windows.boxMenu.show();
+                        //alert("x");
                     }, this,0,0);
                 } else {
                     this.obj = game.add.button(tileSize, tileSize, 'buttonsWindowMenu', function(){
@@ -1233,8 +1256,9 @@ const toolsGame={
             //shot:false,
             show:function(){
                 if(isExists(this.left)) this.left.destroy();
-                this.left = game.add.button(0,(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,0,0); //#
-                this.left.alpha = 0.3;
+                this.left = game.add.button(-(tileSize/2),(game.height-(10*tileSize)), 'buttonNavigation', function(){}, this,0,0); //#
+                this.left.alpha = 0.4;
+                this.left.scale.setTo(1.5,1.5);
                 this.left.fixedToCamera = true;
                 this.left.onInputDown.add(function(){
                     cursors.left.isDown = true;
@@ -1245,9 +1269,11 @@ const toolsGame={
                     //triggerKeyboardEvent(window,37,"keyup");
                 });
 
+                // butnav
                 if(isExists(this.right)) this.right.destroy();
-                this.right = game.add.button(6*tileSize,game.height-(7*tileSize), 'buttonNavigation', function(){}, this,1,1); //#
-                this.right.alpha = 0.3;
+                this.right = game.add.button(8*tileSize,game.height-(10*tileSize), 'buttonNavigation', function(){}, this,1,1); //#
+                this.right.alpha = 0.4;
+                this.right.scale.setTo(1.5,1.5);
                 this.right.fixedToCamera = true;
                 this.right.onInputDown.add(function(){
                     cursors.right.isDown = true;
@@ -1261,7 +1287,7 @@ const toolsGame={
                 // check varible fireButton
                 if(isExists(this.shot)) this.shot.destroy();
                 this.shot = game.add.button((game.width-(7*tileSize)),(game.height-(13*tileSize)), 'buttonNavigation', function(){}, this,3,3); //#
-                this.shot.alpha = toolsGame.mainElements.player.countBullets ? 0.3 : 0; // toolsGame.buttons.navigations.show.shot.alpha
+                this.shot.alpha = toolsGame.mainElements.player.countBullets ? 0.6 : 0; // toolsGame.buttons.navigations.show.shot.alpha
                 this.shot.inputEnabled = toolsGame.mainElements.player.countBullets ? true : false;
                 this.shot.fixedToCamera = true;
                 this.shot.onInputDown.add(function(){
@@ -1275,7 +1301,7 @@ const toolsGame={
 
                 if(isExists(this.up)) this.up.destroy();
                 this.up = game.add.button((game.width-(7*tileSize)),(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,2,2); //#
-                this.up.alpha = 0.3;
+                this.up.alpha = 0.6;
                 this.up.fixedToCamera = true;
                 this.up.onInputDown.add(function(){
                     cursors.up.isDown = true;
@@ -1286,6 +1312,19 @@ const toolsGame={
                     //triggerKeyboardEvent(window,38,"keyup");
                 });
 
+                if(isExists(this.down)) this.down.destroy();
+                this.down = game.add.button((game.width-(13*tileSize)),(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,4,4); //#
+                this.down.alpha = 0.6;
+                this.down.fixedToCamera = true;
+                this.down.onInputDown.add(function(){
+                    cursors.down.isDown = true;
+                    //triggerKeyboardEvent(window,38,"keydown");
+                });
+                this.down.onInputUp.add(function(){
+                    cursors.down.isDown = false;
+                    //triggerKeyboardEvent(window,38,"keyup");
+                });
+
             },
             hide:function(){
                 if(isExists(this.left) && isExists(this.right) && isExists(this.up) && isExists(this.shot)) {
@@ -1293,6 +1332,7 @@ const toolsGame={
                     this.right.destroy();
                     this.up.destroy();
                     this.shot.destroy();
+                    this.down.destroy();
                 }
             }
         },
@@ -1458,7 +1498,15 @@ const toolsGame={
         }
         return thatObj.create((x*tileSize), (y*tileSize)-(height-2*tileSize), name);
     },
-    checkSpecialBlankBlockElement: function(lay) {
+    checkSpecialBlankBlockElementAndElevatorSound: function(lay,k) {
+        if(k) {
+            if (k.deltaY !== 0) {
+                toolsGame.audio.elevator(.1);
+            }
+            else if (k.deltaX !== 0) {
+                toolsGame.audio.elevator(.1);
+            }
+        }
         if(lay.index === 101) {
             lay.collideDown=true;
             lay.collideUp=true;
@@ -1540,7 +1588,18 @@ const toolsGame={
                 //alert(getCookies('Lifes'));
                 //toolsGame.mainElements.player.numberCoins = parseInt(getCookies('coins'));
             },
+            removeKeepStone: function(){
+                if(toolsGame.mainElements.stoneBigS.keepStone){
+                    toolsGame.mainElements.stoneBigS.keepStone = false;
+                    playerSpeedLeftRight = (toolsGame.mainElements.player.obj.scale.y !== 1)?300:200;
+                    toolsGame.mainElements.stoneBigS.obj.forEach(function(s){
+                        s.keepStone = false;
+                    },this);
+                }
+            },
             lostLife: function(player,amount) {
+                toolsGame.mainElements.player.removeKeepStone();
+
                 if(!player.holdLostLife) {
                     player.holdLostLife = true;
                     // player.gun
@@ -1848,6 +1907,7 @@ const toolsGame={
             },
             velocityNormal: playerJumpVelocityNormalSmall,
             velocityWater: playerJumpVelocityWaterSmall,
+            velocityStone: playerJumpVelocityStoneSmall,
             scale: function(type){ // toolsGame.mainElements.player.scale();
                 //console.log("tint:");
                 //console.log(this.obj.tint);
@@ -1865,6 +1925,7 @@ const toolsGame={
                 const playerScale = toolsGame.mainElements.player.obj.scale.y !== 1;
                 this.velocityNormal = (playerScale)?playerJumpVelocityNormalBig:playerJumpVelocityNormalSmall; // 530:430
                 this.velocityWater = (playerScale)?playerJumpVelocityWaterBig:playerJumpVelocityWaterSmall; // 300:200
+                this.velocityStone = (playerScale)?playerJumpVelocityStoneBig:playerJumpVelocityStoneSmall; // 300:200
             }
         },
         intruders:{ // toolsGame.mainElements.intruders
@@ -2419,12 +2480,22 @@ const toolsGame={
                 cave.body.allowGravity = false;
             }
         },
+        // fogSingleS:{
+        //     add: function(x,y) {
+        //         const f = toolsGame.createCenterObject(this.obj,x,y,'fog-single',"sprite");
+        //         f.animations.add('run');
+        //         f.animations.play('run', 9, true);
+        //         f.alpha = .65;
+        //         f.body.allowGravity = false;
+        //     }
+        // },
         fogSingleS:{
             add: function(x,y) {
                 const f = toolsGame.createCenterObject(this.obj,x,y,'fog-single',"sprite");
                 f.animations.add('run');
+                //f.animations.play('run', 9, true);
                 f.animations.play('run', 9, true);
-                f.alpha = .65;
+                f.alpha = .8;
                 f.body.allowGravity = false;
             }
         },
@@ -2633,13 +2704,13 @@ const toolsGame={
                             else if(type === 'pionBottomBack' || type === 'pionBottom') player.body.velocity.y = 150;
                         }
                     }
+                    //toolsGame.audio.elevator();
                     //console.log("player uderza w kladke");
                     player.isUp=true;
                     toolsGame.mainElements.player.obj.body.bounce.y = 0;
                     game.time.events.add(300, function(){
                         player.isUp=false;
                     }, this);
-
                     // setTimeout(function(){
                     //     player.isUp=false;
                     // },300);
@@ -2668,6 +2739,7 @@ const toolsGame={
                     kladkapionTopBack.body.allowGravity = false;
                     kladkapionTopBack.body.immovable = true;
                     kladkapionTopBack.body.orginalY=y;
+                    //toolsGame.audio.elevator();
                 }
             },
             pionBottomBack: {
@@ -2767,6 +2839,9 @@ const startGame = (type,lastMap,percentLevel) => {
     game.time.desiredFps = (window.innerWidth<800)?40:50;
 
     //game.time.desiredFps = 60;
+
+    //reset keep stone
+    toolsGame.mainElements.player.removeKeepStone();
 
     //reset inkubatorow
     wspInkub=[];
@@ -3622,7 +3697,8 @@ const create = () => {
     toolsGame.buttons.quit.show();
     toolsGame.buttons.mute.show(getCookies('mute')?10:9);
 
-    toolsGame.text.show(false,game.width-165,game.height-25,.9,'semDesign Game (' + (detectionDevice() ? 'Android' : 'Browser') + ')', '400 12px Arial' ,'#000000',true,'logoText');
+    const webGL = detectionWEBGL()?'GL':'CA';
+    toolsGame.text.show(false,game.width-180,game.height-25,.9,'semDesign Game (' + (detectionDevice() ? 'Android' : 'Browser') + ')'+' '+webGL, '400 12px Arial' ,'#000000',true,'logoText');
 
     toolsGame.buttons.openBoxMenu.show();
 
@@ -4129,14 +4205,26 @@ const update = () => {
 
         toolsGame.mainElements.stoneBigS.obj.forEach(function(s){
             // przyrost odleglosci w spadaniu
-            if(Math.ceil(s.body._dy)>4){
-                s.quake=true;
-            }
             if(s.body.gravity.x!==0) {
                 s.body.gravity.x=0;
             }
+            if(s.keepStone){
+                //s.angle = 0;
+                toolsGame.mainElements.stoneBigS.keepStone = true;
+                s.y=toolsGame.mainElements.player.obj.y+toolsGame.mainElements.player.obj.height-(s.body.height/2);
+                if(cursorDirection === 'right'){
+                    s.x=toolsGame.mainElements.player.obj.x+toolsGame.mainElements.player.obj.width;
+                } else if(cursorDirection === 'left') {
+                    s.x=toolsGame.mainElements.player.obj.x;
+                }
+            } else {
+                if(Math.ceil(s.body._dy)>4){
+                    s.quake=true;
+                }
+            }
         }, this, true);
         game.physics.arcade.collide(toolsGame.mainElements.stoneBigS.obj, layer, function(s,lay){
+            //console.log(s);
             if(s.quake) {
                 toolsGame.audio.quake();
                 game.camera.shake(0.005, 200, true, Phaser.Camera.SHAKE_VERTICAL);
@@ -4187,7 +4275,6 @@ const update = () => {
 
         toolsGame.mainElements.player.colisinStoneCollision=0;
         game.physics.arcade.collide(toolsGame.mainElements.player.obj, toolsGame.mainElements.stoneBigS.obj, function(p,s){
-            toolsGame.mainElements.player.colisinStoneCollision++;
 
             // console.log(p.body.blocked);
             // console.log(s.body);
@@ -4200,41 +4287,85 @@ const update = () => {
             //console.log("p:");
             //console.log(p);
             //console.log("s:");
-            //console.log(s.body);
+            //console.log(s);
+
+
+
+            /* push and pull stone */
+
             if(p.body.overlapY===0) {
-                s.body.gravity.x=0;
-                //s.body.immovable = true;
-                if(!levelFile.blockedKeys) {
-                    if(cursors.right.isDown) {
-                        s.body.gravity.x = -8000;
-                    } else if(cursors.left.isDown) {
-                        s.body.gravity.x = 8000; 
+
+                toolsGame.mainElements.player.colisinStoneCollision++;
+
+                if(cursors.down.isDown && !toolsGame.mainElements.stoneBigS.keepStone) {
+                    s.keepStone = true;
+                    toolsGame.mainElements.stoneBigS.keepStone = true;
+                    playerSpeedLeftRight = 50;
+                    p.youCanJump = false;
+                    if(cursors.left.isDown) {
+                        cursorDirection = 'left';
+                    } else {
+                        cursorDirection = 'right';
                     }
-                    if(cursors.up.isDown) {
-                        //s.body.immovable = true;
-                        //s.body.gravity.x = 0;
-                    }
+                    game.time.events.add(10,function(){
+                        playerSpeedLeftRight = 50;
+                    },this);
+                    // game.time.events.add(4000,function(){
+                    //     s.keepStone = false;
+                    //     toolsGame.mainElements.stoneBigS.keepStone = false;
+                    //     playerSpeedLeftRight = (toolsGame.mainElements.player.obj.scale.y !== 1)?300:200;
+                    // },this);
                 } else {
-                    s.body.gravity.x = 0;
-                    // s.body.immovable = true;
+
+                    s.body.immovable = true;
+                    s.body.moves = false;
+                    game.time.events.remove(p.timeStoneHeavy);
+                    p.timeStoneHeavy=game.time.events.add(300,function(){
+                        s.body.immovable = false;
+                        s.body.moves = true;
+                    },this);
+
+                    if(cursors.down.isDown && toolsGame.mainElements.stoneBigS.keepStone) {
+                        s.keepStone = false;
+                        toolsGame.mainElements.stoneBigS.keepStone = false;
+                        playerSpeedLeftRight = (toolsGame.mainElements.player.obj.scale.y !== 1)?300:200;
+                        s.body.velocity.y = -300;
+                        if(cursorDirection === 'left') {
+                            s.body.velocity.x = -300;
+                        }else {
+                            s.body.velocity.x = 300;
+                        }
+
+                    }
                 }
 
-                game.time.events.remove(p.timeStoneHeavy);
-                p.timeStoneHeavy=game.time.events.add(30,function(){
-                    s.body.gravity.x=0;
+                //if(!toolsGame.mainElements.stoneBigS.keepStone) {
                     s.body.immovable = false;
-                },this);
-                if(toolsGame.mainElements.player.colisinStoneCollision>1){
-                    s.body.gravity.x = 0;
-                    //s.body.immovable = true;
-                    //s.body.moves = false;
-                }
-            }
+                    s.body.moves = true;
 
-            // game.time.events.remove(p.timeStoneHeavy);
-            // p.timeStoneHeavy=game.time.events.add(15,function(){
-            //     s.body.gravity.x=0;
-            // },this);
+                    s.body.gravity.x=0;
+                    if(!levelFile.blockedKeys) {
+                        if(cursors.right.isDown) {
+                            s.body.gravity.x = !toolsGame.mainElements.stoneBigS.keepStone?-8500:8500;
+                        } else if(cursors.left.isDown) {
+                            s.body.gravity.x = !toolsGame.mainElements.stoneBigS.keepStone?8500:-8500;
+                        }
+                    } else {
+                        s.body.gravity.x = 0;
+                    }
+                    game.time.events.remove(p.timeStoneHeavy);
+                    p.timeStoneHeavy=game.time.events.add(30,function(){
+                        s.body.gravity.x=0;
+                        s.body.immovable = false;
+                    },this);
+                    if(toolsGame.mainElements.player.colisinStoneCollision>1){
+                        s.body.gravity.x = 0;
+                    }
+                //}
+            }
+            /* end push stone */
+
+
 
             if(s.quake) {
                 toolsGame.audio.quake();
@@ -4248,19 +4379,14 @@ const update = () => {
                     game.time.events.add(300,function(){p.body.height=saveBodyHeight;},this);
                     toolsGame.mainElements.player.lostLife(p,10);
                 }
-                //toolsGame.mainElements.player.obj.body.x=saveX;
-                //toolsGame.mainElements.player.obj.body.y=saveY;
-                //p.kill();
-                //toolsGame.mainElements.player.add(saveX/tileSize, saveY/tileSize);
             }
 
-            //playerSpeedLeftRight=100;
-            //s.body.moves = false;
-            //s.body.immovable = true;
-            p.youCanJump = true;
-            game.time.events.add(300, function(){
-                p.youCanJump = false;
-            },this);
+            if(!s.keepStone) {
+                p.youCanJump = true;
+                game.time.events.add(300, function(){
+                    p.youCanJump = false;
+                },this);
+            }
             //toolsGame.mainElements.player.obj.body.bounce.y = 1;
             s.quake=false;
 
@@ -4836,6 +4962,7 @@ const update = () => {
             if(!levelFile.readyLoad)
             {
 
+                toolsGame.mainElements.player.removeKeepStone();
                 toolsGame.audio.nextLevel();
                 // saving to cookies
 
@@ -5218,7 +5345,7 @@ const update = () => {
                 toolsGame.buttons.navigations.shot.inputEnabled = false;
             } else {
                 //console.log("you have ammunition");
-                toolsGame.buttons.navigations.shot.alpha = 0.1;
+                toolsGame.buttons.navigations.shot.alpha = 0.6;
                 toolsGame.buttons.navigations.shot.inputEnabled = true;
             }
             toolsGame.mainElements.player.countBulletsF = false;
@@ -5616,6 +5743,8 @@ const update = () => {
                 }, this);
             }
 
+
+
             if (cursors.left.isDown)
             {
 
@@ -5673,24 +5802,50 @@ const update = () => {
         game.physics.arcade.collide(toolsGame.mainElements.kladki.poziom.obj, layer);
         game.physics.arcade.overlap(toolsGame.mainElements.kladki.poziom.obj, layer, function(kladka,lay){
 
-            toolsGame.checkSpecialBlankBlockElement(lay);
+            kladka.body.velocity.x = 0;
 
-            if(kladka.body.blocked.right) {
-                kladka.direction="left";
-            }
-            else if(kladka.body.blocked.left) {
-                kladka.direction="right";
-            }
+            //if(toolsGame.mainElements.player.detectionHoldOnObject(kladka,.8)) {
 
-            if(kladka.direction=="right")
-            {
-                kladka.body.velocity.x = 100;
-            }
-            else
-            {
-                kladka.body.velocity.x = -100;
-            }
+                // zkaomentuj jesli chcesz aby kaldki byly na starcie nieruchome
+                if(!kladka.onlyOne) {
+                    kladka.run = true;
+                    kladka.onlyOne= true;
+                }
+
+                //console.log(kladka.run);
+
+                if(kladka.run) {
+                    //toolsGame.checkSpecialBlankBlockElementAndElevatorSound(lay,kladka);
+
+                    if(kladka.body.blocked.right) {
+                        kladka.direction="left";
+                    }
+                    else if(kladka.body.blocked.left) {
+                        kladka.direction="right";
+                    }
+
+                    if(kladka.direction=="right")
+                    {
+                        kladka.body.velocity.x = 100;
+                    }
+                    else
+                    {
+                        kladka.body.velocity.x = -100;
+                    }
+                }
+
+                if(kladka.body.blocked.left || kladka.body.blocked.right) {
+                    kladka.run = false;
+                    game.time.events.add(1000,function(){
+                        kladka.run = true;
+                    },this);
+                }
+            //}
+
+
             kladka.isUp=false;
+
+
         },null, this);
 
         toolsGame.mainElements.player.obj.body.allowGravity = true;
@@ -5698,12 +5853,17 @@ const update = () => {
             //console.log(kladka);
             if(kladka.body.overlapY>0)
             {
+                if(!kladka.run) {
+                    kladka.run = true;
+                }
+
                 toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj,'kladki-poziom');
 
                 toolsGame.mainElements.player.obj.body.allowGravity = true;
                 toolsGame.mainElements.player.obj.body.bounce.y = 0;
                 kladka.isUp=true;
                 toolsGame.mainElements.player.obj.body.velocity.x += kladka.body.velocity.x;
+
                 toolsGame.mainElements.player.obj.body.allowGravity = false;
                 //console.log(toolsGame.mainElements.player.obj.body.allowGravity);
 
@@ -5747,12 +5907,17 @@ const update = () => {
             }
         }, null, this);
         game.physics.arcade.overlap(toolsGame.mainElements.kladki.pionTopBack.obj, layer, function(k,lay){
-            toolsGame.checkSpecialBlankBlockElement(lay);
+            toolsGame.checkSpecialBlankBlockElementAndElevatorSound(lay,k);
         }, null, this);
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTopBack.obj, layer, function(k,lay){
             toolsGame.mainElements.kladki.run.endCollision(k,"pionTopBack");
         }, null, this);
 
+
+
+
+
+        ////pionBottomBack
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, toolsGame.mainElements.kladki.poziom.obj);
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
             //console.log("intruz vs kladka");
@@ -5768,12 +5933,16 @@ const update = () => {
         }, null, this);
 
         game.physics.arcade.overlap(toolsGame.mainElements.kladki.pionBottomBack.obj, layer, function(k,lay){
-            toolsGame.checkSpecialBlankBlockElement(lay);
+            toolsGame.checkSpecialBlankBlockElementAndElevatorSound(lay,k);
         }, null, this);
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottomBack.obj, layer, function(k,lay){
             toolsGame.mainElements.kladki.run.endCollision(k,"pionBottomBack");
+            //console.log(lay);
         }, null, this);
+        ////
+
+
 
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, toolsGame.mainElements.kladki.poziom.obj);
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, toolsGame.mainElements.intruders.obj,function(k,intruz){
@@ -5788,7 +5957,7 @@ const update = () => {
             }
         }, null, this);
         game.physics.arcade.overlap(toolsGame.mainElements.kladki.pionTop.obj, layer, function(k,lay){
-            toolsGame.checkSpecialBlankBlockElement(lay);
+            toolsGame.checkSpecialBlankBlockElementAndElevatorSound(lay,k);
         }, null, this);
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionTop.obj, layer, function(k,lay){
             toolsGame.mainElements.kladki.run.endCollision(k,"pionTop");
@@ -5807,7 +5976,7 @@ const update = () => {
             }
         }, null, this);
         game.physics.arcade.overlap(toolsGame.mainElements.kladki.pionBottom.obj, layer, function(k,lay){
-            toolsGame.checkSpecialBlankBlockElement(lay);
+            toolsGame.checkSpecialBlankBlockElementAndElevatorSound(lay,k);
         }, null, this);
         game.physics.arcade.collide(toolsGame.mainElements.kladki.pionBottom.obj, layer, function(k,lay){
             toolsGame.mainElements.kladki.run.endCollision(k,"pionBottom");
@@ -5896,12 +6065,15 @@ const update = () => {
             if(!levelFile.blockedKeys)
             {
                 //console.log(toolsGame.mainElements.player.obj.body.onFloor());
-                if(!toolsGame.mainElements.player.obj.gForceWater) {
-                    toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityNormal;
-                    toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityNormal;
-                } else {
+                if(toolsGame.mainElements.player.obj.gForceWater) {
                     toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityWater;
                     toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityWater;
+                } else if(toolsGame.mainElements.stoneBigS.keepStone) {
+                    toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityStone;
+                    toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityStone;
+                } else {
+                    toolsGame.mainElements.player.obj.body.velocity.y = -toolsGame.mainElements.player.velocityNormal;
+                    toolsGame.mainElements.player.jumpTimer = game.time.now + toolsGame.mainElements.player.velocityNormal;
                 }
 
                 if(!toolsGame.mainElements.player.obj.body.bounce.y) {
@@ -6007,8 +6179,9 @@ const render = () => {
 const config = {
     width: 800,
     height: 450,
-    //renderer: Phaser.AUTO,
-    renderer: Phaser.CANVAS,
+    renderer: Phaser.AUTO,
+    //renderer: Phaser.WEBGL,
+    //renderer: Phaser.CANVAS,
     //renderer: Phaser.WEBGL_FILTER,
     parent: 'game-content',
     //antialias: true,
@@ -6023,3 +6196,19 @@ const config = {
 };
 const game = new Phaser.Game(config);
 //const game = new Phaser.Game(800, 450, Phaser.CANVAS, 'game-content', { preload: preload, create: create, update: update, render: render });
+
+//alert(navigator.userAgent);
+
+// window.addEventListener('blur', function(){
+//     //toolsGame.windows.boxMenu.show();
+//     if(playGame.main) {
+//         alert("x");
+//     }
+// });
+// window.addEventListener('focus', function(){
+//     //toolsGame.windows.boxMenu.show();
+//     if(playGame.main) {
+//
+//     }
+// });
+

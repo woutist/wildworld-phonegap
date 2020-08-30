@@ -1,99 +1,480 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="43036ef2-fef9-4caf-b6ce-3f7c3e9f357f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/wildworld/www/js-prod/phaser-2.13.3.min.js" afterDir="false" />
+    <list default="true" id="43036ef2-fef9-4caf-b6ce-3f7c3e9f357f" name="Default" comment="fixed collide stone">
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-battery-status/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-battery-status/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-camera/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-camera/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-device/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-device/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-dialogs/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-dialogs/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-dialogs/www/firefoxos/notification.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-dialogs/www/windows/notification.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-file/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-file/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/src/firefoxos/GeolocationProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/src/windows/GeolocationProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/Coordinates.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/Position.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/PositionError.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/android/geolocation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/blackberry10/GeolocationProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-geolocation/www/geolocation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-globalization/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-globalization/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-inappbrowser/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-inappbrowser/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-inappbrowser/www/inappbrowser.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-media-capture/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-media-capture/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-network-information/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-network-information/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-vibration/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/node_modules/cordova-plugin-vibration/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/41_iV9WRGYY0vcrEQJGN3QDeOYY=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/4JgLQsZe52RGxDuI5necgyDv_bM=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/buCuZhaK69dXmFo09KhRWayauFA=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/lELn0JHLviCzvgcbQa1S+NyTqYY=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/41_iV9WRGYY0vcrEQJGN3QDeOYY=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/4JgLQsZe52RGxDuI5necgyDv_bM=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/buCuZhaK69dXmFo09KhRWayauFA=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/lELn0JHLviCzvgcbQa1S+NyTqYY=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/incremental/packageDebug/debug/zip-cache/AVfvBge6OG6cidPLiQMxff+kKVw=" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/android/support/v4/R.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/BuildConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/MainActivity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/R$drawable.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/R$mipmap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/R$string.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/R$xml.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/com/phonegap/helloworld/R.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/cordova/plugins/screenorientation/CDVOrientation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/R.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/batterystatus/BatteryListener$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/batterystatus/BatteryListener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/camera/CameraLauncher$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/camera/CameraLauncher.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/camera/CordovaUri.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/camera/ExifHelper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/camera/FileHelper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/device/Device.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$2$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$2$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$3$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$3$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$3$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$3$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$4$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$4$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$4$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$4$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$5$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$6$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification$6.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/dialogs/Notification.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/AssetFilesystem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/ContentFilesystem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/DirectoryManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/EncodingException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileExistsException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$10.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$11.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$12.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$13.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$14.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$15.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$16.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$17.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$18.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$19.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$20.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$21.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$22.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$23.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$24.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$25.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$26.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$27.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$28.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$29.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$6.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$7.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$8.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$9.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils$FileOp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/FileUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/Filesystem$LimitedInputStream.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/Filesystem$ReadFileCallback.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/Filesystem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/InvalidModificationException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/LocalFilesystem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/LocalFilesystemURL.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/NoModificationAllowedException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/PendingRequests$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/PendingRequests$Request.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/PendingRequests.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/file/TypeMismatchException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/geolocation/Geolocation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/globalization/Globalization$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/globalization/Globalization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/globalization/GlobalizationError.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$5$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$6.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser$InAppBrowserClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppBrowserDialog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/inappbrowser/InAppChromeClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/Capture$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/Capture.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/FileHelper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/PendingRequests$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/PendingRequests$Request.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/mediacapture/PendingRequests.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/networkinformation/NetworkManager$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/networkinformation/NetworkManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/desugar/debug/5/org/apache/cordova/vibration/Vibration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/android/support/v4/R.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/BuildConfig.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/MainActivity.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/R$drawable.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/R$mipmap.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/R$string.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/R$xml.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/com/phonegap/helloworld/R.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/cordova/plugins/screenorientation/CDVOrientation.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/R.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/batterystatus/BatteryListener$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/batterystatus/BatteryListener.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/camera/CameraLauncher$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/camera/CameraLauncher.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/camera/CordovaUri.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/camera/ExifHelper.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/camera/FileHelper.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/device/Device.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$2$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$2$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$3$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$3$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$3$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$3$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$4$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$4$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$4$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$4$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$5$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$5.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$6$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification$6.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/dialogs/Notification.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/AssetFilesystem.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/ContentFilesystem.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/DirectoryManager.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/EncodingException.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileExistsException.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$10.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$11.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$12.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$13.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$14.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$15.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$16.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$17.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$18.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$19.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$20.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$21.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$22.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$23.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$24.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$25.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$26.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$27.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$28.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$29.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$5.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$6.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$7.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$8.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$9.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils$FileOp.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/FileUtils.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/Filesystem$LimitedInputStream.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/Filesystem$ReadFileCallback.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/Filesystem.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/InvalidModificationException.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/LocalFilesystem.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/LocalFilesystemURL.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/NoModificationAllowedException.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/PendingRequests$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/PendingRequests$Request.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/PendingRequests.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/file/TypeMismatchException.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/geolocation/Geolocation.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/globalization/Globalization$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/globalization/Globalization.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/globalization/GlobalizationError.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$5$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$5.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6$2.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6$3.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6$4.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6$5.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$6.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser$InAppBrowserClient.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowser.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppBrowserDialog.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/inappbrowser/InAppChromeClient.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/Capture$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/Capture.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/FileHelper.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/PendingRequests$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/PendingRequests$Request.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/mediacapture/PendingRequests.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/networkinformation/NetworkManager$1.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/networkinformation/NetworkManager.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/intermediates/transforms/dexBuilder/debug/21/org/apache/cordova/vibration/Vibration.dex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/android/app/build/outputs/apk/debug/output.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/confighelper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/cordova-js-src/confighelper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/cordova-js-src/exec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/cordova-js-src/platform.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/cordova.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/cordova_plugins.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/exec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/LifeFull.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/LifeSingle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/b-saloon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/b-sheriff.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/b-store.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background1_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background2_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/background5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/box-menu4-mini.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-barn1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-big-home1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-big-home2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-blacksmith.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-home1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-home2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-saloon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-sheriff.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building-store.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building2p.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/building3p.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/bullet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/button-level.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/buttons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/cactus-animate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/cactus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/cactus2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/cactus_animate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/cave.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/condor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/condor2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/door-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/door2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/end_level.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/explosion.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fire_down3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fire_left3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fire_right3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fire_up3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fireb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fish7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fog-anim-half.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fog-static.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fog-white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fog-yellow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/fog.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/grass_anim8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/grass_lr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/ground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/gun-bullets6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/gun-real.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/icons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/intruders1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/intruders2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/intruders3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/intruders4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/intruders6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/invisible.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/key.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/kladka-short.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/lifes-single-bar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/lock1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/log.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/menu.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/mine-part1-6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/mine-part2-4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/navigations.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/navigations1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/nu3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/pause.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/players1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/s_atsg-logo@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/save-level2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/snake3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/splash-red9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/splash7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/stone-big-explosion.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/stone-big.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/stone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/the-end.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/tile-size-black.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/tiles-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/top-menu-mini.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/tree-short.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/tree-test.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/tree.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/water_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/water_red6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/windmill_1_5_new.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/images/windmill_2_5_new.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js-prod/bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js-prod/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js-prod/phaser-2.13.3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js-prod/phaser.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js-prod/phaser.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js/_main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js/cookies.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js/functions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/js/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level10.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level11.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level12.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level13.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level14.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level15.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level16.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level17.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level18.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/levels/level9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/platform.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-battery-status/src/browser/BatteryProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-battery-status/www/battery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-camera/src/browser/CameraProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-camera/www/Camera.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-camera/www/CameraConstants.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-camera/www/CameraPopoverOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-device/src/browser/DeviceProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-device/www/device.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-dialogs/www/browser/notification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-dialogs/www/notification.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/src/browser/FileProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/DirectoryEntry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/DirectoryReader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/Entry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/File.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileEntry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileError.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileReader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileSystem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileUploadOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileUploadResult.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/FileWriter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/Flags.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/LocalFileSystem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/Metadata.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/ProgressEvent.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/browser/FileSystem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/browser/Preparing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/browser/isChrome.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/fileSystemPaths.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/fileSystems.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/requestFileSystem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-file/www/resolveLocalFileSystemURI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-globalization/src/browser/GlobalizationProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-globalization/www/GlobalizationError.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-globalization/www/browser/moment.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-globalization/www/globalization.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-inappbrowser/src/browser/InAppBrowserProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-inappbrowser/www/inappbrowser.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/src/browser/CaptureProxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/CaptureAudioOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/CaptureError.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/CaptureImageOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/CaptureVideoOptions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/MediaFile.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/MediaFileData.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/capture.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-media-capture/www/helpers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-network-information/src/browser/network.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-network-information/www/Connection.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-network-information/www/network.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-vibration/src/browser/Vibration.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/platforms/browser/www/plugins/cordova-plugin-vibration/www/vibration.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildworld/www/js/_main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/webpack.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/css/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/scss/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/LifeFull.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/LifeFull.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/LifeSingle.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/LifeSingle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/background1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/background1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/background1_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/background1_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/background2_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/background2_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/background3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/background3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/background4.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/background4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/blank-tile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/box-menu4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/building2p.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/building2p.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/building3p.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/building3p.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/bullet.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/bullet.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/button-level.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/button-level.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/buttons.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/buttons.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/cactus.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/cactus.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/cave.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/cave.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/door2.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/door2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/end_level.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/end_level.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fire_down3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fire_down3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fire_left3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fire_left3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fire_right3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fire_right3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fire_up3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fire_up3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fireb.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fireb.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fish7.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fish7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fog-white.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fog-white.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/fog-yellow.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/fog-yellow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/grass_lr.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/grass_lr.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/ground.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/ground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/gun-bullets6.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/gun-bullets6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/gun2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/icons.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/icons.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/intruders1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/intruders1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/intruders2.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/intruders2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/intruders3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/intruders3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/intruders4.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/intruders4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/key.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/key.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/kladka-short.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/kladka-short.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level10.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level11.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level11.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level12.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level12.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level13.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level13.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level14.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level14.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level15.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level15.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level16.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level16.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level17.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level17.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level18.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level18.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level3.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level3.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level4.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level5.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level6.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level7.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level7.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level8.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level8.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/level9.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level9.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/lock1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/lock1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/log.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/log.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/menu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/mine-part1-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/mine-part1-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/mine-part2-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/mine-part2-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/navigations1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/navigations1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/nu3.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/nu3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/save_level.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/snake.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/splash-red9.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/splash-red9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/splash7.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/splash7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/the-end.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/the-end.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/tiles-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/tiles-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/top-menu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/water_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/water_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/images/menu.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/images/water_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/water_4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/images/water_red6.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/water_red6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/windmill_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/windmill_1_5_new.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_1_5_new.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/windmill_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/images/windmill_2_5_new.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/images/windmill_2_5_new.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/js-prod/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js-prod/bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/js/cookies.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/cookies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/js/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/functions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wildworld/www/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wildworld/www/js/varibles.js" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/js/functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildworld/www/levels/level9.json" beforeDir="false" afterPath="$PROJECT_DIR$/wildworld/www/levels/level9.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -112,268 +493,35 @@
   <component name="FavoritesManager">
     <favorites_list name="phonegap-wildworld" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="4190" selection-start-line="4190" selection-end-line="4190" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wildworld/config.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wildworld/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>checkIf</find>
-      <find>dude</find>
-      <find>scale.</find>
-      <find>scale.se</find>
-      <find>increase</find>
-      <find>playerJumpVelocityNormalBig</find>
-      <find>checkIfWasKilledAndOther</find>
-      <find>intruder</find>
-      <find>intruders.obj</find>
-      <find>playerJumpVelocityNormalSmall</find>
-      <find>velocityNormal</find>
-      <find>velocity</find>
-      <find>playerSpeedLeftRight</find>
-      <find>450</find>
-      <find>life</find>
-      <find>life'</find>
-      <find>lifes.obj</find>
-      <find>manifest.xml</find>
-      <find>android:screenOrientation</find>
-      <find>random</find>
-      <find>randomArr</find>
-      <find>randomB</find>
-      <find>stoneBigS</find>
-      <find>s.body.gravity.x</find>
-      <find>stone</find>
-      <find>stoneBigS.obj</find>
-      <find>door</find>
-      <find>wild</find>
-      <find>once</find>
-      <find>console.lo</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>pionStatic</replace>
-      <replace>pionTop</replace>
-      <replace>numberLives</replace>
-      <replace>checkIfWasKilledAndOther</replace>
-      <replace>toolsGame.mainElements.player.stopAnimationEndLEvel</replace>
-      <replace>bar</replace>
-      <replace>map.width</replace>
-      <replace>obj</replace>
-      <replace>proportiesMap[levelFile.activeIdLevel]</replace>
-      <replace>:tileSize</replace>
-      <replace>life</replace>
-      <replace>layerDeep</replace>
-      <replace>randomBetween</replace>
-      <replace>h3</replace>
-      <replace>levels/level</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>C:\wamp64\www\phonegap-wildworld\wildworld\platforms</dir>
-      <dir>C:\wamp64\www\phonegap-wildworld\wildworld</dir>
-    </dirStrings>
-  </component>
   <component name="Git.Settings">
     <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/wildworld/www/css/index.css" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/index.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/_level4.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/level9.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level3.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level4.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level5.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level6.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level7.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level8.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level9.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level1.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/phaser.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/css/index.scss" />
-        <option value="$PROJECT_DIR$/wildworld/package.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/varibles.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/cookies.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/images/level2.json" />
-        <option value="$USER_HOME$/AppData/Local/Temp/fz3temp-3/index.html" />
-        <option value="$PROJECT_DIR$/wildworld/www/levels/level1.json" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/functions.js" />
-        <option value="$PROJECT_DIR$/wildworld/webpack.config.js" />
-        <option value="$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html" />
-        <option value="$PROJECT_DIR$/../drupla-test/index.html" />
-        <option value="$PROJECT_DIR$/wildworld/www/js-prod/index.js" />
-        <option value="$PROJECT_DIR$/wildworld/www/index.html" />
-        <option value="$PROJECT_DIR$/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/wildworld/config.xml" />
-        <option value="$PROJECT_DIR$/wildworld/www/js/main.js" />
-      </list>
-    </option>
-  </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/wildworld/node_modules" />
-    <handled-path value="$PROJECT_DIR$/wildworld/platforms/android/cordova/node_modules" />
-    <handled-path value="$PROJECT_DIR$/wildworld/platforms/browser/cordova/node_modules" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="59" />
-    <option name="y" value="143" />
-    <option name="width" value="974" />
-    <option name="height" value="819" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apk" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="platforms" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="android" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="build" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="outputs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="apk" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="debug" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="phonegap-wildworld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="phonegap-wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="wildworld" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="www" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectId" id="1SP7rqWiLlbScv7bMT989GUksgZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="AndroidManifest&#9;FILE&#9;file://C:/wamp64/www/phonegap-wildworld/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml&#10;manifest.xml&#9;FILE&#9;file://C:/wamp64/www/phonegap-wildworld/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js-prod" />
-      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\images" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\audio" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\js-prod" />
       <recent name="C:\wamp64\www\phonegap-wildworld\wildworld\www\levels" />
@@ -428,7 +576,21 @@
       <workItem from="1569984798517" duration="4290000" />
       <workItem from="1570030881370" duration="830000" />
       <workItem from="1570245936536" duration="3074000" />
-      <workItem from="1570249080140" duration="6814000" />
+      <workItem from="1570249080140" duration="8418000" />
+      <workItem from="1570280316824" duration="24536000" />
+      <workItem from="1570819108811" duration="326000" />
+      <workItem from="1570840407767" duration="20099000" />
+      <workItem from="1571453580276" duration="2627000" />
+      <workItem from="1571456297495" duration="3030000" />
+      <workItem from="1571459914675" duration="4103000" />
+      <workItem from="1572154735634" duration="1106000" />
+      <workItem from="1572759354640" duration="3253000" />
+      <workItem from="1577301000907" duration="2546000" />
+      <workItem from="1579940048183" duration="1702000" />
+      <workItem from="1586852363736" duration="599000" />
+      <workItem from="1593781705706" duration="3713000" />
+      <workItem from="1597765601404" duration="373000" />
+      <workItem from="1598773675315" duration="4599000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1562243439386</created>
@@ -472,74 +634,43 @@
       <option name="project" value="LOCAL" />
       <updated>1568040514187</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fixed collide stone">
+      <created>1570268467397</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1570268467397</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1322310000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48143053" visible="true" weight="0.15405117" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" weight="0.15138593" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
-      <window_info id="Structure" order="1" sideWeight="0.51856947" side_tool="true" weight="0.15724947" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.39651415" />
-      <window_info id="Favorites" order="2" sideWeight="0.50108933" side_tool="true" weight="0.26439232" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TypeScript" order="8" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
-    </layout>
-    <layout-to-restore>
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48143053" visible="true" weight="0.15724947" />
-      <window_info id="Structure" order="1" sideWeight="0.51856947" side_tool="true" visible="true" weight="0.15724947" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.15138593" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.208061" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info id="Favorites" order="2" sideWeight="0.50108933" side_tool="true" weight="0.26439232" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="test" />
     <MESSAGE value="new" />
     <MESSAGE value="setTimeout to phaser f" />
     <MESSAGE value="update" />
     <MESSAGE value="code refactoring (es5 to es6)" />
-    <option name="LAST_COMMIT_MESSAGE" value="code refactoring (es5 to es6)" />
+    <MESSAGE value="fixed collide stone" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed collide stone" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -556,309 +687,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/wildworld/www/js/main.js</url>
-          <line>50</line>
+          <line>61</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/wildworld/www/js/main.js</url>
+          <line>4273</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="17" />
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wildworld/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="55" selection-start-line="13" selection-start-column="55" selection-end-line="13" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8500">
-          <caret line="425" column="48" selection-start-line="425" selection-start-column="48" selection-end-line="425" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="36" selection-start-line="36" selection-end-line="36" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81200">
-          <caret line="4060" column="53" selection-start-line="4060" selection-start-column="53" selection-end-line="4060" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/levels/level7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="44" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="69" column="24" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72280">
-          <caret line="3614" column="44" lean-forward="true" selection-start-line="3614" selection-start-column="44" selection-end-line="3614" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index 2.html" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/__level1.json" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="43" column="4" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="3065" column="17" selection-start-line="3065" selection-start-column="17" selection-end-line="3065" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/__level1.json" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72280">
-          <caret line="3614" column="44" lean-forward="true" selection-start-line="3614" selection-start-column="44" selection-end-line="3614" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index 2.html" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/images/__level1.json" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/__main.js" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/phaser.min.js" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/spec.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/cookies.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/scss/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-466">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/bundle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="49" selection-start-column="49" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/levels/level2.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7440">
-          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/levels/level6.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54020">
-          <caret line="23" column="20" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-3/index.html" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/levels/level1.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="4" column="84370" selection-start-line="4" selection-start-column="84367" selection-end-line="4" selection-end-column="84370" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/levels/level7.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="4" column="44" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/phaser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="13694" column="4" selection-start-line="13694" selection-start-column="4" selection-end-line="13694" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#606904#607046#0" />
-            <element signature="e#607049#607111#0" />
-            <element signature="e#650137#650451#0" />
-            <element signature="e#650809#651479#0" />
-            <element signature="e#652392#653116#0" />
-            <element signature="e#653146#657403#0" />
-            <element signature="e#657709#657828#0" />
-            <element signature="e#658183#658440#0" />
-            <element signature="e#658651#658768#0" />
-            <element signature="e#659081#659341#0" />
-            <element signature="e#659832#660044#0" />
-            <element signature="e#660476#660803#0" />
-            <element signature="e#661563#662012#0" />
-            <element signature="e#662039#672995#0" />
-            <element signature="e#673166#673345#0" />
-            <element signature="e#673516#673631#0" />
-            <element signature="e#673797#673905#0" />
-            <element signature="e#674097#674208#0" />
-            <element signature="e#674398#674483#0" />
-            <element signature="e#678344#679285#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/node_modules/phaser-ce/build/phaser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297040">
-          <caret line="14873" column="22" selection-start-line="14873" selection-start-column="22" selection-end-line="14873" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="37" column="14" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/node_modules/phaser-ce/build/custom/creature.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56602" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/node_modules/phaser-ce/build/custom/phaser-minimum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1020" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/node_modules/phaser-ce/build/custom/phaser-split.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3960" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/fz3temp-2/index.html" />
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/phaser-2.13.3.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="2" column="676080" selection-start-line="2" selection-start-column="676072" selection-end-line="2" selection-end-column="676080" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../drupla-test/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="4" selection-start-column="4" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js-prod/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="41" column="2" selection-start-line="41" selection-start-column="2" selection-end-line="41" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/node_modules/cordova-android/bin/templates/cordova/lib/AndroidManifest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/platforms/android/CordovaLib/build/intermediates/manifests/full/release/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wildworld/www/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="4190" selection-start-line="4190" selection-end-line="4190" />
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>
