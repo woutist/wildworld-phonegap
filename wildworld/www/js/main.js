@@ -1086,17 +1086,7 @@ const toolsGame={
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
                     if(type==='quit') {
                         if(detectionDevice()){
-                            // alert(window.navigator.app);
-                            // window.navigator.app.exitApp();
-
                             navigator.app.exitApp();
-                            // if (navigator.app) {
-                            //     navigator.app.exitApp();
-                            // } else if (navigator.device) {
-                            //     navigator.device.exitApp();
-                            // } else {
-                            //     alert("x");
-                            // }
                         } else {
                             //alert('This option doesn\'t work in the browser');
                             location.reload();
