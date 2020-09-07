@@ -1,0 +1,43 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:1-27:12
+	package
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:21:7-35
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:21:36-61
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:20:11-69
+	android:versionCode
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:21:62-85
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+		INJECTED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml
+uses-sdk
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:22:5-44
+	android:minSdkVersion
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:22:15-41
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:23:5-71
+	android:name
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:23:22-68
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:24:5-74
+	android:name
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:24:22-72
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:25:5-70
+	android:name
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:25:22-68
+uses-permission#android.permission.READ_CONTACTS
+ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:26:5-71
+	android:name
+		ADDED from C:\xampp\htdocs\phonegap-wildworld\wildworld\platforms\android\CordovaLib\AndroidManifest.xml:26:22-69

@@ -1,0 +1,18 @@
+{
+  "android": {
+    "debug": {
+      "keystore": "./goldrush.keystore",
+      "storePassword": "skleroza3",
+      "alias": "goldrush",
+      "password" : "skleroza3",
+      "keystoreType": "jks"
+    },
+    "release": {
+      "keystore": "./goldrush.keystore",
+      "storePassword": "skleroza3",
+      "alias": "goldrush",
+      "password" : "skleroza3",
+      "keystoreType": "jks"
+    }
+  }
+}

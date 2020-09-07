@@ -200,121 +200,6 @@ const preload = () => {
 
     game.load.tilemap('level9', 'levels/level9.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[9] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level10', 'levels/level10.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[10] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level11', 'levels/level11.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[11] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level12', 'levels/level12.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[12] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level13', 'levels/level13.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[13] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level14', 'levels/level14.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[14] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level15', 'levels/level15.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[15] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level16', 'levels/level16.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[16] = {
-        background: "background5",
-        backgroundRepeatX: true,
-        //backgroundMoveX: 1000,
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level17', 'levels/level17.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[17] = {
-        background: "background4",
-        //backgroundSecond:"background1_1",
-        backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
-        fogPositionY: 12*tileSize,
-        positionGround: 19 * tileSize,
-        parallax: true
-    };
-
-    game.load.tilemap('level18', 'levels/level18.json', null, Phaser.Tilemap.TILED_JSON);
-    proportiesMap[18] = {
         background: "the-end",
         backgroundColor: "#000000",
         fog: false,
@@ -1201,7 +1086,17 @@ const toolsGame={
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
                     if(type==='quit') {
                         if(detectionDevice()){
+                            // alert(window.navigator.app);
+                            // window.navigator.app.exitApp();
+
                             navigator.app.exitApp();
+                            // if (navigator.app) {
+                            //     navigator.app.exitApp();
+                            // } else if (navigator.device) {
+                            //     navigator.device.exitApp();
+                            // } else {
+                            //     alert("x");
+                            // }
                         } else {
                             //alert('This option doesn\'t work in the browser');
                             location.reload();
@@ -1364,7 +1259,7 @@ const toolsGame={
                             theEnd = '?'
                         }
                         if(item<=unlockLevels || theEnd) {
-                            this.obj[item] = game.add.button(5*tileSize*(item-1)+(3*tileSize)-itemMoveX, 17*tileSize+itemMoveY, 'buttonLevel', function(){
+                            this.obj[item] = game.add.button(5*tileSize*(item-1)+(3*tileSize)-itemMoveX, 22*tileSize+itemMoveY, 'buttonLevel', function(){
                                 //console.log(this);
                                 levelFile.name='level'+this;
                                 levelFile.activeIdLevel=this;
@@ -1376,7 +1271,7 @@ const toolsGame={
                             this.text2[item].setTextBounds(0, 0, 4*tileSize, 7*tileSize);
                             this.obj[item].addChild(this.text2[item]);
                         } else {
-                            this.obj[item] = game.add.button(5*tileSize*(item-1)+(3*tileSize)-itemMoveX, 17*tileSize+itemMoveY, 'buttonLevel', function(){
+                            this.obj[item] = game.add.button(5*tileSize*(item-1)+(3*tileSize)-itemMoveX, 22*tileSize+itemMoveY, 'buttonLevel', function(){
                                 // nothing to do
                             }, item, 1, 1);
                         }
