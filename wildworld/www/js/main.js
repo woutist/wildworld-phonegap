@@ -174,27 +174,27 @@ const preload = () => {
 
     game.load.tilemap('level7', 'levels/level7.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[7] = {
-        background: "background5",
+        //background: "background5",
         backgroundRepeatX: true,
         //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
+        //fog: "yellowFog",
         fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
+        positionGround: 30 * tileSize,
         parallax: true
     };
 
     game.load.tilemap('level8', 'levels/level8.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[8] = {
-        background: "background5",
+        //background: "background5",
         backgroundRepeatX: true,
         //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
-        fog: "yellowFog",
+        //fog: "yellowFog",
         fogPositionY: -2*tileSize,
-        positionGround: 4 * tileSize,
+        positionGround: 30 * tileSize,
         parallax: true
     };
 
@@ -269,6 +269,7 @@ const preload = () => {
     game.load.spritesheet('save_level', 'images/save-level2.png', 100, 130);
 
     game.load.spritesheet('fire_up', 'images/fire_up3.png', 48, 48);
+    game.load.spritesheet('fire_up_normal', 'images/fire_up_normal_3.png', 24, 24);
     game.load.spritesheet('fire_down', 'images/fire_down3.png', 24, 24);
     game.load.spritesheet('fire_left', 'images/fire_left3.png', 24, 24);
     game.load.spritesheet('fire_right', 'images/fire_right3.png', 24, 24);
@@ -2535,6 +2536,11 @@ const toolsGame={
                     toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize)-4,(y*tileSize)-8,'fire_up');
                 }
             },
+            fireUpNormalS:{
+                add: function(x,y) {
+                    toolsGame.mainElements.fire.fireAnimation(this,(x*tileSize)-4,(y*tileSize)-(1.5*tileSize),'fire_up_normal');
+                }
+            },
             fireDownS:{
                 //obj: true,
                 add: function(x,y) {
@@ -2984,6 +2990,9 @@ const startGame = (type,lastMap,percentLevel) => {
         toolsGame.mainElements.fire.fireUpS.obj = game.add.group();
         toolsGame.mainElements.fire.fireUpS.obj.enableBody = true;
 
+        toolsGame.mainElements.fire.fireUpNormalS.obj = game.add.group();
+        toolsGame.mainElements.fire.fireUpNormalS.obj.enableBody = true;
+
         toolsGame.mainElements.fire.fireDownS.obj = game.add.group();
         toolsGame.mainElements.fire.fireDownS.obj.enableBody = true;
 
@@ -3043,9 +3052,14 @@ const startGame = (type,lastMap,percentLevel) => {
                     toolsGame.mainElements.stoneBigS.add(o.x/tileSize, o.y/tileSize);
                 }
 
-                //generowanie ognia up
+                //generowanie ognia up big
                 if (o.gid === 111) {
                     toolsGame.mainElements.fire.fireUpS.add(o.x/tileSize, o.y/tileSize);
+                }
+
+                //generowanie ognia up small N
+                if (o.gid === 117) {
+                    toolsGame.mainElements.fire.fireUpNormalS.add(o.x/tileSize, o.y/tileSize);
                 }
 
                 //generowanie ognia down
@@ -3235,9 +3249,15 @@ const startGame = (type,lastMap,percentLevel) => {
                     map.removeTile(x, y, layerObject);
                 }
 
-                //generowanie ognia up
+                //generowanie ognia up BIG
                 if (map.getTile(x, y, layerObject, true).index == 111) {
                     toolsGame.mainElements.fire.fireUpS.add(x, y);
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generowanie ognia up SMALL NORMAL
+                if (map.getTile(x, y, layerObject, true).index == 117) {
+                    toolsGame.mainElements.fire.fireUpNormalS.add(x, y);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -5162,6 +5182,11 @@ const update = () => {
             toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj);
             toolsGame.mainElements.player.lostLife(player);
         }, null, this);
+
+        // game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.fire.fireUpNormalS.obj, function(player, fire){
+        //     toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj);
+        //     toolsGame.mainElements.player.lostLife(player);
+        // }, null, this);
 
         game.physics.arcade.overlap(toolsGame.mainElements.player.obj, toolsGame.mainElements.fire.fireLeftS.obj, function(player, fire){
             toolsGame.mainElements.player.checkIfWasKilledAndOther(toolsGame.mainElements.player.obj);
