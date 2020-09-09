@@ -168,7 +168,7 @@ const preload = () => {
         backgroundColor: "#f3f5ff",
         //fog: "yellowFog",
         //fogPositionY: -2*tileSize,
-        positionGround: 480 * tileSize,
+        positionGround: 180 * tileSize,
         parallax: true
     };
 
@@ -218,6 +218,7 @@ const preload = () => {
     game.load.spritesheet('intruder4', 'images/snake3.png', 71, 33);
     game.load.spritesheet('intruder5', 'images/condor2.png', 64, 68);
     game.load.spritesheet('intruder6', 'images/intruders6.png', 48, 64);
+    game.load.spritesheet('intruder7', 'images/owl.png', 50, 53);
     //game.load.spritesheet('intruder', 'images/intruder2.png', 48, 48);
     game.load.image('backgroundMenu', 'images/menu.jpg');
     game.load.image('boxMenu', 'images/box-menu4-mini.png');
@@ -346,6 +347,7 @@ const preload = () => {
     game.load.audio('magic', 'audio/magic.mp3'); // licence no ok
     game.load.audio('bingo', 'audio/bingo.mp3'); // licence no ok
     game.load.audio('elevator', 'audio/elevator.mp3'); // licence no ok
+    game.load.audio('owl', 'audio/owl.mp3'); // licence no ok
 
 
 
@@ -526,6 +528,17 @@ const toolsGame={
                 this.aCcondor = true;
                 condor.onStop.addOnce(function() {
                     this.aCcondor=false;
+                }, this);
+            }
+        },
+        owl: function (volume) { // toolsGame.audio.footStep();
+            if(!this.aOwl) {
+                const condor = game.add.audio('owl');
+                condor.play('',false,volume ? volume : 0.2);
+                //footstep.volume = 0.05;
+                this.aOwl = true;
+                condor.onStop.addOnce(function() {
+                    this.aOwl=false;
                 }, this);
             }
         },
@@ -1846,7 +1859,7 @@ const toolsGame={
                     intruz.animations.add('kill', [28,29,30,31,32,33,34,35], 15, false);
                     intruz.animations.add('turn-left', [40,37], 5, false);
                     intruz.animations.add('turn-right', [41,37], 5, false);
-                } else if (type===5) {
+                } else if (type===5 || type===7) {
                     //intruz.animations.add('left', [14,15,16,17,18,21,22,23,24], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
                     intruz.animations.add('left', [14,15,16,17,18,21,22,23,24,25], intruz.randomSpeed/8, true); //12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 // old condor
                     //intruz.animations.add('right', [0,1,2,3,4,7,8,9,10], intruz.randomSpeed/8, true);
@@ -1874,7 +1887,7 @@ const toolsGame={
                 if (intruz.body.onFloor() && game.time.now > jumpTimerIntruz) {
                     intruz.body.velocity.y = -yVelocity;
                     jumpTimerIntruz = game.time.now + yVelocity;
-                    if(intruz.type === 5) {
+                    if(intruz.type === 5 || intruz.type === 7) {
                         intruz.jumpToFly = true;
                         game.time.events.add(300,function(){
                             intruz.jumpToFly = false;
@@ -1928,7 +1941,7 @@ const toolsGame={
                     if(intruz.type === 4) {
                         intruz.animations.add('left', [28,29,30,31,32,33,34,35], 15, false);
                         intruz.animations.add('right', [28,29,30,31,32,33,34,35], 15, false);
-                    } else if(intruz.type === 5) {
+                    } else if(intruz.type === 5 || intruz.type === 7) {
                         //alert("x");
                         //intruz.animations.stop();
                         //intruz.animations.play('kill');
@@ -3428,7 +3441,7 @@ const startGame = (type,lastMap,percentLevel) => {
                     toolsGame.mainElements.intruders.add(x, y, 4);
                     map.removeTile(x, y, layerObject);
                 }
-                //generowanie intruzow typ 5 bird
+                //generowanie intruzow typ 5 bird condor
                 if (map.getTile(x, y, layerObject, true).index == 556) {
                     toolsGame.mainElements.intruders.add(x, y, 5);
                     map.removeTile(x, y, layerObject);
@@ -3437,6 +3450,12 @@ const startGame = (type,lastMap,percentLevel) => {
                 //generowanie intruzow typ 6 - main enemy
                 if (map.getTile(x, y, layerObject, true).index == 557) {
                     toolsGame.mainElements.intruders.add(x, y, 6);
+                    map.removeTile(x, y, layerObject);
+                }
+
+                //generowanie intruzow typ 7 bird owl
+                if (map.getTile(x, y, layerObject, true).index == 558) {
+                    toolsGame.mainElements.intruders.add(x, y, 7);
                     map.removeTile(x, y, layerObject);
                 }
 
@@ -4315,7 +4334,7 @@ const update = () => {
 
         game.physics.arcade.overlap(toolsGame.mainElements.player.gun.bullets.obj, toolsGame.mainElements.intruders.obj, function(bullet, intruz){
             //jden strzal wywoluje jedna funkcje...
-            if(intruz.type === 4 || intruz.type === 5) {
+            if(intruz.type === 4 || intruz.type === 5 || intruz.type === 7) {
                 if(!intruz.killing) {
                     toolsGame.mainElements.intruders.collisionIntruz(intruz, "total-kill");
                 }
@@ -4646,7 +4665,7 @@ const update = () => {
             if(intruz.type === 4) {
                 intruz.body.offset.y=6;
                 intruz.body.height = 26;
-            } else if(intruz.type === 5) {
+            } else if(intruz.type === 5 || intruz.type === 7) {
                 // intruz.body.velocity.y = -intruz.randomSpeed/2;
 
                 intruz.body.offset.y=16;
@@ -5173,11 +5192,13 @@ const update = () => {
                             toolsGame.audio.breakBones();
                         } else if(intruz.type === 5) {
                             toolsGame.audio.condor();
+                        } else if(intruz.type === 7) {
+                            toolsGame.audio.owl();
                         } else {
                             toolsGame.audio.screamIntruder(.05);
                         }
                         toolsGame.mainElements.intruders.collisionIntruz(intruz);
-                        if(!(intruz.type === 5 || intruz.type === 6)) {
+                        if(!(intruz.type === 5 || intruz.type === 6 || intruz.type === 5)) {
                             if(!intruz.hit || !player.killHitIntruder) {
                                 player.killHitIntruder=true;
                                 intruz.hit=1;
@@ -5295,7 +5316,7 @@ const update = () => {
 
                 if(intruz.randomMove=='intruzRight' || intruz.randomMove=='intruzLeft')
                 {
-                    if(intruz.type === 1 || intruz.type === 4 || intruz.type === 5) {
+                    if(intruz.type === 1 || intruz.type === 4 || intruz.type === 5 || intruz.type === 7) {
 
                         if(intruz.body.blocked.left) {
                             if(intruz.type === 4) {
@@ -5321,6 +5342,10 @@ const update = () => {
                             if(intruz.type === 5) {
                                 toolsGame.audio.condor();
                             }
+
+                            if(intruz.type === 7) {
+                                toolsGame.audio.owl();
+                            }
                         }
                         else if(intruz.body.blocked.right) {
                             if(intruz.type === 4) {
@@ -5345,6 +5370,9 @@ const update = () => {
                             if(intruz.type === 5) {
                                 toolsGame.audio.condor();
                             }
+                            if(intruz.type === 7) {
+                                toolsGame.audio.owl();
+                            }
                         }
                     }
 
@@ -5363,11 +5391,11 @@ const update = () => {
                         }
                     }
 
-                    if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4 || intruz.type === 5 || intruz.type === 6) {
+                    if(intruz.type === 1 || intruz.type === 2 || intruz.type === 4 || intruz.type === 5 || intruz.type === 6 || intruz.type === 7) {
                         if (intruz.randomMove == 'intruzRight') {
                             if(intruz.type === 4) {
                                 intruz.body.velocity.x = -intruz.randomSpeed/2;
-                            } else if (intruz.type === 5) {
+                            } else if (intruz.type === 5 || intruz.type === 7) {
                                 intruz.body.velocity.x = -intruz.randomSpeed/1.2;
                             } else {
                                 if(intruz.deactiveVelocity) {
@@ -5387,7 +5415,7 @@ const update = () => {
                         else if (intruz.randomMove == 'intruzLeft') {
                             if(intruz.type === 4) {
                                 intruz.body.velocity.x = intruz.randomSpeed/2;
-                            } else if (intruz.type === 5) {
+                            } else if (intruz.type === 5 || intruz.type === 7) {
                                 intruz.body.velocity.x = intruz.randomSpeed/1.2;
                             } else {
                                 if(intruz.deactiveVelocity) {
@@ -5509,13 +5537,14 @@ const update = () => {
 
                     }
 
-                    if(intruz.type === 5) {
+                    if(intruz.type === 5 || intruz.type === 7) {
                         if(intruz.body.blocked.down) {
                             //console.log("touch bottom lay");
                             //console.log(intruz.body.blocked);
 
                             toolsGame.mainElements.intruders.jump(intruz,350);
-                            toolsGame.audio.condor();
+                            if(intruz.type === 5) toolsGame.audio.condor();
+                            if(intruz.type === 7) toolsGame.audio.owl();
                         }
                     }
 
@@ -5567,7 +5596,7 @@ const update = () => {
                     //intruz.alpha=1;
                 }
                 else if(intruz.randomMove=='intruzStop'){
-                    if(intruz.type === 4 || intruz.type === 5) {
+                    if(intruz.type === 4 || intruz.type === 5 || intruz.type === 7) {
                         //intruz.frame = 37;
                     } else {
                         intruz.frame = 37;
