@@ -181,7 +181,7 @@ const preload = () => {
         backgroundColor: "#f3f5ff",
         //fog: "yellowFog",
         fogPositionY: -2*tileSize,
-        positionGround: 30 * tileSize,
+        positionGround: 40 * tileSize,
         parallax: true
     };
 
@@ -1191,12 +1191,17 @@ const toolsGame={
                 this.shot.fixedToCamera = true;
                 this.shot.onInputDown.add(function(){
                     fireButton.isDown = true;
+                    game.time.events.add(100, function(){
+                        fireButton.isDown = false;
+                    }, this);
                     //triggerKeyboardEvent(window,17,"keydown");
                 });
-                this.shot.onInputUp.add(function(){
-                    fireButton.isDown = false;
+
+                // this doesn't work correct:
+                //this.shot.onInputUp.add(function(){
+                    //fireButton.isDown = false;
                     //triggerKeyboardEvent(window,17,"keyup");
-                });
+                //});
 
                 if(isExists(this.up)) this.up.destroy();
                 this.up = game.add.button((game.width-(7*tileSize)),(game.height-(7*tileSize)), 'buttonNavigation', function(){}, this,2,2); //#
