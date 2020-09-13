@@ -181,20 +181,20 @@ const preload = () => {
         backgroundColor: "#f3f5ff",
         //fog: "yellowFog",
         fogPositionY: -2*tileSize,
-        positionGround: 40 * tileSize,
+        positionGround: 50 * tileSize,
         parallax: true
     };
 
     game.load.tilemap('level8', 'levels/level8.json', null, Phaser.Tilemap.TILED_JSON);
     proportiesMap[8] = {
-        //background: "background5",
+        background: "background5",
         backgroundRepeatX: true,
         //backgroundMoveX: 1000,
         //backgroundSecond:"background1_1",
         backgroundColor: "#f3f5ff",
         //fog: "yellowFog",
-        fogPositionY: -2*tileSize,
-        positionGround: 30 * tileSize,
+        //fogPositionY: -2*tileSize,
+        positionGround: 173 * tileSize,
         parallax: true
     };
 
@@ -473,7 +473,7 @@ const toolsGame={
             const explosion = game.add.audio('explosion');
             explosion.play('', false, 0.5);
         },
-        breakBones: function (volume) { // toolsGame.audio.footStep();
+        breakBones: function (volume) { // toolsGame.audio.breakBones();
             const breakBones = game.add.audio('break-bones');
             breakBones.play('', false, volume ? volume : 0.2);
         },
@@ -589,8 +589,8 @@ const toolsGame={
             toolsGame.preloader.obj = game.add.group();
             toolsGame.preloader.obj.enableBody = true;
 
-            const LoadingCongratylation1 = theEndCredits?(lastMap?'Congratulations!...':''):("Level " + levelFile.activeIdLevel ),
-                LoadingCongratylation2 = theEndCredits?(lastMap?"The End":''):('Loading...');
+            const LoadingCongratylation1 = theEndCredits?(lastMap?'Congratulations!':''):("Level " + levelFile.activeIdLevel ),
+                LoadingCongratylation2 = theEndCredits?(lastMap?"To be continued...":''):('Loading...');
             toolsGame.text.show('center',0,-tileSize,0.9,LoadingCongratylation1,'bold 52px Arial','#ffffff',true,'loading1');
             toolsGame.text.show('center',0,0.7*tileSize,0.9,LoadingCongratylation2,'bold 28px Arial','#ffffff',true,'loading2');
             toolsGame.text.show('center',0,5*tileSize,0.9,'Copyright \u00A9 Gold Rush, once upon a time in the Wild West...','16px Arial','#ffffff',true,'loadingCopyright1');
@@ -783,6 +783,7 @@ const toolsGame={
                 else
                 {
                     toolsGame.buttons.reset.show();
+                    toolsGame.buttons.cheat.show();
                     toolsGame.buttons.levels.hide();
                     toolsGame.buttons.play.hide();
                     toolsGame.buttons.quit.hide();
@@ -819,6 +820,7 @@ const toolsGame={
                 toolsGame.buttons.end.hide();
                 toolsGame.buttons.startFromBeginning.hide();
                 toolsGame.buttons.reset.hide();
+                toolsGame.buttons.cheat.hide();
                 toolsGame.buttons.resume.hide();
                 toolsGame.buttons.mute.hide();
                 toolsGame.buttons.closeBoxMenu.hide();
@@ -861,11 +863,13 @@ const toolsGame={
                 if(isExists(this.obj)) this.obj.destroy();
                 if(type==='play-game') {
                     this.obj = game.add.button(0, 0, 'buttonPause', function(){
+                        toolsGame.audio.breakBones();
                         toolsGame.windows.boxMenu.show();
                         //alert("x");
                     }, this,0,0);
                 } else {
                     this.obj = game.add.button(tileSize, tileSize, 'buttonsWindowMenu', function(){
+                        toolsGame.audio.breakBones();
                         toolsGame.windows.boxMenu.show();
                     }, this,2,2);
                 }
@@ -893,6 +897,7 @@ const toolsGame={
 
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(44*tileSize, 3*tileSize, 'buttonsIcons', function(){
+                    toolsGame.audio.breakBones();
                     toolsGame.windows.boxMenu.hide();
                 }, this,3,2);
                 this.obj.alpha = 0.4;
@@ -911,6 +916,7 @@ const toolsGame={
                 //buttonPlay
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(9*tileSize, tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     startGame('continuation');
                 }, this);
                 this.obj.alpha = 0.6;
@@ -933,6 +939,7 @@ const toolsGame={
                 this.obj = game.add.button(17*tileSize, 1*tileSize, 'buttonsWindowMenu', function(){
                     //alert("Quit game!");
                     //toolsGame.windows.boxMenu.show('quite');
+                    toolsGame.audio.breakBones();
                     toolsGame.windows.boxMenu.bg();
                     toolsGame.text.show('center',0,-10,0.9,'Are you sure you want to quit the game?','bold 26px Arial','#ffffff',true,'quit-1');
 
@@ -961,6 +968,7 @@ const toolsGame={
                 this.obj = game.add.button(3*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
                     //game.paused = false;
                     //closeMenu();
+                    toolsGame.audio.breakBones();
                     game.time.events.removeAll();
                     toolsGame.windows.boxMenu.hide();
                     correctCookiesProcent();
@@ -982,6 +990,7 @@ const toolsGame={
                 //buttonStartFromBeginning
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(11*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     game.time.events.removeAll();
                     toolsGame.windows.boxMenu.hide();
 
@@ -1025,6 +1034,7 @@ const toolsGame={
                 //buttonResetFromBeginning
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(19*tileSize, 3*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     toolsGame.windows.boxMenu.hide();
                     levelFile.name='level1';
                     levelFile.activeIdLevel=1;
@@ -1040,12 +1050,61 @@ const toolsGame={
                 if(isExists(this.obj)) this.obj.destroy();
             }
         },
+        cheat: { // 5 times click, then break 5s and then 10 times click
+            //obj:false,
+            show:function(){
+                //buttonResetFromBeginning
+                if(isExists(this.obj)) this.obj.destroy();
+                let iCheat = 1, iCheatSecond = 0;
+                let timeCheat=true, startCheatSecond=true;
+                this.obj = game.add.button(3*tileSize, 7*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
+
+                    if(!iCheatSecond) {
+                        clearTimeout(timeCheat);
+                        timeCheat = setTimeout(function () {
+                            iCheat=1;
+                        },3000);
+                        iCheat+=1;
+                        if(iCheat === 6) {
+                            //toolsGame.audio.quake(1);
+                            startCheatSecond = setTimeout(function () {
+                                iCheatSecond=1;
+                            },5000);
+                        } else if(iCheat > 6) {
+                            iCheat=1;
+                            //console.log("resetujemy");
+                            clearTimeout(startCheatSecond);
+                        }
+                    } else {
+                        if(iCheatSecond === 10) {
+                            toolsGame.audio.magic();
+                            setCookies('unlock-levels',9);
+                            setTimeout(function () {
+                                location.reload();
+                            },1000);
+                            iCheat=1;
+                            iCheatSecond=0;
+                        } else {
+                            iCheatSecond+=1;
+                        }
+                    }
+
+                }, this,11,11);
+                this.obj.alpha = 0.4;
+                this.obj.fixedToCamera = true;
+            },
+            hide:function(){
+                if(isExists(this.obj)) this.obj.destroy();
+            }
+        },
         resume: {
             //obj:false,
             show:function(){
                 //buttonResume
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(20*tileSize, 14*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     toolsGame.windows.boxMenu.hide();
                     if(!playGame.main) {
                         startGame('continuation');
@@ -1068,6 +1127,7 @@ const toolsGame={
                 const x = (playGame.main)?3*tileSize:tileSize,
                     y = (playGame.main)?7*tileSize:5*tileSize;
                 this.obj = game.add.button(x, y, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     if(game.paused) {
                         game.paused = false;
                         game.time.events.remove(this.t);
@@ -1098,6 +1158,7 @@ const toolsGame={
             show:function(x,y,type){
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     if(type==='quit') {
                         if(detectionDevice()){
                             navigator.app.exitApp();
@@ -1119,6 +1180,7 @@ const toolsGame={
             show:function(x,y,type){
                 if(isExists(this.obj)) this.obj.destroy();
                 this.obj = game.add.button(x*tileSize, y*tileSize, 'buttonsWindowMenu', function(){
+                    toolsGame.audio.breakBones();
                     if(type==='quit') {
                         toolsGame.buttons.no.hide();
                         toolsGame.buttons.yes.hide();
@@ -1270,6 +1332,7 @@ const toolsGame={
                         if(item<=unlockLevels || theEnd) {
                             this.obj[item] = game.add.button(5*tileSize*(item-1)+(3*tileSize)-itemMoveX, 22*tileSize+itemMoveY, 'buttonLevel', function(){
                                 //console.log(this);
+                                toolsGame.audio.breakBones();
                                 levelFile.name='level'+this;
                                 levelFile.activeIdLevel=this;
                                 //alert(toolsGame.mainElements.player.numberLifes);
