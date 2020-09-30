@@ -2,7 +2,6 @@ import '../scss/index.scss';
 import {setCookies, removeCookies, getCookies} from './cookies';
 import {detectionDevice, detectionWEBGL, isEven, inArrayObject, inArray, isExists, removeA, randomBetween, randomArray, triggerKeyboardEvent} from './functions';
 
-
 // for IE11
 Number.isInteger = Number.isInteger || function(value) {
     return typeof value === "number" &&
@@ -89,7 +88,7 @@ const preload = () => {
         positionGround: 672,
         parallax: true,
         //timeLimit: 200, // sec
-        //bgAudio: 'bg1'
+        bgAudio: 'bg-sound'
     };
 
     game.load.tilemap('level2', 'levels/level2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -104,6 +103,7 @@ const preload = () => {
         positionGround: 672,
         parallax: true,
         timeLimit: 200, // sec
+        bgAudio: 'bg-sound-wind'
         //bgAudio: 'bg1'
         // background: "background2",
         // backgroundColor: "#f3f5ff",
@@ -125,6 +125,7 @@ const preload = () => {
         positionGround: 96, // 271
         parallax: true,
         timeLimit: 200, // sec
+        bgAudio: 'bg-sound-wind'
         // background: "background3",
         // backgroundColor: "#def7c3",
         // fog: "yellowFog",
@@ -156,7 +157,8 @@ const preload = () => {
         fog: "yellowFog",
         fogPositionY: -2*tileSize,
         positionGround: 4 * tileSize,
-        parallax: true
+        parallax: true,
+        bgAudio: 'bg-sound-wind'
     };
 
     game.load.tilemap('level6', 'levels/level6.json', null, Phaser.Tilemap.TILED_JSON);
@@ -169,7 +171,8 @@ const preload = () => {
         //fog: "yellowFog",
         //fogPositionY: -2*tileSize,
         positionGround: 180 * tileSize,
-        parallax: true
+        parallax: true,
+        bgAudio: 'bg-sound-wind'
     };
 
     game.load.tilemap('level7', 'levels/level7.json', null, Phaser.Tilemap.TILED_JSON);
@@ -182,7 +185,8 @@ const preload = () => {
         //fog: "yellowFog",
         fogPositionY: -2*tileSize,
         positionGround: 50 * tileSize,
-        parallax: true
+        parallax: true,
+        bgAudio: 'bg-sound-wind'
     };
 
     game.load.tilemap('level8', 'levels/level8.json', null, Phaser.Tilemap.TILED_JSON);
@@ -195,7 +199,8 @@ const preload = () => {
         //fog: "yellowFog",
         //fogPositionY: -2*tileSize,
         positionGround: 173 * tileSize,
-        parallax: true
+        parallax: true,
+        bgAudio: 'bg-sound-wind'
     };
 
     game.load.tilemap('level9', 'levels/level9.json', null, Phaser.Tilemap.TILED_JSON);
@@ -204,7 +209,8 @@ const preload = () => {
         backgroundColor: "#000000",
         fog: false,
         positionGround: false,
-        parallax: false
+        parallax: false,
+        bgAudio: 'bg-sound-music'
     };
 
 
@@ -349,6 +355,9 @@ const preload = () => {
     game.load.audio('bingo', 'audio/bingo.mp3'); // licence no ok
     game.load.audio('elevator', 'audio/elevator.mp3'); // licence no ok
     game.load.audio('owl', 'audio/owl.mp3'); // licence no ok
+    game.load.audio('bg-sound', 'audio/background2.mp3'); // my
+    game.load.audio('bg-sound-wind', 'audio/only-wind.mp3'); // my
+    game.load.audio('bg-sound-music', 'audio/background.mp3'); // my
 
 
 
@@ -3668,6 +3677,7 @@ const startGame = (type,lastMap,percentLevel) => {
     toolsGame.buttons.play.hide();
     toolsGame.buttons.quit.hide();
     toolsGame.buttons.mute.hide();
+
 };
 
 // n* else next time
@@ -3722,6 +3732,13 @@ const create = () => {
                 );
                 toolsGame.windows.boxTopMenu.const.show();
                 toolsGame.buttons.navigations.show();
+
+                if(typeof window.admob === "object" && window.navigator.onLine) {
+                    game.time.events.add(600, function(){
+                        toolsGame.windows.boxMenu.show();
+                    },this);
+                    window.admob.interstitial.show();
+                }
             } else {
                 //alert("s");
                 toolsGame.mainElements.endLevelS.obj.alpha=0;
@@ -3738,6 +3755,7 @@ const create = () => {
             toolsGame.buttons.openBoxMenu.show('play-game');
             onlyOneLoad=false;
         }
+        //toolsGame.audio.bg.play(0.06,'bg-sound');
     }, this);
 
     //fullscreen...
